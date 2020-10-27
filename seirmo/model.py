@@ -3,23 +3,19 @@
 #
 
 
-class ForwardModel:
+class ForwardModel(object):
     """ForwardModel Class:
 
-    Abstract base class for the SEIR model class.
-
-    Parameters
-    ----------
-    value: numeric, optional
-        example of value
+    Abstract base class for any models.
 
     """
 
     def __init__(self):
+        super(ForwardModel, self).__init__()
 
     def simulate(self):
         """
-        Forward simulate the daily number of infections for a given time period with given parameters
+        Forward simulation of a model for a given time period with given parameters
 
         Parameters
         ----------
@@ -28,7 +24,7 @@ class ForwardModel:
 
         Returns
         ----------
-        n_outputs: numpy array of 1- or 2-dimmension
+        output: numpy array of 1- or 2-dimension
             Array of values of the model at given times.
             Returns sequence of length times for single output problem
             Returns NumPy array of shape (times,outputs) for multi-outputs problem
