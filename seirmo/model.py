@@ -6,7 +6,8 @@
 class ForwardModel:
     """ForwardModel Class:
 
-    Base class for the model class.
+    Base class for the SEIR model class.
+    Includes all features or extensions of the SEIR model. 
 
     Parameters
     ----------
@@ -15,9 +16,8 @@ class ForwardModel:
 
     """
 
-    def __init__(self, parameters,times):
-        self.parameters = parameters
-        self.times = times
+    def __init__(self, value=1):
+        self.value = value
 
     def simulate(self):
         """
@@ -31,6 +31,9 @@ class ForwardModel:
         Returns
         ----------
         n_outputs: numpy array of 1- or 2-dimmension
-            array of values of the model at given times
+            Array of values of the model at given times.
+            Returns sequence of length times for single output problem
+            Returns NumPy array of shape (times,outputs) for multi-outputs problem
+
         """
         raise NotImplementedError
