@@ -6,8 +6,7 @@
 class ForwardModel:
     """ForwardModel Class:
 
-    Base class for the SEIR model class.
-    Includes all features or extensions of the SEIR model. 
+    Abstract base class for the SEIR model class.
 
     Parameters
     ----------
@@ -16,12 +15,11 @@ class ForwardModel:
 
     """
 
-    def __init__(self, value=1):
-        self.value = value
+    def __init__(self):
 
     def simulate(self):
         """
-        Simulate the daily number of infections for a given time period with given parameters
+        Forward simulate the daily number of infections for a given time period with given parameters
 
         Parameters
         ----------
