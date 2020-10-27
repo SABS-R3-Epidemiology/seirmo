@@ -2,7 +2,6 @@
 # ForwardModel Class
 #
 
-
 class ForwardModel(object):
     """ForwardModel Class:
 
@@ -12,7 +11,7 @@ class ForwardModel(object):
     def __init__(self):
         super(ForwardModel, self).__init__()
 
-    def simulate(self):
+    def simulate(parameters, times):
         """
         Forward simulation of a model for a given time period
         with given parameters
