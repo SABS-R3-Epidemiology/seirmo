@@ -38,4 +38,3 @@ jobs:
           CODECOV_TOKEN: ${{ f4a14d78-425e-41b2-b28e-0a6d2fe886d7 }}
         run: |
           codecov
-          
