@@ -60,6 +60,8 @@ setup(
     install_requires=[
         # Dependencies go here!
         'numpy>=1.8',
+        'matplotlib',
+        'scipy'
     ],
     extras_require={
         'docs': [

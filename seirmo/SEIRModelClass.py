@@ -9,7 +9,7 @@ class SEIRModel(ForwardModel):
     def __init__(self):
         super(SEIRModel, self).__init__()
 
-    def simulate(self, parameters, times)
+    def simulate(self, parameters, times):
 
         # Assuming y = [S, E, I, R] (the dependent variables in the model)
         # Assuming the parameters are ordered like
@@ -19,7 +19,7 @@ class SEIRModel(ForwardModel):
 
         # Construct the derivative functions of the system of ODEs
         def f(t, y, c):
-            dydt = [-c[0]*y[0]*y[2], c[0]*y[0]*y[2]-c[1]*y[1], c[1]*y[1]-c[2]*y[2]], c[2]*y[2]]
+            dydt = [-c[0]*y[0]*y[2], c[0]*y[0]*y[2]-c[1]*y[1], c[1]*y[1]-c[2]*y[2], c[2]*y[2]]
             return dydt
 
         # Define time spans, initial conditions, and constants
@@ -28,6 +28,6 @@ class SEIRModel(ForwardModel):
         c = parameters[0:3]
 
         # Solve the system of ODEs
-        sol = solve_ivp(lamda t, y: f(t, y, c), [t_span[0], t_span[-1]], y_init, t_eval = t_span)
+        sol = solve_ivp(lambda t, y: f(t, y, c), [t_span[0], t_span[-1]], y_init, t_eval = t_span)
 
         return sol
