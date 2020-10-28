@@ -1,11 +1,6 @@
 .. seirmo documentation master file, created by
    sphinx-quickstart on Wed Oct 28 05:13:22 2020.
 
-.. Root of all pints docs
-
-.. _GitHub: https://github.com/SABS-R3-Epidemiology/seirmo
-.. _Detailed examples: https://github.com/SABS-R3-Epidemiology/seirmo/blob/main/README.md
-
 Welcome to seirmo's documentation!
 ==================================
 
