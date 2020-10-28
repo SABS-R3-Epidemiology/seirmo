@@ -60,6 +60,7 @@ setup(
     install_requires=[
         # Dependencies go here!
         'numpy>=1.8',
+        'scipy'
     ],
     extras_require={
         'docs': [
