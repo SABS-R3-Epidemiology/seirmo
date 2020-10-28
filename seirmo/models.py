@@ -41,7 +41,7 @@ class SEIRModel(ForwardModel):
     def __init__(self):
         super(SEIRModel, self).__init__()
 
-    def _right_hand_side(self):
+    def _right_hand_side(self, t, y, c):
         # Assuming y = [S, E, I, R] (the dependent variables in the model)
         # Assuming the parameters are ordered like
         # parameters = [beta, kappa, gamma, S0, E0, I0, R0]
@@ -50,14 +50,13 @@ class SEIRModel(ForwardModel):
         # then beta = c[0], kappa = c[1], gamma = c[2]
 
         # Construct the derivative functions of the system of ODEs
-        def f(t, y, c):
-            S, E, I, R = y
-            beta, kappa, gamma = c
-            dydt = [-beta * S * I, beta * S * I - kappa * E,
-                    kappa * E - gamma * I, gamma * I]
-            return dydt
 
-        return f
+        s, e, i, _ = y
+        beta, kappa, gamma = c
+        dydt = [-beta * s * i, beta * s * i - kappa * e,
+                kappa * e - gamma * i, gamma * i]
+
+        return dydt
 
     def simulate(self, parameters, times):
 
