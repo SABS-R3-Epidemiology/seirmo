@@ -1,4 +1,5 @@
-![Run unit tests](https://github.com/SABS-R3-Epidemiology/seirmo/workflows/Run%20unit%20tests/badge.svg)
+![Unit tests (python versions)](https://github.com/SABS-R3-Epidemiology/seirmo/workflows/Unit%20tests%20(python%20versions)/badge.svg)
+![Unit tests (OS versions)](https://github.com/SABS-R3-Epidemiology/seirmo/workflows/Unit%20tests%20(OS%20versions)/badge.svg)
 [![Documentation Status](https://readthedocs.org/projects/seirmo/badge/?version=latest)](https://seirmo.readthedocs.io/en/latest/?badge=latest)
 
 # SEIR Model

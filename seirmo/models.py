@@ -1,6 +1,9 @@
 #
-# ForwardModel Class
+# This file is part of seirmo (https://github.com/SABS-R3-Epidemiology/seirmo/)
+# which is released under the BSD 3-clause license. See accompanying LICENSE.md
+# for copyright notice and full license details.
 #
+
 
 class ForwardModel(object):
     """ForwardModel Class:
@@ -11,7 +14,7 @@ class ForwardModel(object):
     def __init__(self):
         super(ForwardModel, self).__init__()
 
-    def simulate(parameters, times):
+    def simulate(self, parameters, times):
         """
         Forward simulation of a model for a given time period
         with given parameters
