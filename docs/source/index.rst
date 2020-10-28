@@ -12,17 +12,6 @@ Welcome to seirmo's documentation!
 
 This is a project to model the outbreak of an infectious disease with the SEIR model.
 
-.. automodule:: seirmo
-
-.. autoclass:: ForwardModel
-   :members:
-
-.. autoclass:: SEIRModel
-   :members:
-
-.. autoclass:: SimulationController
-   :members:
-
 Indices and tables
 ==================
 
