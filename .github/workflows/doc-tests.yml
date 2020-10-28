@@ -28,7 +28,6 @@ jobs:
           python --version
           python -m pip install --upgrade pip setuptools wheel
           python -m pip install .
-          python -m pip install .[docs]
       - name: run doctest
         run: |
           python run-tests.py --doctest
