@@ -2,6 +2,7 @@
 source = seirmo
 omit = 
     seirmo/tests/*
+    seirmo/version_info.py
 
 [report]
 exclude_lines =
