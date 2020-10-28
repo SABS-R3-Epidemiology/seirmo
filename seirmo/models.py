@@ -44,7 +44,7 @@ class SEIRModel(ForwardModel):
     def _right_hand_side(self, t, y, c):
         # Assuming y = [S, E, I, R] (the dependent variables in the model)
         # Assuming the parameters are ordered like
-        # parameters = [beta, kappa, gamma, S0, E0, I0, R0]
+        # parameters = [S0, E0, I0, R0, beta, kappa, gamma]
         # Let c = [beta, kappa, gamma]
         #  = [parameters[0], parameters[1], parameters[2]],
         # then beta = c[0], kappa = c[1], gamma = c[2]
@@ -61,8 +61,8 @@ class SEIRModel(ForwardModel):
     def simulate(self, parameters, times):
 
         # Define time spans, initial conditions, and constants
-        y_init = parameters[3:]
-        c = parameters[0:3]
+        y_init = parameters[0:4]
+        c = parameters[4:]
 
         # Solve the system of ODEs
         sol = solve_ivp(lambda t, y: self._right_hand_side(t, y, c),
