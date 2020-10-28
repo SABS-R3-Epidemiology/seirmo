@@ -19,10 +19,6 @@ ignore=
   # Re-using throw-away variables like `i`, `x`, etc. is a Good Idea
   F812,
 
-  # Blank line at end of file
-  # This increases readability
-  W391,
-
   # Line break before binary operator
   # This is now actually advised in pep8
   W503,

@@ -5,10 +5,13 @@
 #
 
 import unittest
+
+import numpy as np
+
 import seirmo as se
 
 
-class TestForwardModelClass(unittest.TestCase):
+class TestForwardModel(unittest.TestCase):
     """
     Test the 'ForwardModel' class.
     """
@@ -20,3 +23,34 @@ class TestForwardModelClass(unittest.TestCase):
         with self.assertRaises(NotImplementedError):
             forward_model.simulate(0, 1)
 
+
+class TestSEIRModel(unittest.TestCase):
+    """
+    Test the 'ForwardModel' class.
+    """
+    def test__init__(self):
+        se.SEIRModel()
+
+    def test_simulate(self):
+        model = se.SEIRModel()
+        n_outputs = 4
+
+        initial_values = [0.9, 0, 0.1, 0]
+        constants = [1, 1, 1]
+        test_parameters = initial_values + constants
+
+        n_times = 10
+        test_times = np.linspace(0, 10, num=n_times)
+        output = model.simulate(test_parameters, test_times)
+
+        # Check output shape
+        self.assertEqual(output.shape, (n_times, n_outputs))
+
+        # Check that sum of states is one at all times
+        total = np.sum(output, axis=1)
+        expected = np.ones(shape=n_times)
+        np.testing.assert_almost_equal(total, expected)
+
+
+if __name__ == '__main__':
+    unittest.main()
