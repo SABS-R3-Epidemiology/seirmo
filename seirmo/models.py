@@ -34,8 +34,22 @@ class ForwardModel(object):
 
 
 class SEIRModel(ForwardModel):
-    """
-    To be added
+    r"""
+    ODE model: deterministic SEIR
+    The SEIR Model has four compartments:
+    susceptible individuals (:math:`S`),
+    exposed but not yet infectious (:math:`E`),
+    infectious (:math:`I`) and recovered (:math:`R`):
+    .. math::
+        \frac{dS(t)}{dt} = -\beta S(t)I(t),
+    .. math::
+        \frac{dE(t)}{dt} = \beta S(t)I(t) - \kappa E(t),
+    .. math::
+        \frac{dI(t)}{dt} = \kappa E(t) - \gamma I(t),
+    .. math::
+        \frac{dR(t)}{dt} = \gamma I(t),
+    where :math:`S(0) = S_0, E(0) = E_0, I(O) = I_0, R(0) = R_0`
+    are also parameters of the model.
     """
 
     def __init__(self):
