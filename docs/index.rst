@@ -10,7 +10,7 @@ Welcome to seirmo's documentation!
    :maxdepth: 2
    :caption: Contents:
 
-
+This is a project to model the outbreak of an infectious disease with the SEIR model.
 
 Indices and tables
 ==================
