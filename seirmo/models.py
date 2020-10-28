@@ -69,4 +69,3 @@ class SEIRModel(ForwardModel):
                         [times[0], times[-1]], y_init, t_eval=times)
 
         return sol['y'].transpose()
-
