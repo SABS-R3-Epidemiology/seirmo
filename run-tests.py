@@ -64,6 +64,7 @@ def run_copyright_checks():
         print('FAILED')
         sys.exit(1)
 
+
 def run_doctests():
     """
     Runs a number of tests related to documentation
@@ -104,6 +105,7 @@ def doctest_sphinx():
     if ret != 0:
         print('FAILED')
         sys.exit(ret)
+
 
 if __name__ == '__main__':
     # Set up argument parsing
