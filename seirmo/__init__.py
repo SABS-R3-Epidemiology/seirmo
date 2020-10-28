@@ -5,5 +5,6 @@
 #
 
 from .models import (
-    ForwardModel
+    ForwardModel,
+    SEIRModel
 )
