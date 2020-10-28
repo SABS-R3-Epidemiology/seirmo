@@ -14,7 +14,7 @@ This is a project to model the outbreak of an infectious disease with the SEIR m
 
 .. automodule:: seirmo
 
-.. autoclass:: ForwareModel
+.. autoclass:: ForwardModel
    :members:
 
 .. autoclass:: SEIRModel
