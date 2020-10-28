@@ -1,3 +1,31 @@
+[flake8]
 exclude=
   .git,
-  setup.py
+  setup.py,
+  seirmo/__init__.py,
+  env,
+  venv,
+  build
+ignore=
+  # Block comment should start with '# '
+  # Not if it's a commented out line
+  E265,
+
+  # Ambiguous variable names
+  # It's absolutely fine to have i and I
+  E741,
+
+  # List comprehension redefines variable
+  # Re-using throw-away variables like `i`, `x`, etc. is a Good Idea
+  F812,
+
+  # Blank line at end of file
+  # This increases readability
+  W391,
+
+  # Line break before binary operator
+  # This is now actually advised in pep8
+  W503,
+
+  # Line break after binary operator
+  W504,
