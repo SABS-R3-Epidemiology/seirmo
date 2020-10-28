@@ -7,6 +7,7 @@ from __future__ import print_function, unicode_literals
 import argparse
 import os
 import sys
+import subprocess
 import unittest
 
 
@@ -64,6 +65,48 @@ def run_copyright_checks():
         sys.exit(1)
 
 
+def run_doctests():
+    """
+    Runs a number of tests related to documentation
+    """
+
+    print('\n{}\n# Starting doctests... #\n{}\n'.format('#' * 24, '#' * 24))
+
+    # Check documentation can be built with sphinx
+    doctest_sphinx()
+
+    print('\n{}\n# Doctests passed. #\n{}\n'.format('#' * 20, '#' * 20))
+
+
+def doctest_sphinx():
+    """
+    Runs sphinx-build in a subprocess, checking that it can be invoked without
+    producing errors.
+    """
+    print('Checking if docs can be built.')
+    p = subprocess.Popen([
+        'sphinx-build',
+        '-b',
+        'doctest',
+        'docs/source',
+        'docs/build/html',
+        '-W',
+    ])
+    try:
+        ret = p.wait()
+    except KeyboardInterrupt:
+        try:
+            p.terminate()
+        except OSError:
+            pass
+        p.wait()
+        print('')
+        sys.exit(1)
+    if ret != 0:
+        print('FAILED')
+        sys.exit(ret)
+
+
 if __name__ == '__main__':
     # Set up argument parsing
     parser = argparse.ArgumentParser(
@@ -83,6 +126,12 @@ if __name__ == '__main__':
         action='store_true',
         help='Check copyright runs to the current year',
     )
+    # Doctests
+    parser.add_argument(
+        '--doctest',
+        action='store_true',
+        help='Run any doctests, check if docs can be built',
+    )
 
     # Parse!
     args = parser.parse_args()
@@ -99,6 +148,11 @@ if __name__ == '__main__':
     if args.copyright:
         has_run = True
         run_copyright_checks()
+
+    # Doctests
+    if args.doctest:
+        has_run = True
+        run_doctests()
 
     # Help
     if not has_run:
