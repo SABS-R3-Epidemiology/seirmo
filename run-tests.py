@@ -111,6 +111,7 @@ def doctest_sphinx():
         print('FAILED')
         sys.exit(ret)
 
+
 def doctest_rst_and_public_interface():
     """
     Check that every class and method is documented in an rst file and that
@@ -127,7 +128,7 @@ def doctest_rst_and_public_interface():
     # has been inadvertently exposed in a public context, or that a new module
     # has been added to pints and should be imported above and included in this
     # list.
-    seirmo_submodules = ['seirmo.models','seirmo.version_info']
+    seirmo_submodules = ['seirmo.models', 'seirmo.version_info']
 
     doc_symbols = get_all_documented_symbols()
 
