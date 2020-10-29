@@ -60,7 +60,9 @@ setup(
     install_requires=[
         # Dependencies go here!
         'numpy>=1.8',
-        'scipy'
+        'scipy',
+        'plotly',
+        'nbformat',
     ],
     extras_require={
         'docs': [
