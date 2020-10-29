@@ -58,7 +58,7 @@ class TestSEIRModel(unittest.TestCase):
             test_parameters, test_times, return_incidence=True)
 
         # Check output shape
-        self.assertEqual(output.shape, (1,))
+        self.assertEqual(len(output), n_times)
 
 
 if __name__ == '__main__':
