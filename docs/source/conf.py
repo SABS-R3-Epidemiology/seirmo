@@ -12,17 +12,18 @@
 #
 import os
 import sys
+import sphinx
 sys.path.insert(0, os.path.abspath('../..'))
 
 
 # -- Project information -----------------------------------------------------
 
 project = 'seirmo'  # noqa
-copyright = '2020, Hui Jia Farm, Siting Miao, David Augustin, Richard'  # noqa
-author = 'Hui Jia Farm, Siting Miao, David Augustin, Richard'
+copyright = '2020, SABS-R3-Epidemiology'
+author = 'SABS-R3-Epidemiology'
 
 # The full version, including alpha/beta/rc tags
-release = '1.0.0'
+release = '0.0.1'
 
 
 # -- General configuration ---------------------------------------------------
@@ -31,17 +32,34 @@ release = '1.0.0'
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
-    'sphinx.ext.autodoc', 'sphinx.ext.doctest'
+    'sphinx.ext.autodoc',
+    'sphinx.ext.doctest',
+    'sphinx.ext.mathjax',
+    'sphinx.ext.napoleon',
+    'sphinx.ext.viewcode',
 ]
+
+# Autodoc defaults
+if int(sphinx.__version__.split('.')[1]) < 8:
+    autodoc_default_flags = [
+        'members',
+        'inherited-members',
+        # 'show-inheritance',
+    ]
+else:
+    autodoc_default_options = {
+        'members': None,
+        'inherited-members': None,
+    }
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
 
+
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
 # This pattern also affects html_static_path and html_extra_path.
-exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
-
+exclude_patterns = []
 
 # -- Options for HTML output -------------------------------------------------
 
