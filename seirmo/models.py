@@ -72,7 +72,7 @@ class SEIRModel(ForwardModel):
 
         # Construct the derivative functions of the system of ODEs
 
-        s, e, i, _, n_incidence = y
+        s, e, i, _, _ = y
         beta, kappa, gamma = c
         dydt = [-beta * s * i, beta * s * i - kappa * e,
                 kappa * e - gamma * i, gamma * i, kappa * e]
@@ -84,7 +84,7 @@ class SEIRModel(ForwardModel):
         n_incidence_interp = interp1d(times, n_incidence, kind='cubic')
         return integrate.quad(n_incidence_interp, t_i, t_f)
 
-    def simulate(self, parameters, times, return_incidence=False, t_i, t_f):
+    def simulate(self, parameters, times, t_i, t_f, return_incidence=False):
 
         # Define time spans, initial conditions, and constants
         y_init = parameters[0:5]
