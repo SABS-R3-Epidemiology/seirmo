@@ -5,9 +5,9 @@
 #
 
 from .models import (
-    ForwardModel
+    ForwardModel,
+    SEIRModel
 )
 
 from .simulation import (
     SimulationController
-)
