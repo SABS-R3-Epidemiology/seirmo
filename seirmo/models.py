@@ -83,6 +83,6 @@ class SEIRModel(ForwardModel):
             return sol['y'].transpose()
         elif return_incidence is True:
             # Return incitance = (I(t_final) + R(t_final))
-            #       - (I(t_initial) + R(t_initial))
+            #   - (I(t_initial) + R(t_initial))
             return (sol['y'][2, -1] + sol['y'][3, -1]) - (
                 sol['y'][2, 0] + sol['y'][3, 0])

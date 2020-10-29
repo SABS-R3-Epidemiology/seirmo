@@ -41,6 +41,8 @@ class TestSEIRModel(unittest.TestCase):
 
         n_times = 10
         test_times = np.linspace(0, 10, num=n_times)
+
+        # Test the case when return_incidence=False
         output = model.simulate(test_parameters, test_times)
 
         # Check output shape
@@ -50,6 +52,13 @@ class TestSEIRModel(unittest.TestCase):
         total = np.sum(output, axis=1)
         expected = np.ones(shape=n_times)
         np.testing.assert_almost_equal(total, expected)
+
+        # Test the case when return_incidence=True
+        output = model.simulate(
+            test_parameters, test_times, return_incidence=True)
+
+        # Check output shape
+        self.assertEqual(output.shape, (1,))
 
 
 if __name__ == '__main__':
