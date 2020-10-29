@@ -23,7 +23,7 @@ class ForwardModel(object):
         Returns a sequence of length ``n_times`` (for single output problems)
         or a NumPy array of shape ``(n_times, n_outputs)`` (for multi-output
         problems), representing the values of the model at the given ``times``.
-        
+
         Parameters
         ----------
         parameters: sequence of numerics
