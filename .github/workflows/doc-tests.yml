@@ -1,9 +1,9 @@
-name: Coverage
+name: Doctest
 
 on:
   push:
     branches:
-      - main
+      - master
   pull_request:
     branches:
       - '**'
@@ -11,7 +11,7 @@ on:
 jobs:
 
   build-and-test:
-    name: coverage
+    name: doctest
     runs-on: ubuntu-latest
 
     steps:
@@ -28,13 +28,7 @@ jobs:
           python --version
           python -m pip install --upgrade pip setuptools wheel
           python -m pip install .
-          python -m pip install coverage codecov
-      - name: run coverage
+          python -m pip install .[docs]
+      - name: run doctest
         run: |
-          coverage run run-tests.py --unit
-      - name: codecov
-        if: success()
-        env:
-          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
-        run: |
-          codecov
+          python run-tests.py --doctest
