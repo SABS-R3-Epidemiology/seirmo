@@ -12,7 +12,13 @@ import seirmo as se
 class SimulationController(object):
     """SimulationController Class:
 
-    Runs the simulation of any model
+    Runs the simulation of any model and controls outputs
+
+    Parameters
+    ----------
+    model: seirmo.ForwardModel class
+    start: simulation start time
+    end: simulation end time
     """
 
     def __init__(self, model, start, end): # noqa
