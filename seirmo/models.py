@@ -78,12 +78,11 @@ class SEIRModel(ForwardModel):
                 kappa * e - gamma * i, gamma * i, kappa * e]
 
         return dydt
-    
+
     # Return the number of new cases between provided times
     def _compute_incidences(self, n_incidence, times, t_i, t_f):
         n_incidence_interp = interp1d(times, n_incidence, kind='cubic')
         return integrate.quad(n_incidence_interp, t_i, t_f)
-
 
     def simulate(self, parameters, times, return_incidence=False, t_i, t_f):
 
@@ -94,9 +93,9 @@ class SEIRModel(ForwardModel):
         # Solve the system of ODEs
         sol = solve_ivp(lambda t, y: self._right_hand_side(t, y, c),
                         [times[0], times[-1]], y_init, t_eval=times)
-        
-        if return_incidence == False:
+
+        if return_incidence is False:
             return sol['y'][0:4, :].transpose()
-        elif return_incidence == True:
+        elif return_incidence is True:
             n_incidence = sol['y'][4:, :]
             return self._compute_incidences(n_incidence, times, t_i, t_f)
