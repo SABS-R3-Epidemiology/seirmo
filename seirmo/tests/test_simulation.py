@@ -4,6 +4,7 @@
 # for copyright notice and full license details.
 #
 
+import numpy as np
 
 import unittest
 import seirmo as se
@@ -29,7 +30,6 @@ class TestSimulationController(unittest.TestCase):
         constants = [1, 1, 1]
         test_parameters = initial_values + constants
         simulation.run(test_parameters)
-
 
 
 if __name__ == '__main__':
