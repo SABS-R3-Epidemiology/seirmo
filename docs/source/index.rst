@@ -4,13 +4,22 @@
    contain the root `toctree` directive.
 
 Welcome to seirmo's documentation!
-==========================================================================================================
+===================================
 
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
 
 This is a project to model the outbreak of an infectious disease with the SEIR model.
+
+.. automodule:: seirmo
+
+.. autoclass:: ForwardModel
+   :members:
+
+.. autoclass:: SEIRModel
+   :members:
+
 
 Indices and tables
 ==================
