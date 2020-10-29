@@ -4,21 +4,29 @@
 # for copyright notice and full license details.
 #
 
-import models
+import numpy as np
+
+import seirmo as se
 
 
-class SimulationController(ForwardModel):
+class SimulationController(object):
     """SimulationController Class:
 
     Runs the simulation of any model
     """
 
-    def __init__(self, start_simulation_time: float, end_simulation_time: float): # noqa
+    def __init__(self, model, start, end): # noqa
         super(SimulationController, self).__init__()
-        self.simulation_times = (start_simulation_time, end_simulation_time)
+
+        if not issubclass(model, se.ForwardModel):
+            raise TypeError(
+                'Model has to be an instance of seirmo.ForwardModel.')
+
+        self._model = model
+        self._simulation_times = np.linspace(start, end)
 
     def run(self, parameters):
 
-        output = ForwardModel.simulate(parameters, self.simulation_times)
+        output = self._model.simulate(parameters, self._simulation_times)
 
         return output
