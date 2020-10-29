@@ -7,3 +7,7 @@
 from .models import (
     ForwardModel
 )
+
+from .simulation import (
+    SimulationController
+)
