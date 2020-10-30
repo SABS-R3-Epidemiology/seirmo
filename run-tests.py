@@ -132,7 +132,7 @@ def doctest_rst_and_public_interface():
         'seirmo.simulation',
         'seirmo.models',
         'seirmo.version_info'
-        ]
+    ]
 
     doc_symbols = get_all_documented_symbols()
 
