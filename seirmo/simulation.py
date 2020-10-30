@@ -21,16 +21,21 @@ class SimulationController(object):
     end: simulation end time
     """
 
-    def __init__(self, model, start, end, n_times): # noqa
+    def __init__(self, model, start, end): # noqa
         super(SimulationController, self).__init__()
 
-        if not isinstance(model, se.ForwardModel):
+        if not issubclass(model, se.ForwardModel):
             raise TypeError(
                 'Model has to be an instance of seirmo.ForwardModel.')
 
-        self._model = model
-        self._simulation_times = np.linspace(start, end, n_times)
+        self._model = model()
+        self._simulation_times = np.linspace(start, end)
 
-    def run(self, parameters):
+    def run(self, parameters, return_incidence=False):
 
-        return self._model.simulate(parameters, self._simulation_times)
+        output = self._model.simulate(
+            parameters,
+            self._simulation_times,
+            return_incidence)
+
+        return output

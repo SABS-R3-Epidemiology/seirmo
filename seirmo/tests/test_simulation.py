@@ -17,9 +17,8 @@ class TestSimulationController(unittest.TestCase):
     def test__init__(self):
         start = 0
         end = 10
-        n_times = 10
         with self.assertRaises(TypeError):
-            se.SimulationController('ForwardModel', start, end, n_times)
+            se.SimulationController('ForwardModel', start, end)
 
     def test_run(self):
 
@@ -27,9 +26,8 @@ class TestSimulationController(unittest.TestCase):
 
         start = 0
         end = 10
-        n_times = 10
-        model = se.SEIRModel()
-        simulation = se.SimulationController(model, start, end, n_times)
+        model = se.SEIRModel
+        simulation = se.SimulationController(model, start, end)
 
         initial_values = [0.9, 0, 0.1, 0]
         constants = [1, 1, 1]
@@ -37,11 +35,11 @@ class TestSimulationController(unittest.TestCase):
         output = simulation.run(test_parameters)
 
         # Check output shape
-        self.assertEqual(output.shape, (n_times, n_outputs))
+        self.assertEqual(output.shape, (50, n_outputs))
 
         # Check that sum of states is one at all times
         total = np.sum(output, axis=1)
-        expected = np.ones(shape=n_times)
+        expected = np.ones(shape=50)
         np.testing.assert_almost_equal(total, expected)
 
 
