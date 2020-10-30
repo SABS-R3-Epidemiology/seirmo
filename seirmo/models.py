@@ -4,12 +4,12 @@
 # for copyright notice and full license details.
 #
 
+import numpy as np
 from scipy.integrate import solve_ivp
 
 
 class ForwardModel(object):
     """ForwardModel Class:
-
     Abstract base class for any models.
     """
 
@@ -20,7 +20,6 @@ class ForwardModel(object):
         """
         Forward simulation of a model for a given time period
         with given parameters
-
         Returns a sequence of length ``n_times`` (for single output problems)
         or a NumPy array of shape ``(n_times, n_outputs)`` (for multi-output
         problems), representing the values of the model at the given ``times``.
@@ -40,6 +39,7 @@ class SEIRModel(ForwardModel):
     susceptible individuals (:math:`S`),
     exposed but not yet infectious (:math:`E`),
     infectious (:math:`I`) and recovered (:math:`R`):
+
     .. math::
         \frac{dS(t)}{dt} = -\beta S(t)I(t),
     .. math::
@@ -48,6 +48,7 @@ class SEIRModel(ForwardModel):
         \frac{dI(t)}{dt} = \kappa E(t) - \gamma I(t),
     .. math::
         \frac{dR(t)}{dt} = \gamma I(t),
+
     where :math:`S(0) = S_0, E(0) = E_0, I(O) = I_0, R(0) = R_0`
     are also parameters of the model.
     """
@@ -72,14 +73,30 @@ class SEIRModel(ForwardModel):
 
         return dydt
 
-    def simulate(self, parameters, times):
+    def simulate(self, parameters, times, return_incidence=False):
 
         # Define time spans, initial conditions, and constants
-        y_init = parameters[0:4]
+        y_init = parameters[:4]
         c = parameters[4:]
 
         # Solve the system of ODEs
         sol = solve_ivp(lambda t, y: self._right_hand_side(t, y, c),
                         [times[0], times[-1]], y_init, t_eval=times)
 
-        return sol['y'].transpose()
+        output = sol['y']
+
+        if not return_incidence:
+            return output.transpose()
+
+        # Total infected is infectiout 'i' plus recovered 'r'
+        total_infected = output[2, :] + output[3, :]
+
+        # Number of incidences is the increase in total_infected
+        # between the time points (add a 0 at the front to
+        # make the length consistent with the solution
+        n_incidence = np.zeros(len(times))
+        n_incidence[1:] = total_infected[1:] - total_infected[:-1]
+
+        # Append n_incidence to output
+        output = np.vstack(tup=(output, n_incidence))
+        return output.transpose()
