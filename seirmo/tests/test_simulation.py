@@ -18,7 +18,7 @@ class TestSimulationController(unittest.TestCase):
         start = 0
         end = 10
         with self.assertRaises(TypeError):
-            se.SimulationController('ForwardModel', start, end)
+            se.SimulationController(se.ForwardModel(), start, end)
 
     def test_run(self):
 
