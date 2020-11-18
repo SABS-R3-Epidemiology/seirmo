@@ -26,7 +26,7 @@ class SimulationController(object):
 
         if not issubclass(model, se.ForwardModel):
             raise TypeError(
-                'Model has to be an instance of seirmo.ForwardModel.')
+                'Model has to be a subclass of seirmo.ForwardModel.')
 
         self._model = model()
         self._simulation_times = np.linspace(start, end)

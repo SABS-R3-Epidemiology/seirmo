@@ -15,10 +15,12 @@ class TestSimulationController(unittest.TestCase):
     Test the 'SimulationController' class.
     """
     def test__init__(self):
+
         start = 0
         end = 10
         with self.assertRaises(TypeError):
-            se.SimulationController(se.ForwardModel(), start, end)
+            se.SimulationController(se.SimulationController, start, end)
+            se.SimulationController('1', start, end)
 
     def test_run(self):
 
@@ -35,7 +37,7 @@ class TestSimulationController(unittest.TestCase):
         output = simulation.run(test_parameters, return_incidence=True)
 
         # Check output shape
-        self.assertEqual(output.shape, (50, n_outputs+1))
+        self.assertEqual(output.shape, (50, n_outputs + 1))
 
         # Check that sum of states is one at all times
         output = simulation.run(test_parameters)
