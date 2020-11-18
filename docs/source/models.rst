@@ -13,5 +13,7 @@ Overview:
 
 
 .. autoclass:: ForwardModel
+    :members:
 
 .. autoclass:: SEIRModel
+    :members:
