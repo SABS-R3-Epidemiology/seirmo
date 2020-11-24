@@ -8,3 +8,7 @@ from .models import (
     ForwardModel,
     SEIRModel
 )
+
+from .simulation import (
+    SimulationController
+)
