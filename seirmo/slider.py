@@ -18,55 +18,31 @@ class _SliderComponent(object):
     model: seirmo.ForwardModel class
     """
 
-    def __init__(self, slider_ids, mins, max, initial_values=None, step_sizes=None): # noqa
+    def __init__(self): # noqa
         super(_SliderComponent, self).__init__()
 
-        # make sure size of all list are the same
-        # make sure element of slider_ids are strings
-        # 
-
-        self.slider_ids = list(slider_ids)
-        self.mins = list(mins)
-        self.max = list(max)
+    def add_slider(self, slider_id, min, max, initial_value=None, step_size=None):
 
         if initial_values is None:
-            initial_values = mins
+            initial_value = min
         if step_sizes is None:
-            step_sizes = [(a - b)/10 for a, b in zip(max, mins)]
+            step_sizes = (max - min)/100
 
-        self.initial_values = list(initial_values)
-        self.step_sizes = list(step_sizes)
-
-        self.slider_info = {'Slider_id': self.slider_ids,
-                            'Min': self.mins,
-                            'Max': self.max,
-                            'Initial_value': self.initial_values,
-                            'Step_size': self.step_sizes}
-        self.slider_df = pd.DataFrame(
-                            self.slider_info, 
-                            columns=['Min', 'Max', 'Initial_value', 'Step_size'],
-                            index=self.slider_ids)
-
-    def add_slider(self, id):
-
-        if not isinstance(id, str):
+        if not isinstance(slider_id, str):
             raise TypeError(
-                'Input id has to be string')
-
-        if id not in self.slider_ids:
-            raise NameError('Input id not in the list')
+                'Slider id has to be string')
 
         label = html.H6(id)
         slider = dcc.Slider(
-                    id=id,
-                    min=self.slider_df.loc[id]['Min'],
-                    max=self.slider_df.loc[id]['Max'],
-                    value=self.slider_df.loc[id]['Initial_value'],
-                    step=self.slider_df.loc[id]['Step_size'])
+                    id=slider_id,
+                    min=min,
+                    max=max,
+                    value=initial_value,
+                    step=step_size)
 
         return [label, slider]
 
-    def group_sliders(self):
+    def group_sliders(self,slider_id, group_id):
 
         slider_group = []
         for id in self.slider_ids:
