@@ -12,3 +12,7 @@ from .models import (
 from .simulation import (
     SimulationController
 )
+
+from .slider import (
+    _SliderComponent
+)

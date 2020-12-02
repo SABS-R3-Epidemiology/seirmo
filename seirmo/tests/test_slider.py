@@ -4,40 +4,47 @@
 # for copyright notice and full license details.
 #
 
-import numpy as np
-
 import unittest
 import seirmo as se
-
 
 class TestSliderComponent(unittest.TestCase):
     """
     Test the '_SliderComponent' class.
     """
     def test__init__(self):
+        slider = se._SliderComponent(['1','2'],[0,0],[1,2])
+        
+        # Check defaul initial value
+        self.assertEqual(slider.initial_values,[0,0])
+        
+        # Check default step size
+        self.assertEqual(slider.step_sizes,[0.1,0.2])
 
+        # Check initialisation of data frame
+        self.assertEqual(slider.slider_df.shape,(2,4))
 
     def test_add_slider(self):
 
-        model = se.SEIRModel
-        simulation = se.SimulationController(model, start, end)
+        slider = se._SliderComponent('1',[0],[1])
 
-        output = simulation.run(test_parameters, return_incidence=True)
+        # Check input type
+        with self.assertRaises(TypeError):
+            slider.add_slider(1)
 
-        # Check output shape
-        self.assertEqual(output.shape, (50, n_outputs + 1))
+        with self.assertRaises(NameError):
+            slider.add_slider('3')
 
-        # Check that sum of states is one at all times
-        output = simulation.run(test_parameters)
-        total = np.sum(output, axis=1)
-        expected = np.ones(shape=50)
-        np.testing.assert_almost_equal(total, expected)
+        # Check function
 
-    def test_group_sliders(self):
+    # def test_group_sliders(self):
 
+        # Check slider
 
     def test_slider_ids(self):
         
+        slider = se._SliderComponent('1',[0],[1])
+
+        self.assertEqual(slider.slider_ids,['1'])
 
 
 if __name__ == '__main__':

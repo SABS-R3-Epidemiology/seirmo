@@ -7,7 +7,7 @@
 import dash
 import dash_core_components as dcc
 import dash_html_components as html
-import pandas
+import pandas as pd
 
 class _SliderComponent(object):
     """Slider Class:
@@ -19,12 +19,22 @@ class _SliderComponent(object):
     model: seirmo.ForwardModel class
     """
 
-    def __init__(self, slider_ids, mins, max, initial_values, step_sizes): # noqa
+    def __init__(self, slider_ids, mins, max, initial_values=None, step_sizes=None): # noqa
         super(_SliderComponent, self).__init__()
+
+        # make sure size of all list are the same
+        # make sure element of slider_ids are strings
+        # 
 
         self.slider_ids = list(slider_ids)
         self.mins = list(mins)
         self.max = list(max)
+
+        if initial_values is None:
+            initial_values = mins
+        if step_sizes is None:
+            step_sizes = [(a - b)/10 for a, b in zip(max, mins)]
+
         self.initial_values = list(initial_values)
         self.step_sizes = list(step_sizes)
 
@@ -34,11 +44,18 @@ class _SliderComponent(object):
                             'Initial_value': self.initial_values,
                             'Step_size': self.step_sizes}
         self.slider_df = pd.DataFrame(
-                            slider_info, 
+                            self.slider_info, 
                             columns=['Min', 'Max', 'Initial_value', 'Step_size'],
                             index=self.slider_ids)
 
     def add_slider(self, id):
+
+        if not isinstance(id, str):
+            raise TypeError(
+                'Input id has to be string')
+
+        if id not in self.slider_ids:
+            raise NameError('Input id not in the list')
 
         label = html.H6(id)
         slider = dcc.Slider(
