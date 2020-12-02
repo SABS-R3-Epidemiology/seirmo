@@ -61,6 +61,7 @@ setup(
         # Dependencies go here!
         'numpy>=1.8',
         'scipy'
+        'pandas'
     ],
     extras_require={
         'docs': [
