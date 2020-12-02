@@ -4,7 +4,6 @@
 # for copyright notice and full license details.
 #
 
-import dash
 import dash_core_components as dcc
 import dash_html_components as html
 import pandas as pd
@@ -71,8 +70,9 @@ class _SliderComponent(object):
 
         slider_group = []
         for id in self.slider_ids:
-            slider_group.append(add_slider(id))
-        
+            slider_group.append(self.add_slider(id)[0])
+            slider_group.append(self.add_slider(id)[1])
+
         return html.Div(slider_group)
 
     def slider_ids(self):

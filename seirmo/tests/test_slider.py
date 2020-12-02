@@ -4,6 +4,8 @@
 # for copyright notice and full license details.
 #
 
+import dash_core_components as dcc
+
 import unittest
 import seirmo as se
 
@@ -36,9 +38,12 @@ class TestSliderComponent(unittest.TestCase):
 
         # Check function
 
-    # def test_group_sliders(self):
+    def test_group_sliders(self):
+
+        slider = se._SliderComponent('1',[0],[1])
 
         # Check slider
+        slider.group_sliders()
 
     def test_slider_ids(self):
         
