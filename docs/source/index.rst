@@ -17,6 +17,7 @@ Contents
 .. toctree::
 
     models
+    simulation
 
 Search
 ======
