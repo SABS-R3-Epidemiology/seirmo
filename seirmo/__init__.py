@@ -12,3 +12,7 @@ from .models import (
 from .simulation import (
     SimulationController
 )
+
+from .figures import (
+    IncidenceNumberPlot
+)
