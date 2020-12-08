@@ -62,6 +62,7 @@ setup(
         'numpy>=1.8',
         'scipy',
         'pandas'
+        'plotly'
     ],
     extras_require={
         'docs': [
