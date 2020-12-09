@@ -37,15 +37,25 @@ class TestIncidenceNumberPlot(unittest.TestCase):
         np.testing.assert_array_equal(test_plot._fig['data'][0]['y'],
                                       np.array([1, 2, 3, 4, 5, 6, 7]))
 
-        # Test that error will be raised when axis labels not match
+        # Test that warning will be raised when x axis labels not match
         data2 = pd.DataFrame({'times': [0, 1, 2, 3, 4, 5, 6],
+                                         'Incidence Number': [1, 2, 3, 4, 5, 6, 7]}) # noqa
+        time_key = 'times'
+        inc_key = 'Incidence Number'
+
+        with self.assertWarns(UserWarning):
+            test_plot.add_simulation(data2, time_key=time_key,
+                                     inc_key=inc_key)
+
+        # Test that warning will be raised when y axis labels not match
+        data3 = pd.DataFrame({'times': [0, 1, 2, 3, 4, 5, 6],
                                          'incidences': [1, 2, 3, 4, 5, 6, 7]}) # noqa
         time_key = 'times'
         inc_key = 'incidences'
 
-        with self.assertRaises(ValueError):
-            test_plot.add_data(data2, time_key=time_key,
-                               inc_key=inc_key)
+        with self.assertWarns(UserWarning):
+            test_plot.add_simulation(data3, time_key=time_key,
+                                     inc_key=inc_key)
 
     def test_add_simulation(self):
         data = pd.DataFrame({'Time': [0, 1, 2, 3, 4, 5, 6],
@@ -64,14 +74,24 @@ class TestIncidenceNumberPlot(unittest.TestCase):
         np.testing.assert_array_equal(test_plot._fig['data'][0]['y'],
                                       np.array([1, 2, 3, 4, 5, 6, 7]))
 
-        # Test that error will be raised when axis labels not match
+        # Test that warning will be raised when x axis labels not match
         data2 = pd.DataFrame({'times': [0, 1, 2, 3, 4, 5, 6],
+                                         'Incidence Number': [1, 2, 3, 4, 5, 6, 7]}) # noqa
+        time_key = 'times'
+        inc_key = 'Incidence Number'
+
+        with self.assertWarns(UserWarning):
+            test_plot.add_simulation(data2, time_key=time_key,
+                                     inc_key=inc_key)
+
+        # Test that warning will be raised when y axis labels not match
+        data3 = pd.DataFrame({'times': [0, 1, 2, 3, 4, 5, 6],
                                          'incidences': [1, 2, 3, 4, 5, 6, 7]}) # noqa
         time_key = 'times'
         inc_key = 'incidences'
 
-        with self.assertRaises(ValueError):
-            test_plot.add_simulation(data2, time_key=time_key,
+        with self.assertWarns(UserWarning):
+            test_plot.add_simulation(data3, time_key=time_key,
                                      inc_key=inc_key)
 
     def test_show(self):

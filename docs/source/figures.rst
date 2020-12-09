@@ -1,10 +1,11 @@
 ***********
-Simulations
+figures
 ***********
 
 .. currentmodule:: seirmo
 
-The models provide a framework for the implementation of any models.
+The figures module in seirmo includes a number of visualisation
+classes that are popular in epidemiological modelling
 
 Overview:
 
