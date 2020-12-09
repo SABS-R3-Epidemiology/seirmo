@@ -19,7 +19,8 @@ class _SliderComponent(object):
         super(_SliderComponent, self).__init__()
 
         self._slider_ids = []
-        self._sliders = []
+        self._sliders = {}
+        self._group_ids = {}
 
     def add_slider(self, slider_id, min, max, initial_value=None, step_size=None, label=None, mark_num=None): # noqa
         """
@@ -77,7 +78,7 @@ class _SliderComponent(object):
         ]
 
         self._slider_ids.append(slider_id)
-        self._sliders += new_slider
+        self._sliders[slider_id] = new_slider
 
         return new_slider
 
@@ -98,7 +99,17 @@ class _SliderComponent(object):
                 'slider_id not in list of added slider ids'
             )
 
-        return html.Div(children=slider_id, id=group_id)
+        if group_id in self._group_ids.keys():
+            self._group_ids[group_id].append(slider_id)
+            slider_id_in_group = self.sliders_in_group(group_id)
+            slider_object = []
+            for slider_members in slider_id_in_group:
+                slider_object += self._sliders[slider_members]
+        else:
+            self._group_ids[group_id] = [slider_id]
+            slider_object = self._sliders[slider_id]
+
+        return html.Div(children=slider_object, id=group_id)
 
     def slider_ids(self):
         """
@@ -106,3 +117,9 @@ class _SliderComponent(object):
         """
 
         return self._slider_ids
+
+    def sliders_in_group(self, group_id):
+        """
+        Return slider ids in the group
+        """
+        return self._group_ids[group_id]
