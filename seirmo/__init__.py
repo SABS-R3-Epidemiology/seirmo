@@ -13,6 +13,6 @@ from .simulation import (
     SimulationController
 )
 
-from .slider import (
+from ._slider import (
     _SliderComponent
 )

@@ -20,4 +20,3 @@ Contents
 
     models
     simulation
-    slider

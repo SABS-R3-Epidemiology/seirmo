@@ -126,12 +126,11 @@ def doctest_rst_and_public_interface():
 
     # If any modules other than these are exposed it may indicate that a module
     # has been inadvertently exposed in a public context, or that a new module
-    # has been added to pints and should be imported above and included in this
+    # has been added to seirmo and should be imported above and included in this
     # list.
     seirmo_submodules = [
         'seirmo.simulation',
         'seirmo.models',
-        'seirmo.slider',
         'seirmo.version_info'
     ]
 
