@@ -32,17 +32,17 @@ class TestIncidenceNumberPlot(unittest.TestCase):
 
         # Test the times in the figure is the same as what we give
         np.testing.assert_array_equal(
-            test_plot._fig['data'][0]['x'], 
+            test_plot._fig['data'][0]['x'],
             np.array([0, 1, 2, 3, 4, 5, 6]))
 
         # Test the incidences in the figure is the same as what we give
         np.testing.assert_array_equal(
-            test_plot._fig['data'][0]['y'], 
+            test_plot._fig['data'][0]['y'],
             np.array([1, 2, 3, 4, 5, 6, 7]))
 
         # Test that warning will be raised when x axis labels not match
         data2 = pd.DataFrame({
-            'times': [0, 1, 2, 3, 4, 5, 6], 
+            'times': [0, 1, 2, 3, 4, 5, 6],
             'Incidence Number': [1, 2, 3, 4, 5, 6, 7]})
         time_key = 'times'
         inc_key = 'Incidence Number'
@@ -53,7 +53,7 @@ class TestIncidenceNumberPlot(unittest.TestCase):
 
         # Test that warning will be raised when y axis labels not match
         data3 = pd.DataFrame({
-            'times': [0, 1, 2, 3, 4, 5, 6], 
+            'times': [0, 1, 2, 3, 4, 5, 6],
             'incidences': [1, 2, 3, 4, 5, 6, 7]})
         time_key = 'times'
         inc_key = 'incidences'
@@ -64,7 +64,7 @@ class TestIncidenceNumberPlot(unittest.TestCase):
 
     def test_add_simulation(self):
         data = pd.DataFrame({
-            'Time': [0, 1, 2, 3, 4, 5, 6], 
+            'Time': [0, 1, 2, 3, 4, 5, 6],
             'Incidence Number': [1, 2, 3, 4, 5, 6, 7]})
         time_key = 'Time'
         inc_key = 'Incidence Number'
@@ -74,17 +74,17 @@ class TestIncidenceNumberPlot(unittest.TestCase):
 
         # Test the times in the figure is the same as what we give
         np.testing.assert_array_equal(
-            test_plot._fig['data'][0]['x'], 
+            test_plot._fig['data'][0]['x'],
             np.array([0, 1, 2, 3, 4, 5, 6]))
 
         # Test the incidences in the figure is the same as what we give
         np.testing.assert_array_equal(
-            test_plot._fig['data'][0]['y'], 
+            test_plot._fig['data'][0]['y'],
             np.array([1, 2, 3, 4, 5, 6, 7]))
 
         # Test that warning will be raised when x axis labels not match
         data2 = pd.DataFrame({
-            'times': [0, 1, 2, 3, 4, 5, 6], 
+            'times': [0, 1, 2, 3, 4, 5, 6],
             'Incidence Number': [1, 2, 3, 4, 5, 6, 7]})
         time_key = 'times'
         inc_key = 'Incidence Number'
@@ -95,7 +95,7 @@ class TestIncidenceNumberPlot(unittest.TestCase):
 
         # Test that warning will be raised when y axis labels not match
         data3 = pd.DataFrame({
-            'times': [0, 1, 2, 3, 4, 5, 6], 
+            'times': [0, 1, 2, 3, 4, 5, 6],
             'incidences': [1, 2, 3, 4, 5, 6, 7]})
         time_key = 'times'
         inc_key = 'incidences'
