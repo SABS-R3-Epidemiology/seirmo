@@ -7,12 +7,13 @@
 import unittest
 import seirmo as se
 
+
 class TestSliderComponent(unittest.TestCase):
     """
     Test the '_SliderComponent' class.
     """
     def test__init__(self):
-        slider = se._SliderComponent()
+        se._SliderComponent()
 
     def test_add_slider(self):
 
@@ -20,25 +21,25 @@ class TestSliderComponent(unittest.TestCase):
 
         # Check input type
         with self.assertRaises(TypeError):
-            slider.add_slider(1,0,1)
+            slider.add_slider(1, 0, 1)
 
     def test_group_sliders(self):
 
         slider = se._SliderComponent()
-        slider.add_slider('1',0,1)
-        slider.add_slider('2',0,2)
+        slider.add_slider('1', 0, 1)
+        slider.add_slider('2', 0, 2)
 
         # Check group slider input
         with self.assertRaises(AssertionError):
-            slider.group_sliders('3','2')
+            slider.group_sliders('3', '2')
 
     def test_slider_ids(self):
-        
-        slider = se._SliderComponent()
-        slider1 = slider.add_slider('1',0,1)
-        slider2 = slider.add_slider('2',0,2)
 
-        self.assertEqual(slider.slider_ids(),['1','2'])
+        slider = se._SliderComponent()
+        slider.add_slider('1', 0, 1)
+        slider.add_slider('2', 0, 2)
+
+        self.assertEqual(slider.slider_ids(), ['1', '2'])
 
 
 if __name__ == '__main__':

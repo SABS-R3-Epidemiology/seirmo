@@ -8,6 +8,7 @@ import dash_core_components as dcc
 import dash_html_components as html
 import numpy as np
 
+
 class _SliderComponent(object):
     """Slider Class:
 
@@ -49,7 +50,7 @@ class _SliderComponent(object):
         if initial_value is None:
             initial_value = min
         if step_size is None:
-            step_size = (max - min)/100
+            step_size = (max - min) / 100
         if label is None:
             label = slider_id
         if mark_num is None:
@@ -74,13 +75,13 @@ class _SliderComponent(object):
                 }
             )
         ]
-        
+
         self._slider_ids.append(slider_id)
         self._sliders += new_slider
 
         return new_slider
 
-    def group_sliders(self,slider_id, group_id):
+    def group_sliders(self, slider_id, group_id):
         """
         Group the sliders with respect to their unique group id
 
@@ -95,9 +96,9 @@ class _SliderComponent(object):
         if slider_id not in self._slider_ids:
             raise AssertionError(
                 'slider_id not in list of added slider ids'
-        )
+            )
 
-        return html.Div(children=slider_id,id=group_id)
+        return html.Div(children=slider_id, id=group_id)
 
     def slider_ids(self):
         """
