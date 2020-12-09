@@ -4,8 +4,6 @@
 # for copyright notice and full license details.
 #
 
-import dash_core_components as dcc
-
 import unittest
 import seirmo as se
 
