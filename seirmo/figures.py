@@ -22,8 +22,8 @@ class IncidenceNumberPlot(object):
         # Instantiate an empty plotly figure
         self._fig = go.Figure()
 
-    def add_data(self, data, time_key='Time',
-                 inc_key='Incidence Number'):
+    def add_data(
+            self, data, time_key='Time', inc_key='Incidence Number'):
         """
 
         Add a bar plot trace for the given incidence number data
@@ -31,12 +31,15 @@ class IncidenceNumberPlot(object):
 
         Parameters
         ----------
-        data: A pandas.DataFrame with two columns, one being time points,
-        the other being incidence number.
-        time_key: Key label of the DataFrame which specifies the time points.
-        Defaults to 'Time'.
-        inc_key: Key label of the DataFrame which specifies the
-        incididence number. Defaults to 'Incidence Number'.
+        data
+            A pandas.DataFrame with two columns, one being time points,
+            the other being incidence number.
+        time_key
+            Key label of the DataFrame which specifies the time points.
+            Defaults to 'Time'.
+        inc_key
+            Key label of the DataFrame which specifies the
+            incididence number. Defaults to 'Incidence Number'.
 
         """
         # Plot a bar chart for the data
@@ -62,12 +65,15 @@ class IncidenceNumberPlot(object):
 
         Parameters
         ----------
-        data: A pandas.DataFrame with two columns, one being time points,
-        the other being incidence number.
-        time_key: Key label of the DataFrame which specifies the time points.
-        Defaults to 'Time'.
-        inc_key: Key label of the DataFrame which specifies
-        the incididence number. Defaults to 'Incidence Number'.
+        data
+            A pandas.DataFrame with two columns, one being time points,
+            the other being incidence number.
+        time_key
+            Key label of the DataFrame which specifies the time points.
+            Defaults to 'Time'.
+        inc_key
+            Key label of the DataFrame which specifies
+            the incididence number. Defaults to 'Incidence Number'.
 
         """
 

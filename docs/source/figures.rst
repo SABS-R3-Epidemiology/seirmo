@@ -1,11 +1,11 @@
 ***********
-figures
+Figures
 ***********
 
 .. currentmodule:: seirmo
 
 The figures module in seirmo includes a number of visualisation
-classes that are popular in epidemiological modelling
+classes that are popular in epidemiological modelling.
 
 Overview:
 

@@ -21,5 +21,6 @@ Contents
     figures
 
 Search
+========
 * :ref:`genindex`
 * :ref:`search`
