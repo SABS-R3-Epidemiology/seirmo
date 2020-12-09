@@ -79,3 +79,7 @@ class TestIncidenceNumberPlot(unittest.TestCase):
         with patch('plotly.graph_objects.Figure.show') as show_patch:
             test_plot.show()
             assert show_patch.called
+
+
+if __name__ == '__main__':
+    unittest.main()
