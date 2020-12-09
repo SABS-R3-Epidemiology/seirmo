@@ -60,7 +60,9 @@ setup(
     install_requires=[
         # Dependencies go here!
         'numpy>=1.8',
-        'scipy'
+        'scipy',
+        'dash-core-components',
+        'dash-html-components'
     ],
     extras_require={
         'docs': [
