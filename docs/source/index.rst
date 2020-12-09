@@ -20,3 +20,4 @@ Contents
 
     models
     simulation
+    figures

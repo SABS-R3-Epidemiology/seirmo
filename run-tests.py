@@ -131,7 +131,8 @@ def doctest_rst_and_public_interface():
     seirmo_submodules = [
         'seirmo.simulation',
         'seirmo.models',
-        'seirmo.version_info'
+        'seirmo.version_info',
+        'seirmo.figures'
     ]
 
     doc_symbols = get_all_documented_symbols()
