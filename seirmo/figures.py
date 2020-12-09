@@ -46,7 +46,7 @@ class IncidenceNumberPlot(object):
         # otherwise update the labels
         old_x_label = self._fig['layout']['xaxis']['anchor']
         old_y_label = self._fig['layout']['yaxis']['anchor']
-        if not (old_x_label or old_y_label):
+        if (old_x_label or old_y_label):
             if old_x_label != time_key or old_y_label != inc_key:
                 raise ValueError(
                     'The x and y labels do not match the old ones.')
@@ -83,7 +83,7 @@ class IncidenceNumberPlot(object):
         # otherwise update the labels
         old_x_label = self._fig['layout']['xaxis']['anchor']
         old_y_label = self._fig['layout']['yaxis']['anchor']
-        if not (old_x_label or old_y_label):
+        if (old_x_label or old_y_label):
             if old_x_label != time_key or old_y_label != inc_key:
                 raise ValueError(
                     'The x and y labels do not match the old ones.')
