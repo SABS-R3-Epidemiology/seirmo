@@ -38,10 +38,10 @@ class TestIncidenceNumberPlot(unittest.TestCase):
                                       np.array([1, 2, 3, 4, 5, 6, 7]))
 
         # Test that error will be raised when axis labels not match
-        data2 = pd.DataFrame({'time': [0, 1, 2, 3, 4, 5, 6],
-                                         'incidence number': [1, 2, 3, 4, 5, 6, 7]}) # noqa
-        time_key = 'time'
-        inc_key = 'incidence number'
+        data2 = pd.DataFrame({'times': [0, 1, 2, 3, 4, 5, 6],
+                                         'incidences': [1, 2, 3, 4, 5, 6, 7]}) # noqa
+        time_key = 'times'
+        inc_key = 'incidences'
 
         with self.assertRaises(ValueError):
             test_plot.add_data(data2, time_key=time_key,
