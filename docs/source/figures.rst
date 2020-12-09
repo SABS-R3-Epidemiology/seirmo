@@ -13,3 +13,4 @@ Overview:
 
 
 .. autoclass:: IncidenceNumberPlot
+    :members:
