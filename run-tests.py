@@ -131,6 +131,7 @@ def doctest_rst_and_public_interface():
     seirmo_submodules = [
         'seirmo.simulation',
         'seirmo.models',
+        'seirmo.slider',
         'seirmo.version_info'
     ]
 
@@ -175,7 +176,7 @@ def check_exposed_symbols(module, submodule_names, doc_symbols):
             print('  unexpected module: ' + m.__name__)
 
         print('For python modules such as numpy you may need to confine the '
-              'import to the function scope. If you have created a new pints '
+              'import to the function scope. If you have created a new seirmo '
               'submodule, you will need to make %s (doctest) aware of this.'
               % __file__)
         print('FAILED')
