@@ -46,8 +46,6 @@ class IncidenceNumberPlot(object):
         # otherwise update the labels
         old_x_label = self._fig['layout']['xaxis']['title']['text']
         old_y_label = self._fig['layout']['yaxis']['title']['text']
-        print(old_x_label)
-        print(old_y_label)
 
         if (old_x_label or old_y_label):
             if old_x_label != time_key or old_y_label != inc_key:
