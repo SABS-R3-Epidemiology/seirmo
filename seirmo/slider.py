@@ -6,7 +6,7 @@
 
 import dash_core_components as dcc
 import dash_html_components as html
-import pandas as pd
+import numpy as np
 
 class _SliderComponent(object):
     """Slider Class:
@@ -21,36 +21,54 @@ class _SliderComponent(object):
     def __init__(self): # noqa
         super(_SliderComponent, self).__init__()
 
-    def add_slider(self, slider_id, min, max, initial_value=None, step_size=None):
+        self._slider_ids = []
+        self._sliders = []
 
-        if initial_values is None:
+    def add_slider(self, slider_id, min, max, initial_value=None, step_size=None, label=None, mark_num=None):
+
+        if initial_value is None:
             initial_value = min
-        if step_sizes is None:
-            step_sizes = (max - min)/100
+        if step_size is None:
+            step_size = (max - min)/100
+        if label is None:
+            label = slider_id
+        if mark_num is None:
+            mark_num = 10
 
         if not isinstance(slider_id, str):
             raise TypeError(
                 'Slider id has to be string')
 
-        label = html.H6(id)
-        slider = dcc.Slider(
-                    id=slider_id,
-                    min=min,
-                    max=max,
-                    value=initial_value,
-                    step=step_size)
+        new_slider = [
+            html.Label(label),
+            dcc.Slider(
+                id=slider_id,
+                min=min,
+                max=max,
+                value=initial_value,
+                step=step_size,
+                marks={str(i): str(i) for i in np.arange(
+                    start=min,
+                    stop=max,
+                    step=mark_num)
+                }
+            )
+        ]
+        
+        self._slider_ids.append(slider_id)
+        self._sliders += new_slider
 
-        return [label, slider]
+        return new_slider
 
     def group_sliders(self,slider_id, group_id):
 
-        slider_group = []
-        for id in self.slider_ids:
-            slider_group.append(self.add_slider(id)[0])
-            slider_group.append(self.add_slider(id)[1])
+        if slider_id not in self._slider_ids:
+            raise AssertionError(
+                'slider_id not in list of added slider ids'
+        )
 
-        return html.Div(slider_group)
+        return html.Div(children=slider_id,id=group_id)
 
     def slider_ids(self):
 
-        return self.slider_ids
+        return self._slider_ids

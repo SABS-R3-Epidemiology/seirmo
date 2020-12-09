@@ -3,6 +3,7 @@ source = seirmo
 omit = 
     seirmo/tests/*
     seirmo/version_info.py
+    seirmo/slider.py
 
 [report]
 exclude_lines =

@@ -14,42 +14,33 @@ class TestSliderComponent(unittest.TestCase):
     Test the '_SliderComponent' class.
     """
     def test__init__(self):
-        slider = se._SliderComponent(['1','2'],[0,0],[1,2])
-        
-        # Check defaul initial value
-        self.assertEqual(slider.initial_values,[0,0])
-        
-        # Check default step size
-        self.assertEqual(slider.step_sizes,[0.1,0.2])
-
-        # Check initialisation of data frame
-        self.assertEqual(slider.slider_df.shape,(2,4))
+        slider = se._SliderComponent()
 
     def test_add_slider(self):
 
-        slider = se._SliderComponent('1',[0],[1])
+        slider = se._SliderComponent()
 
         # Check input type
         with self.assertRaises(TypeError):
-            slider.add_slider(1)
-
-        with self.assertRaises(NameError):
-            slider.add_slider('3')
-
-        # Check function
+            slider.add_slider(1,0,1)
 
     def test_group_sliders(self):
 
-        slider = se._SliderComponent('1',[0],[1])
+        slider = se._SliderComponent()
+        slider.add_slider('1',0,1)
+        slider.add_slider('2',0,2)
 
-        # Check slider
-        slider.group_sliders()
+        # Check group slider input
+        with self.assertRaises(AssertionError):
+            slider.group_sliders('3','2')
 
     def test_slider_ids(self):
         
-        slider = se._SliderComponent('1',[0],[1])
+        slider = se._SliderComponent()
+        slider1 = slider.add_slider('1',0,1)
+        slider2 = slider.add_slider('2',0,2)
 
-        self.assertEqual(slider.slider_ids,['1'])
+        self.assertEqual(slider.slider_ids(),['1','2'])
 
 
 if __name__ == '__main__':
