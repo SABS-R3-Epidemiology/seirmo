@@ -18,13 +18,12 @@ class _SliderComponent(object):
     def __init__(self): # noqa
         super(_SliderComponent, self).__init__()
 
-        self._slider_ids = []
         self._sliders = {}
         self._group_ids = {}
 
-    def add_slider(self, slider_id, min, max, initial_value=None, step_size=None, label=None, mark_num=None): # noqa
+    def add_slider(self, slider_id, min_value, max_value, initial_value=None, step_size=None, label=None, mark_num=None): # noqa
         """
-        Creates new slider with label
+        Creates new slider with label.
 
         Parameters
         ----------
@@ -49,42 +48,39 @@ class _SliderComponent(object):
         """
 
         if initial_value is None:
-            initial_value = min
+            initial_value = min_value
         if step_size is None:
-            step_size = (max - min) / 100
+            step_size = (max_value - min_value) / 100
         if label is None:
             label = slider_id
         if mark_num is None:
             mark_num = 10
 
-        if not isinstance(slider_id, str):
-            raise TypeError(
-                'Slider id has to be string')
+        slider_id = str(slider_id)
 
         new_slider = [
             html.Label(label),
             dcc.Slider(
                 id=slider_id,
-                min=min,
-                max=max,
+                min=min_value,
+                max=max_value,
                 value=initial_value,
                 step=step_size,
                 marks={str(i): str(i) for i in np.arange(
-                    start=min,
-                    stop=max,
+                    start=min_value,
+                    stop=max_value,
                     step=mark_num)
                 }
             )
         ]
 
-        self._slider_ids.append(slider_id)
         self._sliders[slider_id] = new_slider
 
         return new_slider
 
-    def group_sliders(self, slider_id, group_id):
+    def group_sliders(self, slider_ids, group_id):
         """
-        Group the sliders with respect to their unique group id
+        Group sliders by the slider_id input and assign a group id to the slider group
 
         Parameters
         ----------
@@ -94,32 +90,37 @@ class _SliderComponent(object):
             Unique id of group of sliders
         """
 
-        if slider_id not in self._slider_ids:
+        slider_ids = list(slider_ids)
+        if not any(item in slider_ids for item in list(self._sliders.keys())):
             raise AssertionError(
-                'slider_id not in list of added slider ids'
+                'at least one of the slider_ids not in list of added slider ids'
             )
 
-        if group_id in self._group_ids.keys():
-            self._group_ids[group_id].append(slider_id)
-            slider_id_in_group = self.sliders_in_group(group_id)
-            slider_object = []
-            for slider_members in slider_id_in_group:
-                slider_object += self._sliders[slider_members]
-        else:
-            self._group_ids[group_id] = [slider_id]
-            slider_object = self._sliders[slider_id]
+        slider_object = []
+        for slider_members in slider_ids:
+            slider_object += self._sliders[slider_members]
+        
+        self._group_ids[group_id] = slider_ids
 
         return html.Div(children=slider_object, id=group_id)
 
-    def slider_ids(self):
+    def get_slider_ids(self):
         """
         Return list of all slider ids
         """
 
-        return self._slider_ids
+        return list(self._sliders.keys())
+
+    def get_group_ids(self):
+        """
+        Return list of all group ids
+        """
+
+        return list(self._group_ids.keys())
 
     def sliders_in_group(self, group_id):
         """
         Return slider ids in the group
         """
+        print(self._group_ids)
         return self._group_ids[group_id]

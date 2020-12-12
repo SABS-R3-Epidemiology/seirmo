@@ -131,6 +131,7 @@ def doctest_rst_and_public_interface():
     seirmo_submodules = [
         'seirmo.simulation',
         'seirmo.models',
+        'seirmo.apps',
         'seirmo.version_info'
     ]
 
