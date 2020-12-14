@@ -64,7 +64,7 @@ setup(
         'dash-html-components==1.1',
         'numpy>=1.8',
         'pandas',
-        'plotly'
+        'plotly',
         'scipy',
     ],
     extras_require={
