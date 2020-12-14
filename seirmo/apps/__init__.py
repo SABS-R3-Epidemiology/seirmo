@@ -4,15 +4,4 @@
 # for copyright notice and full license details.
 #
 
-from .models import (
-    ForwardModel,
-    SEIRModel
-)
-
-from .simulation import (
-    SimulationController
-)
-
-from .apps import (
-    _SliderComponent
-)
+from ._slider import _SliderComponent # noqa
