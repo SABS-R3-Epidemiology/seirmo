@@ -129,9 +129,10 @@ def doctest_rst_and_public_interface():
     # has been added to seirmo and should be imported above and included in
     # this list.
     seirmo_submodules = [
+        'seirmo.apps',
+        'seirmo.figures',
         'seirmo.simulation',
         'seirmo.models',
-        'seirmo.apps',
         'seirmo.version_info'
     ]
 
