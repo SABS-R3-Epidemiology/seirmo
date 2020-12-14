@@ -61,7 +61,7 @@ setup(
         # Dependencies go here!
         'dash==1.17.0',
         'dash-core-components==1.13',
-        'dash-html-components==1.1'
+        'dash-html-components==1.1',
         'numpy>=1.8',
         'pandas',
         'plotly'
