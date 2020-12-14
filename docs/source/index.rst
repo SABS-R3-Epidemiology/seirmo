@@ -15,11 +15,14 @@ Contents
 .. module:: seirmo
 
 .. toctree::
-
+    
+    apps
+    figures
     models
     simulation
 
+
 Search
-======
+========
 * :ref:`genindex`
 * :ref:`search`

@@ -4,19 +4,4 @@
 # for copyright notice and full license details.
 #
 
-from .apps import (
-    _SliderComponent
-)
-
-from .figures import (
-    IncidenceNumberPlot
-)
-
-from .models import (
-    ForwardModel,
-    SEIRModel
-)
-
-from .simulation import (
-    SimulationController
-)
+from ._slider import _SliderComponent # noqa
