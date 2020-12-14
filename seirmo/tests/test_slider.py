@@ -34,10 +34,10 @@ class TestSliderComponent(unittest.TestCase):
             slider.group_sliders('1', 'group1')
 
         # Check slider group dictionary
-        final = slider.group_sliders(['slider1','slider2'], 'group1')
-        final1 = slider.group_sliders(['slider3'], 'group2')
+        slider.group_sliders(['slider1', 'slider2'], 'group1')
+        slider.group_sliders(['slider3'], 'group2')
 
-        self.assertEqual(slider.sliders_in_group('group1'), ['slider1', 'slider2'])
+        self.assertEqual(slider.sliders_in_group('group1'), ['slider1', 'slider2']) # noqa
         self.assertEqual(slider.sliders_in_group('group2'), ['slider3'])
 
     def test_get_slider_ids(self):
@@ -48,13 +48,25 @@ class TestSliderComponent(unittest.TestCase):
 
         self.assertEqual(slider.get_slider_ids(), ['slider1', 'slider2'])
 
+    def test_get_group_ids(self):
+
+        slider = se._SliderComponent()
+        slider.add_slider('slider1', 0, 1)
+        slider.add_slider('slider2', 0, 2)
+        slider.add_slider('slider3', 0, 1)
+
+        slider.group_sliders(['slider1', 'slider2'], 'group1')
+        slider.group_sliders(['slider3'], 'group2')
+
+        self.assertEqual(slider.get_group_ids(), ['group1', 'group2'])
+
     def test_sliders_in_group(self):
 
         slider = se._SliderComponent()
         slider.add_slider('slider1', 0, 1)
         slider.add_slider('slider2', 0, 2)
 
-        slider.group_sliders(['slider1','slider2'], 'group1')
+        slider.group_sliders(['slider1', 'slider2'], 'group1')
 
         self.assertEqual(slider.sliders_in_group('group1'), ['slider1', 'slider2']) # noqa  
 

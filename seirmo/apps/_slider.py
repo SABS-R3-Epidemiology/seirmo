@@ -80,7 +80,7 @@ class _SliderComponent(object):
 
     def group_sliders(self, slider_ids, group_id):
         """
-        Group sliders by the slider_id input and assign a group id to the slider group
+        Group sliders by the slider_id input and assign a group id to the slider group # noqa
 
         Parameters
         ----------
@@ -93,13 +93,13 @@ class _SliderComponent(object):
         slider_ids = list(slider_ids)
         if not any(item in slider_ids for item in list(self._sliders.keys())):
             raise AssertionError(
-                'at least one of the slider_ids not in list of added slider ids'
+                'at least one of the slider_ids not in list of added slider ids' # noqa
             )
 
         slider_object = []
         for slider_members in slider_ids:
             slider_object += self._sliders[slider_members]
-        
+
         self._group_ids[group_id] = slider_ids
 
         return html.Div(children=slider_object, id=group_id)
@@ -122,5 +122,5 @@ class _SliderComponent(object):
         """
         Return slider ids in the group
         """
-        print(self._group_ids)
+
         return self._group_ids[group_id]
