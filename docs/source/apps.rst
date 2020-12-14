@@ -7,8 +7,3 @@ Models
 The apps class create an app to visualise the model and its simulation.
 
 Overview:
-
-- :class:`_SliderComponent`
-
-
-.. autoclass:: _SliderComponent
