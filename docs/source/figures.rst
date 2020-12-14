@@ -1,0 +1,16 @@
+***********
+Figures
+***********
+
+.. currentmodule:: seirmo
+
+The figures module in seirmo includes a number of visualisation
+classes that are popular in epidemiological modelling.
+
+Overview:
+
+- :class:`IncidenceNumberPlot`
+
+
+.. autoclass:: IncidenceNumberPlot
+    :members:
