@@ -6,6 +6,12 @@
 
 import seirmo as se
 
+import dash
+import dash_bootstrap_components as dbc
+import dash_core_components as dcc
+import dash_html_components as html
+
+
 class SimulationApp(object):
     """SimulationApp Class:
 
@@ -18,6 +24,17 @@ class SimulationApp(object):
 
         IncidenceNumberPlot = se.IncidenceNumberPlot()
         SliderComponent = se._SliderComponent()
+
+        app = dash.Dash(external_stylesheets=[dbc.themes.BOOTSTRAP])
+
+        app.layout = dbc.Container(
+        dbc.Row(
+            [
+                dbc.Col(html.Div("One of two columns")),
+                dbc.Col(html.Div("One of two columns")),
+            ]
+        ),
+        )
 
     def add_data(self):
         """
@@ -34,3 +51,6 @@ class SimulationApp(object):
         initial_parameters_value = [0]*len(parameters_name)
         data = simulate.run(initial_parameters_value, return_incidence=True)
         IncidenceNumberPlot.add_data(data)
+
+if __name__ == "__main__":
+    app.run_server()
