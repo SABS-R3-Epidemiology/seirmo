@@ -59,10 +59,13 @@ setup(
     # List of dependencies
     install_requires=[
         # Dependencies go here!
+        'dash',
+        'dash-core-components',
+        'dash-html-components'
         'numpy>=1.8',
-        'scipy',
         'pandas',
         'plotly'
+        'scipy',
     ],
     extras_require={
         'docs': [

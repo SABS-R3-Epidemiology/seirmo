@@ -15,10 +15,12 @@ Contents
 .. module:: seirmo
 
 .. toctree::
-
+    
+    apps
+    figures
     models
     simulation
-    figures
+
 
 Search
 ========
