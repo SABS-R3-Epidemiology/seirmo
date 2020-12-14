@@ -8,8 +8,6 @@ Welcome to seirmo's documentation!
 
 This is a project to model the outbreak of an infectious disease with the SEIR model.
 
-* :ref:`genindex`
-* :ref:`search`
 
 Contents
 ========
@@ -21,3 +19,8 @@ Contents
     models
     simulation
     apps
+
+Search
+======
+* :ref:`genindex`
+* :ref:`search`

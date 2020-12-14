@@ -11,7 +11,11 @@ Overview:
 - :class:`ForwardModel`
 - :class:`SEIRModel`
 
+SEIR Model
+**********
 
 .. autoclass:: ForwardModel
+    :members:
 
 .. autoclass:: SEIRModel
+    :members:
