@@ -15,22 +15,24 @@ import random
 from dash.dependencies import Input, Output
 
 import seirmo as se
-from seirmo.apps import SimulationApp
+import seirmo.apps as sapps
 
-app = SimulationApp()
+app = sapps.SimulationApp()
 data = pd.DataFrame({
             'Time': range(10),
-            'Incidence Number': [random.randint(0, 100) for i in range(10)]
+            'Incidence Number': [random.randint(0, 5) for i in range(10)]
         })
+app.add_data(data)
 
 model = se.SEIRModel
 parameter_name = ['Initial S', 'Initial E', 'Initial I', 'Initial R', 
                   'Infection Rate', 'Incubation Rate', 'Recovery Rate']
 app.add_model(model, parameter_name)
-app.add_data(data)
 
 sliders = app.slider_ids()
 app._set_layout()
+
+print(sliders)
 
 @app.app.callback(
         Output('fig', 'figure'),

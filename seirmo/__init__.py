@@ -4,10 +4,8 @@
 # for copyright notice and full license details.
 #
 
-from .apps import (
-    _SliderComponent,
-    SimulationApp
-)
+
+from . import apps 
 
 from .figures import (
     IncidenceNumberPlot

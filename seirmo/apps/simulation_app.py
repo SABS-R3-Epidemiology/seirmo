@@ -10,7 +10,7 @@ import dash_core_components as dcc
 import pandas as pd
 
 import seirmo as se
-
+import seirmo.apps as sapps
 
 class SimulationApp(object):
     """SimulationApp Class:
@@ -23,7 +23,7 @@ class SimulationApp(object):
         super(SimulationApp, self).__init__()
 
         self._fig_plot = se.IncidenceNumberPlot()
-        self._slider_component = se._SliderComponent()
+        self._slider_component = sapps._SliderComponent()
 
         self.simulation_start = 0
         self.simulation_end = 10
@@ -39,10 +39,11 @@ class SimulationApp(object):
             dbc.Row([
                     dbc.Col([dcc.Graph(
                             figure=self._fig_plot._fig, id='fig')]),
-                    dbc.Col([dbc.Row(
+                    dbc.Col([
+                        dbc.Row(
                             self._slider_component.group_sliders(
                                 self.slider_ids()[:4], 'init_value')),
-                            dbc.Row(
+                        dbc.Row(
                             self._slider_component.group_sliders(
                                 self.slider_ids()[4:], 'constant'))])
                     ])
@@ -103,7 +104,8 @@ class SimulationApp(object):
             self._slider_component.add_slider(
                 slider_id=model_parameter,
                 min_value=0,
-                max_value=1)
+                max_value=1,
+                initial_value=0.5)
             init_parameters.append(
                 self._slider_component._sliders[model_parameter][1].value)
 
@@ -135,4 +137,6 @@ class SimulationApp(object):
             List of parameter values for simulation.
         """
         data = self.simulate.run(parameters, return_incidence=True)
-        self._fig_plot._fig['data'][0]['y'] = data[:, 1]
+        self._fig_plot._fig['data'][1]['y'] = data[:, 1]
+
+        return self._fig_plot._fig

@@ -29,7 +29,7 @@ class SimulationController(object):
                 'Model has to be a subclass of seirmo.ForwardModel.')
 
         self._model = model()
-        self._simulation_times = np.linspace(start, end)
+        self._simulation_times = np.arange(start, end, step=1)
 
     def run(self, parameters, return_incidence=False):
 
