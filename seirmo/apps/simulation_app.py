@@ -82,10 +82,6 @@ class SimulationApp(object):
             Name of parameters of model in list of strings.
         """
 
-        if not issubclass(model, se.ForwardModel):
-            raise TypeError(
-                'Model has to be a subclass of seirmo.ForwardModel.')
-
         parameters_name = list(parameters_name)
 
         init_parameters = []
