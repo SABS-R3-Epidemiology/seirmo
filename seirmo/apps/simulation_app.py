@@ -66,6 +66,15 @@ class SimulationApp(object):
             raise TypeError(
                 'Data has to be an instance of pandas.DataFrame.')
 
+        if time_key not in data.columns:
+            raise ValueError(
+                'The input time key does not match that in the data.')
+        
+        if inc_key not in data.columns
+            raise ValueError(
+                'The input incidence key does not match that in the data.')
+
+
         self._fig_plot.add_data(
             data, time_key, inc_key)
 
