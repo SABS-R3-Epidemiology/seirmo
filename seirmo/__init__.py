@@ -5,7 +5,8 @@
 #
 
 from .apps import (
-    _SliderComponent
+    _SliderComponent,
+    SimulationApp
 )
 
 from .figures import (

@@ -9,6 +9,7 @@ with fixed example data. To run the app, use ``python dash_app.py``.
 """
 
 import numpy as np
+import os
 import pandas as pd
 import random
 from dash.dependencies import Input, Output
@@ -18,17 +19,18 @@ from seirmo.apps import SimulationApp
 
 app = SimulationApp()
 data = pd.DataFrame({
-            'Time': range(50),
-            'Incidence Number': [random.randint(0, 100) for i in range(50)]
+            'Time': range(10),
+            'Incidence Number': [random.randint(0, 100) for i in range(10)]
         })
 
-model = se.SEIRModel()
+model = se.SEIRModel
 parameter_name = ['Initial S', 'Initial E', 'Initial I', 'Initial R', 
                   'Infection Rate', 'Incubation Rate', 'Recovery Rate']
 app.add_model(model, parameter_name)
 app.add_data(data)
 
-sliders = app.get_sliders_ids()
+sliders = app.slider_ids()
+app._set_layout()
 
 @app.app.callback(
         Output('fig', 'figure'),
@@ -38,11 +40,11 @@ def update_simulation(*args):
     Simulates the model for the current slider values and updates the
     plot in the figure.
     """
-    parameters = args
-    fig = app.update_simulation(*parameters)
+    parameters = list(args)
+    fig = app.update_simulation(parameters)
 
     return fig
 
 
 if __name__ == "__main__":
-    app.app.run_server(debug=True)
+    app.app.run_server(host=os.getenv('IP', '0.0.0.0'), port=int(os.getenv('PORT', 4444)), debug=True)

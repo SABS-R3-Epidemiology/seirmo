@@ -26,7 +26,7 @@ class SimulationApp(object):
         self._slider_component = se._SliderComponent()
 
         self.simulation_start = 0
-        self.simulation_end = 50
+        self.simulation_end = 10
 
     def _set_layout(self):
         """
@@ -39,8 +39,12 @@ class SimulationApp(object):
             dbc.Row([
                     dbc.Col([dcc.Graph(
                             figure=self._fig_plot._fig, id='fig')]),
-                    dbc.Col([
-                        self._slider_component()])
+                    dbc.Col([dbc.Row(
+                            self._slider_component.group_sliders(
+                                self.slider_ids()[:4], 'init_value')),
+                            dbc.Row(
+                            self._slider_component.group_sliders(
+                                self.slider_ids()[4:], 'constant'))])
                     ])
         )
 
@@ -70,7 +74,7 @@ class SimulationApp(object):
             raise ValueError(
                 'The input time key does not match that in the data.')
         
-        if inc_key not in data.columns
+        if inc_key not in data.columns:
             raise ValueError(
                 'The input incidence key does not match that in the data.')
 
@@ -101,7 +105,7 @@ class SimulationApp(object):
                 min_value=0,
                 max_value=1)
             init_parameters.append(
-                self._slider_component._sliders[model_parameter].value)
+                self._slider_component._sliders[model_parameter][1].value)
 
         self._slider_component.group_sliders(parameters_name, 'slider_group')
 
@@ -109,14 +113,17 @@ class SimulationApp(object):
             model, self.simulation_start, self.simulation_end)
 
         data = self.simulate.run(init_parameters, return_incidence=True)
-        data = pd.DataFrame(data, columns=['Time', 'Incidence Number'])
+        data = pd.DataFrame({
+            'Time': list(self.simulate._simulation_times),
+            'Incidence Number': data[:, -1]
+        })
         self._fig_plot.add_simulation(data)
 
     def slider_ids(self):
         """
         Return the ids of sliders added to the app.
         """
-        return self._slider.get_slider_ids()
+        return self._slider_component.get_slider_ids()
 
     def update_simulation(self, parameters):
         """
