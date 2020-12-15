@@ -12,6 +12,7 @@ import pandas as pd
 import seirmo as se
 import seirmo.apps as sapps
 
+
 class SimulationApp(object):
     """SimulationApp Class:
 
@@ -74,11 +75,10 @@ class SimulationApp(object):
         if time_key not in data.columns:
             raise ValueError(
                 'The input time key does not match that in the data.')
-        
+
         if inc_key not in data.columns:
             raise ValueError(
                 'The input incidence key does not match that in the data.')
-
 
         self._fig_plot.add_data(
             data, time_key, inc_key)

@@ -8,7 +8,6 @@
 with fixed example data. To run the app, use ``python dash_app.py``.
 """
 
-import numpy as np
 import os
 import pandas as pd
 import random
@@ -19,13 +18,12 @@ import seirmo.apps as sapps
 
 app = sapps.SimulationApp()
 data = pd.DataFrame({
-            'Time': range(10),
-            'Incidence Number': [random.randint(0, 5) for i in range(10)]
-        })
+    'Time': range(10),
+    'Incidence Number': [random.randint(0, 5) for i in range(10)]})
 app.add_data(data)
 
 model = se.SEIRModel
-parameter_name = ['Initial S', 'Initial E', 'Initial I', 'Initial R', 
+parameter_name = ['Initial S', 'Initial E', 'Initial I', 'Initial R',
                   'Infection Rate', 'Incubation Rate', 'Recovery Rate']
 app.add_model(model, parameter_name)
 
@@ -34,9 +32,10 @@ app._set_layout()
 
 print(sliders)
 
+
 @app.app.callback(
-        Output('fig', 'figure'),
-        [Input(s, 'value') for s in sliders])
+    Output('fig', 'figure'),
+    [Input(s, 'value') for s in sliders])
 def update_simulation(*args):
     """
     Simulates the model for the current slider values and updates the
@@ -49,4 +48,6 @@ def update_simulation(*args):
 
 
 if __name__ == "__main__":
-    app.app.run_server(host=os.getenv('IP', '0.0.0.0'), port=int(os.getenv('PORT', 4444)), debug=True)
+    app.app.run_server(
+        host=os.getenv('IP', '0.0.0.0'),
+        port=int(os.getenv('PORT', 4444)), debug=True)
