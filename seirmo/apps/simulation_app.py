@@ -41,8 +41,8 @@ class SimulationApp(object):
                             figure=self._fig_plot._fig, id='fig')]),
                     dbc.Col([
                         self._slider_component()])
-                ])
-            )
+                    ])
+        )
 
     def add_data(self, data, time_key='Time', inc_key='Incidence Number'):
         """
@@ -58,7 +58,7 @@ class SimulationApp(object):
             Defaults to 'Time'.
         inc_key
             Key label of the DataFrame which specifies the
-            incidence number. 
+            incidence number.
             Defaults to 'Incidence Number'.
         """
 
@@ -98,7 +98,7 @@ class SimulationApp(object):
             init_parameters.append(
                 self._slider_component._sliders[model_parameter].value)
 
-        self._slider_component.group_sliders(parameters_name,'slider_group')
+        self._slider_component.group_sliders(parameters_name, 'slider_group')
 
         self.simulate = se.SimulationController(
             model, self.simulation_start, self.simulation_end)
