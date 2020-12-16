@@ -32,7 +32,7 @@ class IncidenceNumberPlot(object):
         Parameters
         ----------
         data
-            A pandas.DataFrame with two columns, one being time points,
+            A pandas.DataFrame including two columns, one being time points,
             the other being incidence number.
         time_key
             Key label of the DataFrame which specifies the time points.
@@ -66,7 +66,7 @@ class IncidenceNumberPlot(object):
         Parameters
         ----------
         data
-            A pandas.DataFrame with two columns, one being time points,
+            A pandas.DataFrame including two columns, one being time points,
             the other being incidence number.
         time_key
             Key label of the DataFrame which specifies the time points.
@@ -151,7 +151,7 @@ class CompartmentPlot(object):
         Parameters
         ----------
         data
-            A pandas.DataFrame with columns for time points and compartment numbers
+            A pandas.DataFrame including columns for time points and compartment numbers
         time_key
             Key label of the DataFrame which specifies the time points.
             Defaults to 'Time'.

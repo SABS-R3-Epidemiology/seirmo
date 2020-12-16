@@ -55,6 +55,8 @@ def update_simulation(*args):
     fig, fig2 = app.update_simulation(parameters)
     # print(parameters)
 
+    print(fig2)
+
     return fig, fig2
 
 
