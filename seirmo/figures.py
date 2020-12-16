@@ -139,8 +139,10 @@ class CompartmentPlot(object):
         # Instantiate an empty plotly figure
         self._fig = go.Figure()
 
-    def add_simulation(self, data, time_key='Time', S_key='S',
-                       E_key='E', I_key='I', R_key='R'):
+    def add_simulation(
+        self, data, time_key='Time',
+        compartment_keys=['Susceptible', 'Exposed', 'Infectious', 'Recovered']:
+
         """
 
         Add line plot traces for the simulated compartment numbers
@@ -149,63 +151,26 @@ class CompartmentPlot(object):
         Parameters
         ----------
         data
-            A pandas.DataFrame with four columns: time points, S, E, I, R
+            A pandas.DataFrame with columns for time points and compartment numbers
         time_key
             Key label of the DataFrame which specifies the time points.
             Defaults to 'Time'.
-        S_key
-            Key label of the DataFrame which specifies S. Defaults to 'S'.
-        E_key
-            Key label of the DataFrame which specifies
-            Key label of the DataFrame which specifies E. Defaults to 'E'.
-        I_key
-            Key label of the DataFrame which specifies
-            Key label of the DataFrame which specifies I. Defaults to 'I'.
-        R_key
-            Key label of the DataFrame which specifies
-            Key label of the DataFrame which specifies R. Defaults to 'R'.
+        compartment_keys
+            The list of key labels of the DataFrame which specify the compartments.
+            Defaults to ['S', 'E', 'I', 'R'].
 
         """
 
-        # Plot of susceptibles
-        self._fig.add_trace(
-            go.Scatter(
-                x=data[time_key],
-                y=data[S_key],
-                mode='lines',
-                name='Susceptible'
+        # Line plots of the compartments
+        for compartment_key in compartment_keys:
+            self._fig.add_trace(
+                go.Scatter(
+                    x=data[time_key],
+                    y=data[compartment_key],
+                    mode='lines',
+                    name=compartment_key
+                )
             )
-        )
-
-        # Plot of exposed
-        self._fig.add_trace(
-            go.Scatter(
-                x=data[time_key],
-                y=data[E_key],
-                mode='lines',
-                name='Exposed'
-            )
-        )
-
-        # Plot of infectious
-        self._fig.add_trace(
-            go.Scatter(
-                x=data[time_key],
-                y=data[I_key],
-                mode='lines',
-                name='Infectious'
-            )
-        )
-
-        # Plot of Recovered
-        self._fig.add_trace(
-            go.Scatter(
-                x=data[time_key],
-                y=data[R_key],
-                mode='lines',
-                name='Recovered'
-            )
-        )
 
         # Update axis labels
         x_label = time_key
