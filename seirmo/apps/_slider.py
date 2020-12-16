@@ -89,7 +89,7 @@ class _SliderComponent(object):
                 handleLabel={"showCurrentValue": True,
                              "label": slider_id,
                              "style": {"size": 0.5}},
-                marks={'{:.0f}'.format(i): '{:.0f}'.format(i) for i in np.linspace( # noqa
+                marks={i: '{:.1f}'.format(i) for i in np.linspace( # noqa
                     start=min_value,
                     stop=max_value,
                     num=mark_num)
