@@ -141,7 +141,7 @@ class CompartmentPlot(object):
 
     def add_simulation(
         self, data, time_key='Time',
-        compartment_keys=['Susceptible', 'Exposed', 'Infectious', 'Recovered']:
+        compartment_keys=['Susceptible', 'Exposed', 'Infectious', 'Recovered']):
 
         """
 
