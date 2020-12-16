@@ -5,7 +5,7 @@
 #
 
 import unittest
-import seirmo as se
+import seirmo.apps as sapps
 
 
 class TestSliderComponent(unittest.TestCase):
@@ -13,18 +13,18 @@ class TestSliderComponent(unittest.TestCase):
     Test the '_SliderComponent' class.
     """
     def test__init__(self):
-        se._SliderComponent()
+        sapps._SliderComponent()
 
     def test_add_slider(self):
 
-        slider = se._SliderComponent()
+        slider = sapps._SliderComponent()
 
         slider_output = slider.add_slider('slider1', 0, 1)
-        self.assertEqual(len(slider_output), 2)
+        self.assertEqual(len(slider_output), 3)
 
     def test_group_sliders(self):
 
-        slider = se._SliderComponent()
+        slider = sapps._SliderComponent()
         slider.add_slider('slider1', 0, 1)
         slider.add_slider('slider2', 0, 2)
         slider.add_slider('slider3', 0, 1)
@@ -42,7 +42,7 @@ class TestSliderComponent(unittest.TestCase):
 
     def test_get_slider_ids(self):
 
-        slider = se._SliderComponent()
+        slider = sapps._SliderComponent()
         slider.add_slider('slider1', 0, 1)
         slider.add_slider('slider2', 0, 2)
 
@@ -50,7 +50,7 @@ class TestSliderComponent(unittest.TestCase):
 
     def test_get_group_ids(self):
 
-        slider = se._SliderComponent()
+        slider = sapps._SliderComponent()
         slider.add_slider('slider1', 0, 1)
         slider.add_slider('slider2', 0, 2)
         slider.add_slider('slider3', 0, 1)
@@ -62,7 +62,7 @@ class TestSliderComponent(unittest.TestCase):
 
     def test_sliders_in_group(self):
 
-        slider = se._SliderComponent()
+        slider = sapps._SliderComponent()
         slider.add_slider('slider1', 0, 1)
         slider.add_slider('slider2', 0, 2)
 
