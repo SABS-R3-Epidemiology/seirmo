@@ -20,7 +20,7 @@ class _SliderComponent(object):
 
         self._sliders = {}
         self._group_ids = {}
-    
+
     def __call__(self):
 
         slider_group_component = []
