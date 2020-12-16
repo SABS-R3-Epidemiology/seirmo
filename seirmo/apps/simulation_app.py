@@ -41,12 +41,7 @@ class SimulationApp(object):
                     dbc.Col([dcc.Graph(
                             figure=self._fig_plot._fig, id='fig')]),
                     dbc.Col([
-                        dbc.Row(
-                            self._slider_component.group_sliders(
-                                self.slider_ids()[:4], 'init_value')),
-                        dbc.Row(
-                            self._slider_component.group_sliders(
-                                self.slider_ids()[4:], 'constant'))])
+                        self._slider_component()])
                     ])
         )
 

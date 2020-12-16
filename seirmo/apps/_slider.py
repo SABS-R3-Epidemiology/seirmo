@@ -86,7 +86,7 @@ class _SliderComponent(object):
                 max=max_value,
                 value=initial_value,
                 step=step_size,
-                marks={str(i): str(i) for i in np.linspace(
+                marks={'{:.1f}'.format(i): '{:.1f}'.format(i) for i in np.linspace(
                     start=min_value,
                     stop=max_value,
                     num=mark_num)
