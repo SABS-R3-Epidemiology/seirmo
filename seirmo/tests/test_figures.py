@@ -110,6 +110,7 @@ class TestIncidenceNumberPlot(unittest.TestCase):
             test_plot.show()
             assert show_patch.called
 
+
 class TestCompartmentPlot(unittest.TestCase):
     """
     Test the 'CompartmentPlot' class.
@@ -125,7 +126,8 @@ class TestCompartmentPlot(unittest.TestCase):
             'Infectious': [3, 4, 5, 6, 7, 8, 9],
             'Recovered': [4, 5, 6, 7, 8, 9, 10]})
         time_key = 'Time'
-        compartment_keys = ['Susceptible', 'Exposed', 'Infectious', 'Recovered']
+        compartment_keys = [
+            'Susceptible', 'Exposed', 'Infectious', 'Recovered']
         test_plot = se.CompartmentPlot()
         test_plot.add_simulation(
             data, time_key=time_key, compartment_keys=compartment_keys)
@@ -166,7 +168,8 @@ class TestCompartmentPlot(unittest.TestCase):
             'Infectious': [3, 4, 5, 6, 7, 8, 9],
             'Recovered': [4, 5, 6, 7, 8, 9, 10]})
         time_key = 'times'
-        compartment_keys = ['Susceptible', 'Exposed', 'Infectious', 'Recovered']
+        compartment_keys = [
+            'Susceptible', 'Exposed', 'Infectious', 'Recovered']
 
         with self.assertWarns(UserWarning):
             test_plot.add_simulation(

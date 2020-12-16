@@ -141,7 +141,8 @@ class CompartmentPlot(object):
 
     def add_simulation(
         self, data, time_key='Time',
-        compartment_keys=['Susceptible', 'Exposed', 'Infectious', 'Recovered']):
+        compartment_keys=[
+            'Susceptible', 'Exposed', 'Infectious', 'Recovered']):
 
         """
 
@@ -151,12 +152,14 @@ class CompartmentPlot(object):
         Parameters
         ----------
         data
-            A pandas.DataFrame including columns for time points and compartment numbers
+            A pandas.DataFrame including columns
+            for time points and compartment numbers
         time_key
             Key label of the DataFrame which specifies the time points.
             Defaults to 'Time'.
         compartment_keys
-            The list of key labels of the DataFrame which specify the compartments.
+            The list of key labels of the DataFrame
+            which specify the compartments.
             Defaults to ['S', 'E', 'I', 'R'].
 
         """

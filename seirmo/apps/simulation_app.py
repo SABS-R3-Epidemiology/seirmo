@@ -26,7 +26,7 @@ class SimulationApp(object):
 
         self._fig_plot = se.IncidenceNumberPlot()
         self._compartment_plot = se.CompartmentPlot()
-        
+
         self._slider_component = sapps._SliderComponent()
 
         self.simulation_start = 0
@@ -50,11 +50,11 @@ class SimulationApp(object):
                             dbc.Row([dcc.Graph(
                             figure=self._compartment_plot._fig, id='fig2')],
                             # style={"height": "80vh"}, md=8
-                            )]),
+                                    )]),
                     dbc.Col([
                         self._slider_component()])
                     ])
-        ],fluid=True)
+        ], fluid=True)
 
     def add_data(self, data, time_key='Time', inc_key='Incidence Number'):
         """
@@ -111,8 +111,8 @@ class SimulationApp(object):
             max_value=total_population,
             initial_value=0.5 * total_population)
         init_parameters.append(
-            self._slider_component._sliders['Total Population'].children[1].value)
-        
+            self._slider_component._sliders['Total Population'].children[1].value) # noqa
+
         for model_parameter in parameters_name[1:]:
             model_parameter = str(model_parameter)
             self._slider_component.add_slider(
@@ -142,7 +142,7 @@ class SimulationApp(object):
         data = self.simulate.run(init_parameters[1:], return_incidence=True)
         data = pd.DataFrame({
             'Time': list(self.simulate._simulation_times),
-            'Incidence Number': data[:, -1]*total_population,
+            'Incidence Number': data[:, -1] * total_population,
             'Susceptible': data[:, 0],
             'Exposed': data[:, 1],
             'Infectious': data[:, 2],
@@ -151,7 +151,6 @@ class SimulationApp(object):
 
         self._fig_plot.add_simulation(data)
         self._compartment_plot.add_simulation(data)
-
 
     def slider_ids(self):
         """

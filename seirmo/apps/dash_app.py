@@ -24,8 +24,9 @@ data = pd.DataFrame({
 app.add_data(data)
 
 model = se.SEIRModel
-parameter_name = ['Total Population', 'Initial S', 'Initial E', 'Initial I', 'Initial R',
-                  'Infection Rate', 'Incubation Rate', 'Recovery Rate']
+parameter_name = [
+    'Total Population', 'Initial S', 'Initial E', 'Initial I', 'Initial R',
+    'Infection Rate', 'Incubation Rate', 'Recovery Rate']
 total_population = 10000
 app.add_model(model, parameter_name, total_population)
 
@@ -41,10 +42,9 @@ app._slider_component._sliders['Total Population'].children[1].marks = {
 app._set_layout()
 
 
-
 @app.app.callback(
     [Output('fig', 'figure'),
-    Output('fig2', 'figure')],
+        Output('fig2', 'figure')],
     [Input(s, 'value') for s in sliders])
 def update_simulation(*args):
     """
