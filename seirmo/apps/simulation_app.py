@@ -27,7 +27,7 @@ class SimulationApp(object):
         self._slider_component = sapps._SliderComponent()
 
         self.simulation_start = 0
-        self.simulation_end = 10
+        self.simulation_end = 50
 
     def _set_layout(self):
         """
@@ -39,7 +39,9 @@ class SimulationApp(object):
         self.app.layout = dbc.Container(
             dbc.Row([
                     dbc.Col([dcc.Graph(
-                            figure=self._fig_plot._fig, id='fig')]),
+                            figure=self._fig_plot._fig, id='fig')],
+                            style={"height": "90vh"}, width=6, md=8
+                            ),
                     dbc.Col([
                         self._slider_component()])
                     ])
@@ -78,7 +80,7 @@ class SimulationApp(object):
         self._fig_plot.add_data(
             data, time_key, inc_key)
 
-    def add_model(self, model, parameters_name):
+    def add_model(self, model, parameters_name, total_population):
         """
         Plot figure of simulation for given model.
 
@@ -94,7 +96,17 @@ class SimulationApp(object):
         parameters_name = list(parameters_name)
 
         init_parameters = []
-        for model_parameter in parameters_name:
+        for model_parameter in parameters_name[:4]:
+            model_parameter = str(model_parameter)
+            self._slider_component.add_slider(
+                slider_id=model_parameter,
+                min_value=0 * total_population,
+                max_value=1 * total_population,
+                initial_value=0.5 * total_population)
+            init_parameters.append(
+                self._slider_component._sliders[model_parameter].children[1].value) # noqa
+
+        for model_parameter in parameters_name[4:]:
             model_parameter = str(model_parameter)
             self._slider_component.add_slider(
                 slider_id=model_parameter,
@@ -102,9 +114,10 @@ class SimulationApp(object):
                 max_value=1,
                 initial_value=0.5)
             init_parameters.append(
-                self._slider_component._sliders[model_parameter][1].value)
+                self._slider_component._sliders[model_parameter].children[1].value) # noqa
 
-        self._slider_component.group_sliders(parameters_name, 'slider_group')
+        self._slider_component.group_sliders(
+            parameters_name, 'Sliders of parameters')
 
         self.simulate = se.SimulationController(
             model, self.simulation_start, self.simulation_end)

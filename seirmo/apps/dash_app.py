@@ -18,19 +18,18 @@ import seirmo.apps as sapps
 
 app = sapps.SimulationApp()
 data = pd.DataFrame({
-    'Time': range(10),
-    'Incidence Number': [random.randint(0, 5) for i in range(10)]})
+    'Time': range(50),
+    'Incidence Number': [random.randint(0, 300) for i in range(50)]})
 app.add_data(data)
 
 model = se.SEIRModel
 parameter_name = ['Initial S', 'Initial E', 'Initial I', 'Initial R',
                   'Infection Rate', 'Incubation Rate', 'Recovery Rate']
-app.add_model(model, parameter_name)
+total_population = 1000
+app.add_model(model, parameter_name, total_population)
 
 sliders = app.slider_ids()
 app._set_layout()
-
-print(sliders)
 
 
 @app.app.callback(
