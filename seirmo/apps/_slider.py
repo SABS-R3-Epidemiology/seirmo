@@ -20,6 +20,26 @@ class _SliderComponent(object):
 
         self._sliders = {}
         self._group_ids = {}
+    
+    def __call__(self):
+
+        slider_group_component = []
+        for group_id in list(self._group_ids.keys()):
+
+            slider_object = []
+            for slider_members in self._group_ids[group_id]:
+                slider_object += self._sliders[slider_members]
+
+            slider_group_component.append(html.Div([
+                html.Label(group_id),
+                html.Br(),
+                html.Div(
+                    children=slider_object,
+                    id=group_id,
+                    style={'marginBottom': '1em'})
+            ]))
+
+        return html.Div(slider_group_component)
 
     def add_slider(self, slider_id, min_value, max_value, initial_value=None, step_size=None, label=None, mark_num=None): # noqa
         """
@@ -81,7 +101,6 @@ class _SliderComponent(object):
     def group_sliders(self, slider_ids, group_id):
         """
         Group sliders by the slider_id input and assign a group id to the slider group # noqa
-
         Parameters
         ----------
         slider_id
@@ -96,13 +115,12 @@ class _SliderComponent(object):
                 'at least one of the slider_ids not in list of added slider ids' # noqa
             )
 
-        slider_object = []
-        for slider_members in slider_ids:
-            slider_object += self._sliders[slider_members]
+        if group_id in list(self._group_ids.keys()):
+            raise ValueError(
+                'Group id is already used.'
+            )
 
         self._group_ids[group_id] = slider_ids
-
-        return html.Div(children=slider_object, id=group_id)
 
     def get_slider_ids(self):
         """
