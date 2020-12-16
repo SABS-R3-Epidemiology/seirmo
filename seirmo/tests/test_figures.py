@@ -130,8 +130,6 @@ class TestCompartmentPlot(unittest.TestCase):
         test_plot.add_simulation(
             data, time_key=time_key, compartment_keys=compartment_keys)
 
-        print(test_plot._fig)
-
         # Test the times in the figure is the same as what we give
         np.testing.assert_array_equal(
             test_plot._fig['data'][0]['x'],
