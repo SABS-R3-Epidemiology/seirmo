@@ -25,6 +25,7 @@ class SimulationApp(object):
         super(SimulationApp, self).__init__()
 
         self._fig_plot = se.IncidenceNumberPlot()
+        self._compartment_plot = se.CompartmentPlot()
         
         self._slider_component = sapps._SliderComponent()
 
@@ -42,10 +43,14 @@ class SimulationApp(object):
         self.app.layout = dbc.Container([
             html.H1("SEIR model"),
             dbc.Row([
-                    dbc.Col([dcc.Graph(
+                    dbc.Col([dbc.Row([dcc.Graph(
                             figure=self._fig_plot._fig, id='fig')],
-                            style={"height": "80vh"}, md=8
+                            # style={"height": "80vh"}, md=8
                             ),
+                            dbc.Row([dcc.Graph(
+                            figure=self._compartment_plot._fig, id='fig2')],
+                            # style={"height": "80vh"}, md=8
+                            )]),
                     dbc.Col([
                         self._slider_component()])
                     ])
@@ -137,9 +142,16 @@ class SimulationApp(object):
         data = self.simulate.run(init_parameters[1:], return_incidence=True)
         data = pd.DataFrame({
             'Time': list(self.simulate._simulation_times),
-            'Incidence Number': data[:, -1]*total_population
+            'Incidence Number': data[:, -1]*total_population,
+            'S': data[:, 0],
+            'E': data[:, 1],
+            'I': data[:, 2],
+            'R': data[:, 3],
         })
+
         self._fig_plot.add_simulation(data)
+        self._compartment_plot.add_simulation(data)
+
 
     def slider_ids(self):
         """
@@ -158,5 +170,9 @@ class SimulationApp(object):
         """
         data = self.simulate.run(parameters[1:], return_incidence=True)
         self._fig_plot._fig['data'][1]['y'] = data[:, 1] * parameters[0]
+        self._compartment_plot._fig['data'][0]['y'] = data[:, 0]
+        self._compartment_plot._fig['data'][1]['y'] = data[:, 1]
+        self._compartment_plot._fig['data'][2]['y'] = data[:, 2]
+        self._compartment_plot._fig['data'][3]['y'] = data[:, 3]
 
-        return self._fig_plot._fig
+        return self._fig_plot._fig, self._compartment_plot._fig

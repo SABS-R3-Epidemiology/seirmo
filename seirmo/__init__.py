@@ -8,7 +8,8 @@
 from . import apps 
 
 from .figures import (
-    IncidenceNumberPlot
+    IncidenceNumberPlot,
+    CompartmentPlot
 )
 
 from .models import (

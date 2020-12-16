@@ -37,14 +37,14 @@ app._slider_component._sliders['Total Population'].children[1].marks = {
     stop=total_population,
     num=11)
 }
-print(app._slider_component._sliders['Total Population'].children[1].marks)
 
 app._set_layout()
 
 
 
 @app.app.callback(
-    Output('fig', 'figure'),
+    [Output('fig', 'figure'),
+    Output('fig2', 'figure')],
     [Input(s, 'value') for s in sliders])
 def update_simulation(*args):
     """
@@ -52,10 +52,10 @@ def update_simulation(*args):
     plot in the figure.
     """
     parameters = list(args)
-    fig = app.update_simulation(parameters)
+    fig, fig2 = app.update_simulation(parameters)
     # print(parameters)
 
-    return fig
+    return fig, fig2
 
 
 if __name__ == "__main__":
