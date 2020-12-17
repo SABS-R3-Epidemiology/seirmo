@@ -160,7 +160,7 @@ class CompartmentPlot(object):
         compartment_keys
             The list of key labels of the DataFrame
             which specify the compartments.
-            Defaults to ['S', 'E', 'I', 'R'].
+            Defaults to ['Susceptible', 'Exposed', 'Infectious', 'Recovered'].
 
         """
 

@@ -125,28 +125,40 @@ class SubplotFigure(object):
             'Susceptible', 'Exposed', 'Infectious', 'Recovered']):
         """
 
-        Add a bar plot trace for the given incidence number data
-        in the bar subplot
+        Add a bar plot trace for the simulated incidence numbers
+        in the first subplot,
+        and add line plot traces for the simulated compartment numbers
+        in the second subplot.
 
         Parameters
         ----------
         data
-            A pandas.DataFrame including two columns, one being time points,
-            the other being incidence number.
+            A pandas.DataFrame including columns
+            for time points, incidence number, compartment numbers
         time_key
             Key label of the DataFrame which specifies the time points.
             Defaults to 'Time'.
         inc_key
             Key label of the DataFrame which specifies
             the incididence number. Defaults to 'Incidence Number'.
+        compartment_keys
+            The list of key labels of the DataFrame
+            which specify the compartments.
+            Defaults to ['Susceptible', 'Exposed', 'Infectious', 'Recovered'].
 
         """
 
-        # Plot a bar chart for the incidence number data in the subplot
-        self._incidence_num_plot.add_data(
+        # Plot a bar chart for the simulated incidence number
+        # in the first subplot
+        self._incidence_num_plot.add_simulation(
             data, time_key=time_key, inc_key=inc_key)
+        
+        # Add line plot traces for the simulated compartment numbers
+        # in the second subplot
+        self._compartment_plot.add_simulation(
+            data, time_key=time_key, compartment_keys=compartment_keys)
 
-        # Get the layout and trace into the subplot
+        # Get the layout and traces into the subplots
         self._get_layout
         self._get_trace
 
