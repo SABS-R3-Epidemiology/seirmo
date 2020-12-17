@@ -189,6 +189,7 @@ class TestSubplotFigure(unittest.TestCase):
         se.SubplotFigure()
 
     def test_get_layout(self):
+        test_plot = se.SubplotFigure()
         data = pd.DataFrame({
             'Time': [0, 1, 2, 3, 4, 5, 6],
             'Incidence Number': [1, 2, 3, 4, 5, 6, 7],
@@ -196,7 +197,6 @@ class TestSubplotFigure(unittest.TestCase):
             'Exposed': [2, 3, 4, 5, 6, 7, 8],
             'Infectious': [3, 4, 5, 6, 7, 8, 9],
             'Recovered': [4, 5, 6, 7, 8, 9, 10]})
-        test_plot = se.SubplotFigure()
         test_plot._incidence_num_plot.add_simulation(data)
         test_plot._compartment_plot.add_simulation(data)
         test_plot._get_layout
@@ -224,6 +224,7 @@ class TestSubplotFigure(unittest.TestCase):
 
     def test_get_trace(self):
 
+        test_plot = se.SubplotFigure()
         data = pd.DataFrame({
             'Time': [0, 1, 2, 3, 4, 5, 6],
             'Incidence Number': [1, 2, 3, 4, 5, 6, 7],
@@ -231,7 +232,6 @@ class TestSubplotFigure(unittest.TestCase):
             'Exposed': [2, 3, 4, 5, 6, 7, 8],
             'Infectious': [3, 4, 5, 6, 7, 8, 9],
             'Recovered': [4, 5, 6, 7, 8, 9, 10]})
-        test_plot = se.SubplotFigure()
         test_plot._incidence_num_plot.add_simulation(data)
         test_plot._compartment_plot.add_simulation(data)
         test_plot._get_trace
@@ -277,7 +277,35 @@ class TestSubplotFigure(unittest.TestCase):
             np.array([4, 5, 6, 7, 8, 9, 10]))
 
     def test_add_data(self):
-        
+        test_plot = se.SubplotFigure()
+        data = pd.DataFrame({
+            'Time': [0, 1, 2, 3, 4, 5, 6],
+            'Incidence Number': [1, 2, 3, 4, 5, 6, 7]})
+        test_plot.add_data(data)
+
+        # Test the layout of the subplot (IncidenceNumberPlot)
+        # for the added data is as expected
+        np.testing.assertEqual(
+            test_plot._fig[0]['layout']['xaxis']['title']['text'],
+            'Time'
+        )
+        np.testing.assertEqual(
+            test_plot._fig[0]['layout']['yaxis']['title']['text'],
+            'Incidence Number'
+        )
+
+        # Test the added data in the subplot (IncidenceNumberPlot)
+        # is as expected
+        np.testing.assertEqual(
+            test_plot._fig[0]['layout']['xaxis']['title']['text'],
+            'Time'
+        )
+        np.testing.assertEqual(
+            test_plot._fig[0]['layout']['yaxis']['title']['text'],
+            'Incidence Number'
+        )
+
+
 
     def test_show(self):
         test_plot = se.IncidenceNumberPlot()
