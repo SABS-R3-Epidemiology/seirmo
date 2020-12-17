@@ -6,8 +6,8 @@
 
 import unittest
 
-import seirmo as se
 from seirmo import apps
+
 
 class TestSliderComponent(unittest.TestCase):
     """
@@ -72,8 +72,6 @@ class TestSliderComponent(unittest.TestCase):
         # Check slider group dictionary
         self.assertEqual(slider.sliders_in_group('group1'), ['slider1', 'slider2']) # noqa
         self.assertEqual(slider.sliders_in_group('group2'), ['slider3'])
-
-        
 
     def test_get_slider_ids(self):
 

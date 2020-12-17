@@ -126,7 +126,7 @@ class _SliderComponent(object):
             raise ValueError(
                 'Group id is already used.'
             )
-        
+
         for slider_id in slider_ids:
             for group in self._slider_groups.values():
                 if slider_id in group:
