@@ -41,6 +41,8 @@ app._slider_component._sliders['Total Population'].children[1].marks = {
 
 app._set_layout()
 
+# get server for deployment
+server = app.app.server
 
 @app.app.callback(
     Output('fig', 'figure'),
