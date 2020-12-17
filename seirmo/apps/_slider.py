@@ -96,8 +96,8 @@ class _SliderComponent(object):
                 marks={i: '{:.1f}'.format(i) for i in np.linspace( # noqa
                     start=min_value,
                     stop=max_value,
-                    num=mark_num)
-                }
+                    num=mark_num)},
+                updatemode='drag'
             )
         ], style={'marginBottom': '2em'})
 
