@@ -48,34 +48,31 @@ class SubplotFigure(object):
         """
 
         # Get the traces from the IncidenceNumberPlot
-        # Get the trace of data
-        self._fig.add_trace(
-            go.Bar(
-                x=self._incidence_num_plot._fig['data'][0]['x'],
-                y=self._incidence_num_plot._fig['data'][0]['y'],
-                name=self._incidence_num_plot._fig['data'][0]['name'],
-                row=1, col=1
-            )
-        )
+        # Count the number of traces in IncidenceNumberPlot
+        num1 = len(self._incidence_num_plot._fig['data'])
 
-        # Get the trace for the simulation
+        # Get the traces
+        for i in range(num1)
         self._fig.add_trace(
             go.Bar(
-                x=self._incidence_num_plot._fig['data'][1]['x'],
-                y=self._incidence_num_plot._fig['data'][1]['y'],
-                name=self._incidence_num_plot._fig['data'][1]['name'],
+                x=self._incidence_num_plot._fig['data'][i]['x'],
+                y=self._incidence_num_plot._fig['data'][i]['y'],
+                name=self._incidence_num_plot._fig['data'][i]['name'],
                 row=1, col=1
             )
         )
 
         # Get the traces from the CompartmentPlot
-        for compartment_key in compartment_keys:
+        # Count the number of traces in CompartmentPlot
+        num2 = len(self._compartment_plot._fig['data'])
+        for i in range(num2):
             self._fig.add_trace(
                 go.Scatter(
-                    x=data[time_key],
-                    y=data[compartment_key],
+                    x=self._compartment_plot._fig['data'][i]['x'],
+                    y=self._compartment_plot._fig['data'][i]['y'],
                     mode='lines',
-                    name=compartment_key
+                    name=self._compartment_plot._fig['data'][i]['name']
+                    row=2, col=1
                 )
             )
 
