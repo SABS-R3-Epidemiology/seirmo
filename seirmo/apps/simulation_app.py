@@ -118,16 +118,6 @@ class SimulationApp(object):
             init_parameters.append(
                 self._slider_component._sliders[model_parameter].children[1].value) # noqa
 
-        # for model_parameter in parameters_name[4:]:
-        #     model_parameter = str(model_parameter)
-        #     self._slider_component.add_slider(
-        #         slider_id=model_parameter,
-        #         min_value=0,
-        #         max_value=1,
-        #         initial_value=0.5)
-        #     init_parameters.append(
-        #         self._slider_component._sliders[model_parameter].children[1].value) # noqa
-
         self._slider_component.group_sliders(
             parameters_name, 'Sliders of parameters')
 

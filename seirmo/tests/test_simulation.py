@@ -42,7 +42,7 @@ class TestSimulationController(unittest.TestCase):
         # Check that sum of states is one at all times
         output = simulation.run(test_parameters)
         total = np.sum(output, axis=1)
-        expected = np.ones(shape=50)
+        expected = np.ones(shape=10)
         np.testing.assert_almost_equal(total, expected)
 
 

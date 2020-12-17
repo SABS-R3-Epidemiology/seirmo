@@ -37,7 +37,6 @@ app._slider_component._sliders['Total Population'].children[1].marks = {
     stop=total_population,
     num=11)
 }
-print(app._slider_component._sliders['Total Population'].children[1].marks)
 
 app._set_layout()
 
