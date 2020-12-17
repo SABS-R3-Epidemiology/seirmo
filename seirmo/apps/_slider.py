@@ -27,10 +27,10 @@ class _SliderComponent(object):
         """
 
         slider_group_component = []
-        for group_id in self._slider_groups.keys():
+        for group_id, slider_ids in self._slider_groups.items():
 
             slider_object = []
-            for slider_members in self._slider_groups[group_id]:
+            for slider_members in slider_ids:
                 slider_object += self._sliders[slider_members]
 
             slider_group_component.append(html.Div([
@@ -89,7 +89,7 @@ class _SliderComponent(object):
                 max=max_value,
                 value=initial_value,
                 step=step_size,
-                marks={str(i): str(i) for i in np.linspace(
+                marks={'{:.1f}'.format(i): '{:.1f}'.format(i) for i in np.linspace(
                     start=min_value,
                     stop=max_value,
                     num=mark_num)
