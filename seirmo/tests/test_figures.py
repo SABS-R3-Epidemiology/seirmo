@@ -296,6 +296,29 @@ class TestSubplotFigure(unittest.TestCase):
 
         # Test the added data in the subplot (IncidenceNumberPlot)
         # is as expected
+        # Test the times in the IncidenceNumberPlot is the same as what we give
+        np.testing.assert_array_equal(
+            test_plot._fig[0]['data'][0]['x'],
+            np.array([0, 1, 2, 3, 4, 5, 6]))
+
+        # Test the incidences in the IncidenceNumberPlot is the same as what we give
+        np.testing.assert_array_equal(
+            test_plot._fig[0]['data'][0]['y'],
+            np.array([1, 2, 3, 4, 5, 6, 7]))
+        
+    def test_add_simulation(self):
+        test_plot = se.SubplotFigure()
+        data = pd.DataFrame({
+            'Time': [0, 1, 2, 3, 4, 5, 6],
+            'Incidence Number': [1, 2, 3, 4, 5, 6, 7],
+            'Susceptible': [1, 2, 3, 4, 5, 6, 7],
+            'Exposed': [2, 3, 4, 5, 6, 7, 8],
+            'Infectious': [3, 4, 5, 6, 7, 8, 9],
+            'Recovered': [4, 5, 6, 7, 8, 9, 10]})
+        test_plot.add_simulation(data)
+
+        # Test the layout of the subplot (IncidenceNumberPlot)
+        # for the added simulation data is as expected
         np.testing.assertEqual(
             test_plot._fig[0]['layout']['xaxis']['title']['text'],
             'Time'
@@ -305,7 +328,58 @@ class TestSubplotFigure(unittest.TestCase):
             'Incidence Number'
         )
 
+        # Test the added simulation data in the subplot (IncidenceNumberPlot)
+        # is as expected
+        # Test the times in the IncidenceNumberPlot is the same as what we give
+        np.testing.assert_array_equal(
+            test_plot._fig[0]['data'][0]['x'],
+            np.array([0, 1, 2, 3, 4, 5, 6]))
 
+        # Test the incidences in the IncidenceNumberPlot is the same as what we give
+        np.testing.assert_array_equal(
+            test_plot._fig[0]['data'][0]['y'],
+            np.array([1, 2, 3, 4, 5, 6, 7]))
+        
+        # Test the layout of the subplot (CompartmentPlot)
+        # for the added simulation data is as expected
+        np.testing.assertEqual(
+            test_plot._fig[1]['layout']['xaxis']['title']['text'],
+            'Time'
+        )
+        np.testing.assertEqual(
+            test_plot._fig[1]['layout']['yaxis']['title']['text'],
+            'Percentage in population'
+        )
+
+        # Test the added simulation data in the subplot (CompartmentPlot)
+        # is as expected
+        # Test the times in the CompartmentPlot is the same as what we give
+        np.testing.assert_array_equal(
+            test_plot._fig[1]['data'][0]['x'],
+            np.array([0, 1, 2, 3, 4, 5, 6]))
+        np.testing.assert_array_equal(
+            test_plot._fig[1]['data'][1]['x'],
+            np.array([0, 1, 2, 3, 4, 5, 6]))
+        np.testing.assert_array_equal(
+            test_plot._fig[1]['data'][2]['x'],
+            np.array([0, 1, 2, 3, 4, 5, 6]))
+        np.testing.assert_array_equal(
+            test_plot._fig[1]['data'][3]['x'],
+            np.array([0, 1, 2, 3, 4, 5, 6]))
+
+        # Test the S, E, I, R in the CompartmentPlot is the same as what we give
+        np.testing.assert_array_equal(
+            test_plot._fig[1]['data'][0]['y'],
+            np.array([1, 2, 3, 4, 5, 6, 7]))
+        np.testing.assert_array_equal(
+            test_plot._fig[1]['data'][1]['y'],
+            np.array([2, 3, 4, 5, 6, 7, 8]))
+        np.testing.assert_array_equal(
+            test_plot._fig[1]['data'][2]['y'],
+            np.array([3, 4, 5, 6, 7, 8, 9]))
+        np.testing.assert_array_equal(
+            test_plot._fig[1]['data'][3]['y'],
+            np.array([4, 5, 6, 7, 8, 9, 10]))
 
     def test_show(self):
         test_plot = se.IncidenceNumberPlot()
