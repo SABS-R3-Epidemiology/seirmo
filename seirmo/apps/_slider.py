@@ -19,16 +19,20 @@ class _SliderComponent(object):
         super(_SliderComponent, self).__init__()
 
         self._sliders = {}
-        self._group_ids = {}
+        self._slider_groups = {}
 
     def __call__(self):
+        """
+        Return a html Div for grouped sliders
+        """
 
         slider_group_component = []
-        for group_id in list(self._group_ids.keys()):
+
+        for group_id, slider_ids in self._slider_groups.items():
 
             slider_object = []
-            for slider_members in self._group_ids[group_id]:
-                slider_object += [self._sliders[slider_members]]
+            for slider_member in slider_ids:
+                slider_object += [self._sliders[slider_member]]
 
             slider_group_component.append(html.Div([
                 html.Label(group_id),
@@ -104,7 +108,6 @@ class _SliderComponent(object):
     def group_sliders(self, slider_ids, group_id):
         """
         Group sliders by the slider_id input and assign a group id to the slider group # noqa
-
         Parameters
         ----------
         slider_id
@@ -114,17 +117,23 @@ class _SliderComponent(object):
         """
 
         slider_ids = list(slider_ids)
-        if not any(item in slider_ids for item in list(self._sliders.keys())):
+        if not any(item in slider_ids for item in self._sliders.keys()):
             raise AssertionError(
                 'at least one of the slider_ids not in list of added slider ids' # noqa
             )
 
-        if group_id in list(self._group_ids.keys()):
+        if group_id in self._slider_groups.keys():
             raise ValueError(
                 'Group id is already used.'
             )
 
-        self._group_ids[group_id] = slider_ids
+        for slider_id in slider_ids:
+            for group in self._slider_groups.values():
+                if slider_id in group:
+                    raise ValueError(
+                        'At least one of the provided slider IDs belongs to a slider group already.') # noqa
+
+        self._slider_groups[group_id] = slider_ids
 
     def get_slider_ids(self):
         """
@@ -138,11 +147,11 @@ class _SliderComponent(object):
         Return list of all group ids
         """
 
-        return list(self._group_ids.keys())
+        return list(self._slider_groups.keys())
 
     def sliders_in_group(self, group_id):
         """
         Return slider ids in the group
         """
 
-        return self._group_ids[group_id]
+        return self._slider_groups[group_id]

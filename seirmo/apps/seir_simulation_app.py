@@ -15,9 +15,9 @@ import random
 from dash.dependencies import Input, Output
 
 import seirmo as se
-import seirmo.apps as sapps
+from seirmo import apps
 
-app = sapps.SimulationApp()
+app = apps._SimulationApp()
 data = pd.DataFrame({
     'Time': range(50),
     'Incidence Number': [random.randint(0, 3000) for i in range(50)]})
@@ -34,9 +34,9 @@ sliders = app.slider_ids()
 
 app._slider_component._sliders['Total Population'].children[1].marks = {
     int(i): (str(int(i/1000)) + 'k') for i in np.linspace( # noqa
-    start=0,
-    stop=total_population,
-    num=11)
+        start=0,
+        stop=total_population,
+        num=11)
 }
 
 app._set_layout()
@@ -53,9 +53,6 @@ def update_simulation(*args):
     """
     parameters = list(args)
     fig, fig2 = app.update_simulation(parameters)
-    # print(parameters)
-
-    print(fig2)
 
     return fig, fig2
 

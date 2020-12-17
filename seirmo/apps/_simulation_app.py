@@ -11,10 +11,10 @@ import dash_html_components as html
 import pandas as pd
 
 import seirmo as se
-import seirmo.apps as sapps
+from seirmo import apps
 
 
-class SimulationApp(object):
+class _SimulationApp(object):
     """SimulationApp Class:
 
     Creates the SEIR model simulation app.
@@ -22,12 +22,12 @@ class SimulationApp(object):
     """
 
     def __init__(self):
-        super(SimulationApp, self).__init__()
+        super(_SimulationApp, self).__init__()
 
         self._fig_plot = se.IncidenceNumberPlot()
         self._compartment_plot = se.CompartmentPlot()
 
-        self._slider_component = sapps._SliderComponent()
+        self._slider_component = apps._SliderComponent()
 
         self.simulation_start = 0
         self.simulation_end = 50
@@ -122,16 +122,6 @@ class SimulationApp(object):
                 initial_value=0.5)
             init_parameters.append(
                 self._slider_component._sliders[model_parameter].children[1].value) # noqa
-
-        # for model_parameter in parameters_name[4:]:
-        #     model_parameter = str(model_parameter)
-        #     self._slider_component.add_slider(
-        #         slider_id=model_parameter,
-        #         min_value=0,
-        #         max_value=1,
-        #         initial_value=0.5)
-        #     init_parameters.append(
-        #         self._slider_component._sliders[model_parameter].children[1].value) # noqa
 
         self._slider_component.group_sliders(
             parameters_name, 'Sliders of parameters')
