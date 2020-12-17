@@ -22,9 +22,12 @@ class _SliderComponent(object):
         self._slider_groups = {}
 
     def __call__(self):
+        """
+        Return a html Div for grouped sliders
+        """
 
         slider_group_component = []
-        for group_id in list(self._slider_groups.keys()):
+        for group_id in self._slider_groups.keys():
 
             slider_object = []
             for slider_members in self._slider_groups[group_id]:
@@ -123,8 +126,8 @@ class _SliderComponent(object):
         for slider_id in slider_ids:
             for group in self._slider_groups.values():
                 if slider_id in group:
-                raiser ValueErrror(
-                        'At least one of the provided slider IDs belongs to a slider group already.')
+                    raise ValueError(
+                        'At least one of the provided slider IDs belongs to a slider group already.') # noqa
 
         self._slider_groups[group_id] = slider_ids
 
