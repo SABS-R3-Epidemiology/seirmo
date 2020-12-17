@@ -90,12 +90,12 @@ class SubplotFigure(object):
                 )
             )
 
-    def add_simulation(self, data, time_key='Time',
+    def add_data(self, data, time_key='Time',
                        inc_key='Incidence Number'):
         """
 
-        Add a bar plot trace for the simulated incidence numbers
-        in the figure
+        Add a bar plot trace for the given incidence number data
+        in the bar subplot
 
         Parameters
         ----------
@@ -111,25 +111,44 @@ class SubplotFigure(object):
 
         """
 
-        # Plot a bar chart for the simulation
-        self._fig.add_trace(
-            go.Bar(
-                x=data[time_key],
-                y=data[inc_key],
-                name='simulation'
-            )
-        )
+        # Plot a bar chart for the incidence number data in the subplot
+        self._incidence_num_plot.add_data(
+            data, time_key=time_key, inc_key=inc_key)
 
-        # Update axis labels
-        x_label = time_key
-        y_label = inc_key
-        self._update_axis_labels(x_label, y_label)
+        # Get the layout and trace into the subplot
+        self._get_layout
+        self._get_trace
 
-        # Update axes
-        self._fig.update_layout(
-            xaxis_title=x_label,
-            yaxis_title=y_label
-        )
+    def add_simulation(
+        self, data, time_key='Time', inc_key='Incidence Number',
+        compartment_keys=[
+            'Susceptible', 'Exposed', 'Infectious', 'Recovered']):
+        """
+
+        Add a bar plot trace for the given incidence number data
+        in the bar subplot
+
+        Parameters
+        ----------
+        data
+            A pandas.DataFrame including two columns, one being time points,
+            the other being incidence number.
+        time_key
+            Key label of the DataFrame which specifies the time points.
+            Defaults to 'Time'.
+        inc_key
+            Key label of the DataFrame which specifies
+            the incididence number. Defaults to 'Incidence Number'.
+
+        """
+
+        # Plot a bar chart for the incidence number data in the subplot
+        self._incidence_num_plot.add_data(
+            data, time_key=time_key, inc_key=inc_key)
+
+        # Get the layout and trace into the subplot
+        self._get_layout
+        self._get_trace
 
     def show(self):
 
