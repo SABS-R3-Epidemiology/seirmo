@@ -20,3 +20,7 @@ from .models import (
 from .simulation import (
     SimulationController
 )
+
+from .subplot import (
+    SubplotFigure
+)
