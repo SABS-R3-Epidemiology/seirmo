@@ -8,29 +8,38 @@
 with fixed example data. To run the app, use ``python dash_app.py``.
 """
 
+import numpy as np
 import os
 import pandas as pd
 import random
 from dash.dependencies import Input, Output
 
 import seirmo as se
-import seirmo.apps as sapps
+from seirmo import apps
 
-app = sapps.SimulationApp()
+app = apps._SimulationApp()
 data = pd.DataFrame({
-    'Time': range(10),
-    'Incidence Number': [random.randint(0, 5) for i in range(10)]})
+    'Time': range(50),
+    'Incidence Number': [random.randint(0, 3000) for i in range(50)]})
 app.add_data(data)
 
 model = se.SEIRModel
-parameter_name = ['Initial S', 'Initial E', 'Initial I', 'Initial R',
-                  'Infection Rate', 'Incubation Rate', 'Recovery Rate']
-app.add_model(model, parameter_name)
+parameter_name = ['Total Population', 'Initial S', 'Initial E',
+                  'Initial I', 'Initial R', 'Infection Rate',
+                  'Incubation Rate', 'Recovery Rate']
+total_population = 10000
+app.add_model(model, parameter_name, total_population)
 
 sliders = app.slider_ids()
-app._set_layout()
 
-print(sliders)
+app._slider_component._sliders['Total Population'].children[1].marks = {
+    int(i): (str(int(i/1000)) + 'k') for i in np.linspace( # noqa
+        start=0,
+        stop=total_population,
+        num=11)
+}
+
+app._set_layout()
 
 
 @app.app.callback(
@@ -43,6 +52,7 @@ def update_simulation(*args):
     """
     parameters = list(args)
     fig = app.update_simulation(parameters)
+    # print(parameters)
 
     return fig
 

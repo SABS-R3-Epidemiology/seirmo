@@ -5,7 +5,7 @@
 #
 
 
-from . import apps 
+from . import apps
 
 from .figures import (
     IncidenceNumberPlot
