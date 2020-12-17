@@ -43,10 +43,14 @@ class TestSliderComponent(unittest.TestCase):
         with self.assertRaises(AssertionError):
             slider.group_sliders('1', 'group1')
 
-        # Check slider group dictionary
         slider.group_sliders(['slider1', 'slider2'], 'group1')
         slider.group_sliders(['slider3'], 'group2')
 
+        # Check if group slider is used previously
+        with self.assertRaises(ValueError):
+            slider.group_sliders(['slider1', 'slider3'], 'group1')
+
+        # Check slider group dictionary
         self.assertEqual(slider.sliders_in_group('group1'), ['slider1', 'slider2']) # noqa
         self.assertEqual(slider.sliders_in_group('group2'), ['slider3'])
 
