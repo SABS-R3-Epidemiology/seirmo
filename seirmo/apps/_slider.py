@@ -19,15 +19,15 @@ class _SliderComponent(object):
         super(_SliderComponent, self).__init__()
 
         self._sliders = {}
-        self._group_ids = {}
+        self._slider_groups = {}
 
     def __call__(self):
 
         slider_group_component = []
-        for group_id in list(self._group_ids.keys()):
+        for group_id in list(self._slider_groups.keys()):
 
             slider_object = []
-            for slider_members in self._group_ids[group_id]:
+            for slider_members in self._slider_groups[group_id]:
                 slider_object += self._sliders[slider_members]
 
             slider_group_component.append(html.Div([
@@ -110,17 +110,23 @@ class _SliderComponent(object):
         """
 
         slider_ids = list(slider_ids)
-        if not any(item in slider_ids for item in list(self._sliders.keys())):
+        if not any(item in slider_ids for item in self._sliders.keys()):
             raise AssertionError(
                 'at least one of the slider_ids not in list of added slider ids' # noqa
             )
 
-        if group_id in list(self._group_ids.keys()):
+        if group_id in self._slider_groups.keys():
             raise ValueError(
                 'Group id is already used.'
             )
+        
+        for slider_id in slider_ids:
+            for group in self._slider_groups.values():
+                if slider_id in group:
+                raiser ValueErrror(
+                        'At least one of the provided slider IDs belongs to a slider group already.')
 
-        self._group_ids[group_id] = slider_ids
+        self._slider_groups[group_id] = slider_ids
 
     def get_slider_ids(self):
         """
@@ -134,11 +140,11 @@ class _SliderComponent(object):
         Return list of all group ids
         """
 
-        return list(self._group_ids.keys())
+        return list(self._slider_groups.keys())
 
     def sliders_in_group(self, group_id):
         """
         Return slider ids in the group
         """
 
-        return self._group_ids[group_id]
+        return self._slider_groups[group_id]
