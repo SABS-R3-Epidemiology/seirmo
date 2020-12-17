@@ -24,8 +24,9 @@ data = pd.DataFrame({
 app.add_data(data)
 
 model = se.SEIRModel
-parameter_name = ['Total Population', 'Initial S', 'Initial E', 'Initial I', 'Initial R',
-                  'Infection Rate', 'Incubation Rate', 'Recovery Rate']
+parameter_name = ['Total Population', 'Initial S', 'Initial E',
+                  'Initial I', 'Initial R', 'Infection Rate',
+                  'Incubation Rate', 'Recovery Rate']
 total_population = 10000
 app.add_model(model, parameter_name, total_population)
 
@@ -33,13 +34,12 @@ sliders = app.slider_ids()
 
 app._slider_component._sliders['Total Population'].children[1].marks = {
     int(i): (str(int(i/1000)) + 'k') for i in np.linspace( # noqa
-    start=0,
-    stop=total_population,
-    num=11)
+        start=0,
+        stop=total_population,
+        num=11)
 }
 
 app._set_layout()
-
 
 
 @app.app.callback(
