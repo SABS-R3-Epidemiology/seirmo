@@ -105,7 +105,7 @@ class TestIncidenceNumberPlot(unittest.TestCase):
                 data3, time_key=time_key, inc_key=inc_key)
 
     def test_show(self):
-        test_plot = se.IncidenceNumberPlot()
+        test_plot = plots.IncidenceNumberPlot()
         with patch('plotly.graph_objects.Figure.show') as show_patch:
             test_plot.show()
             assert show_patch.called
@@ -176,7 +176,7 @@ class TestCompartmentPlot(unittest.TestCase):
                 data2, time_key=time_key, compartment_keys=compartment_keys)
 
     def test_show(self):
-        test_plot = se.CompartmentPlot()
+        test_plot = plots.CompartmentPlot()
         with patch('plotly.graph_objects.Figure.show') as show_patch:
             test_plot.show()
             assert show_patch.called
@@ -203,21 +203,21 @@ class TestSubplotFigure(unittest.TestCase):
 
         # Test the layouts of the subplots are as expected
         # Test the layout of the IncidenceNumberPlot is as expected
-        np.testing.assertEqual(
+        np.testing.assert_equal(
             test_plot._fig[0]['layout']['xaxis']['title']['text'],
             'Time'
         )
-        np.testing.assertEqual(
+        np.testing.assert_equal(
             test_plot._fig[0]['layout']['yaxis']['title']['text'],
             'Incidence Number'
         )
 
         # Test the layout of the CompartmentPlot is as expected
-        np.testing.assertEqual(
+        np.testing.assert_equal(
             test_plot._fig[1]['layout']['xaxis']['title']['text'],
             'Time'
         )
-        np.testing.assertEqual(
+        np.testing.assert_equal(
             test_plot._fig[1]['layout']['yaxis']['title']['text'],
             'Percentage in population'
         )
@@ -285,11 +285,11 @@ class TestSubplotFigure(unittest.TestCase):
 
         # Test the layout of the subplot (IncidenceNumberPlot)
         # for the added data is as expected
-        np.testing.assertEqual(
+        np.testing.assert_equal(
             test_plot._fig[0]['layout']['xaxis']['title']['text'],
             'Time'
         )
-        np.testing.assertEqual(
+        np.testing.assert_equal(
             test_plot._fig[0]['layout']['yaxis']['title']['text'],
             'Incidence Number'
         )
@@ -319,11 +319,11 @@ class TestSubplotFigure(unittest.TestCase):
 
         # Test the layout of the subplot (IncidenceNumberPlot)
         # for the added simulation data is as expected
-        np.testing.assertEqual(
+        np.testing.assert_equal(
             test_plot._fig[0]['layout']['xaxis']['title']['text'],
             'Time'
         )
-        np.testing.assertEqual(
+        np.testing.assert_equal(
             test_plot._fig[0]['layout']['yaxis']['title']['text'],
             'Incidence Number'
         )
@@ -342,11 +342,11 @@ class TestSubplotFigure(unittest.TestCase):
         
         # Test the layout of the subplot (CompartmentPlot)
         # for the added simulation data is as expected
-        np.testing.assertEqual(
+        np.testing.assert_equal(
             test_plot._fig[1]['layout']['xaxis']['title']['text'],
             'Time'
         )
-        np.testing.assertEqual(
+        np.testing.assert_equal(
             test_plot._fig[1]['layout']['yaxis']['title']['text'],
             'Percentage in population'
         )
