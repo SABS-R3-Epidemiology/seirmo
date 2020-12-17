@@ -24,8 +24,8 @@ class _SimulationApp(object):
     def __init__(self):
         super(_SimulationApp, self).__init__()
 
-        self._fig_plot = se.IncidenceNumberPlot()
-        self._compartment_plot = se.CompartmentPlot()
+        self._incidence_fig = se.IncidenceNumberPlot()
+        self._compartment_fig = se.CompartmentPlot()
 
         self._slider_component = apps._SliderComponent()
 
@@ -150,7 +150,8 @@ class _SimulationApp(object):
 
     def update_simulation(self, parameters):
         """
-        Update the figure with simulated data of new parameters.
+        Update the two figures with simulated data of new parameters.
+        Return two plotly.graph_object.Figure instances.
 
         Parameters
         ----------

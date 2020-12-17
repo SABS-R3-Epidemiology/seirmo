@@ -9,7 +9,8 @@ from . import apps
 
 from .figures import (
     IncidenceNumberPlot,
-    CompartmentPlot
+    CompartmentPlot,
+    SubplotFigure
 )
 
 from .models import (
@@ -19,8 +20,4 @@ from .models import (
 
 from .simulation import (
     SimulationController
-)
-
-from .subplot import (
-    SubplotFigure
 )
