@@ -28,11 +28,11 @@ class _SliderComponent(object):
 
         slider_group_component = []
 
-        for group_id, slider_id in self._slider_groups.items():
+        for group_id, slider_ids in self._slider_groups.items():
 
             slider_object = []
-            for slider_members in slider_id:
-                slider_object += [self._sliders[slider_members]]
+            for slider_member in slider_ids:
+                slider_object += [self._sliders[slider_member]]
 
             slider_group_component.append(html.Div([
                 html.Label(group_id),
