@@ -34,10 +34,22 @@ class SubplotFigure(object):
 
         """
 
-        # Update axis labels
-        x_label = time_key
-        y_label = inc_key
-        self._update_axis_labels(x_label, y_label)
+        # Get the layout from IncidenceNumberPlot
+        self._fig.update_xaxes(
+            title_text=self._incidence_num_plot._fig['layout']['xaxis']['title']['text'],
+            row=1, col=1)
+        self._fig.update_yaxes(
+            title_text=self._incidence_num_plot._fig['layout']['yaxis']['title']['text'],
+            row=1, col=1)
+        
+        # Get the layout from CompartmentPlot
+        self._fig.update_xaxes(
+            title_text=self._compartment_plot._fig['layout']['xaxis']['title']['text'],
+            row=2, col=1)
+        self._fig.update_yaxes(
+            title_text=self._compartment_plot._fig['layout']['yaxis']['title']['text'],
+            row=2, col=1)
+
 
     def _get_trace(self)
         """
@@ -65,6 +77,8 @@ class SubplotFigure(object):
         # Get the traces from the CompartmentPlot
         # Count the number of traces in CompartmentPlot
         num2 = len(self._compartment_plot._fig['data'])
+
+        # Get the traces
         for i in range(num2):
             self._fig.add_trace(
                 go.Scatter(
