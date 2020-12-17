@@ -34,11 +34,9 @@ class TestSliderComponent(unittest.TestCase):
         self.assertEqual(len(slider().children[0].children), 3)
         self.assertEqual(len(slider().children[1].children), 3)
 
-        print(slider().children[1].children[2].children)
-
         # Check that labels and slider is added for each slider group # noqa
-        self.assertEqual(len(slider().children[0].children[2].children), 4)
-        self.assertEqual(len(slider().children[1].children[2].children), 2)
+        self.assertEqual(len(slider().children[0].children[2].children), 2)
+        self.assertEqual(len(slider().children[1].children[2].children), 1)
 
     def test_add_slider(self):
 
