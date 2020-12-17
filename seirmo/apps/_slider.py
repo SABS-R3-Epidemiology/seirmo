@@ -101,7 +101,6 @@ class _SliderComponent(object):
     def group_sliders(self, slider_ids, group_id):
         """
         Group sliders by the slider_id input and assign a group id to the slider group # noqa
-
         Parameters
         ----------
         slider_id
