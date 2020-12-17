@@ -5,7 +5,10 @@
 #
 
 
-from . import apps 
+from .apps import (
+    _SliderComponent,
+    SimulationApp
+)
 
 from .figures import (
     IncidenceNumberPlot
