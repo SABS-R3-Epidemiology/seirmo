@@ -14,7 +14,7 @@ import seirmo as se
 from seirmo import apps
 
 
-class SimulationApp(object):
+class _SimulationApp(object):
     """SimulationApp Class:
 
     Creates the SEIR model simulation app.
@@ -22,7 +22,7 @@ class SimulationApp(object):
     """
 
     def __init__(self):
-        super(SimulationApp, self).__init__()
+        super(_SimulationApp, self).__init__()
 
         self._fig_plot = se.IncidenceNumberPlot()
 
