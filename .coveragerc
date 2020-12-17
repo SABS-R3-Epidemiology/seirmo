@@ -4,7 +4,7 @@ omit =
     seirmo/tests/*
     seirmo/version_info.py
     seirmo/apps/simulation_app.py
-    seirmo/apps/dash_app.py
+    seirmo/apps/seir_simulation_app.py
 
 [report]
 exclude_lines =
