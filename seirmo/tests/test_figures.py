@@ -222,47 +222,62 @@ class TestSubplotFigure(unittest.TestCase):
             'Percentage in population'
         )
 
-    def test_add_simulation(self):
+    def test_get_trace(self):
+
         data = pd.DataFrame({
             'Time': [0, 1, 2, 3, 4, 5, 6],
-            'Incidence Number': [1, 2, 3, 4, 5, 6, 7]})
-        time_key = 'Time'
-        inc_key = 'Incidence Number'
-        test_plot = se.IncidenceNumberPlot()
-        test_plot.add_simulation(
-            data, time_key=time_key, inc_key=inc_key)
+            'Incidence Number': [1, 2, 3, 4, 5, 6, 7],
+            'Susceptible': [1, 2, 3, 4, 5, 6, 7],
+            'Exposed': [2, 3, 4, 5, 6, 7, 8],
+            'Infectious': [3, 4, 5, 6, 7, 8, 9],
+            'Recovered': [4, 5, 6, 7, 8, 9, 10]})
+        test_plot = se.SubplotFigure()
+        test_plot._incidence_num_plot.add_simulation(data)
+        test_plot._compartment_plot.add_simulation(data)
+        test_plot._get_trace
 
-        # Test the times in the figure is the same as what we give
+        # Test the data in the subplots are as expected
+        # Test the data in the IncidenceNumberPlot is as expected
+        # Test the times in the IncidenceNumberPlot is the same as what we give
         np.testing.assert_array_equal(
-            test_plot._fig['data'][0]['x'],
+            test_plot._fig[0]['data'][0]['x'],
             np.array([0, 1, 2, 3, 4, 5, 6]))
 
-        # Test the incidences in the figure is the same as what we give
+        # Test the incidences in the IncidenceNumberPlot is the same as what we give
         np.testing.assert_array_equal(
-            test_plot._fig['data'][0]['y'],
+            test_plot._fig[0]['data'][0]['y'],
             np.array([1, 2, 3, 4, 5, 6, 7]))
+        
+        # Test the times in the CompartmentPlot is the same as what we give
+        np.testing.assert_array_equal(
+            test_plot._fig[1]['data'][0]['x'],
+            np.array([0, 1, 2, 3, 4, 5, 6]))
+        np.testing.assert_array_equal(
+            test_plot._fig[1]['data'][1]['x'],
+            np.array([0, 1, 2, 3, 4, 5, 6]))
+        np.testing.assert_array_equal(
+            test_plot._fig[1]['data'][2]['x'],
+            np.array([0, 1, 2, 3, 4, 5, 6]))
+        np.testing.assert_array_equal(
+            test_plot._fig[1]['data'][3]['x'],
+            np.array([0, 1, 2, 3, 4, 5, 6]))
 
-        # Test that warning will be raised when x axis labels not match
-        data2 = pd.DataFrame({
-            'times': [0, 1, 2, 3, 4, 5, 6],
-            'Incidence Number': [1, 2, 3, 4, 5, 6, 7]})
-        time_key = 'times'
-        inc_key = 'Incidence Number'
+        # Test the S, E, I, R in the CompartmentPlot is the same as what we give
+        np.testing.assert_array_equal(
+            test_plot._fig[1]['data'][0]['y'],
+            np.array([1, 2, 3, 4, 5, 6, 7]))
+        np.testing.assert_array_equal(
+            test_plot._fig[1]['data'][1]['y'],
+            np.array([2, 3, 4, 5, 6, 7, 8]))
+        np.testing.assert_array_equal(
+            test_plot._fig[1]['data'][2]['y'],
+            np.array([3, 4, 5, 6, 7, 8, 9]))
+        np.testing.assert_array_equal(
+            test_plot._fig[1]['data'][3]['y'],
+            np.array([4, 5, 6, 7, 8, 9, 10]))
 
-        with self.assertWarns(UserWarning):
-            test_plot.add_simulation(
-                data2, time_key=time_key, inc_key=inc_key)
-
-        # Test that warning will be raised when y axis labels not match
-        data3 = pd.DataFrame({
-            'times': [0, 1, 2, 3, 4, 5, 6],
-            'incidences': [1, 2, 3, 4, 5, 6, 7]})
-        time_key = 'times'
-        inc_key = 'incidences'
-
-        with self.assertWarns(UserWarning):
-            test_plot.add_simulation(
-                data3, time_key=time_key, inc_key=inc_key)
+    def test_add_data(self):
+        
 
     def test_show(self):
         test_plot = se.IncidenceNumberPlot()
