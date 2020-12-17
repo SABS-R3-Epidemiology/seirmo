@@ -15,6 +15,16 @@ class TestSliderComponent(unittest.TestCase):
     def test__init__(self):
         sapps._SliderComponent()
 
+    def test__call__(self):
+        slider = sapps._SliderComponent()
+
+        slider.add_slider('slider1', 0, 1)
+        slider.add_slider('slider2', 0, 2)
+
+        slider.group_sliders(['slider1', 'slider2'], 'group1')
+
+        self.assertEqual(len(slider().children[0].children), 3)
+
     def test_add_slider(self):
 
         slider = sapps._SliderComponent()
