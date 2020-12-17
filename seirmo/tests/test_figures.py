@@ -382,7 +382,7 @@ class TestSubplotFigure(unittest.TestCase):
             np.array([4, 5, 6, 7, 8, 9, 10]))
 
     def test_show(self):
-        test_plot = se.IncidenceNumberPlot()
+        test_plot = se.SubplotFigure()
         with patch('plotly.graph_objects.Figure.show') as show_patch:
             test_plot.show()
             assert show_patch.called
