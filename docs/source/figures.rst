@@ -10,7 +10,11 @@ classes that are popular in epidemiological modelling.
 Overview:
 
 - :class:`IncidenceNumberPlot`
+- :class:`CompartmentPlot`
 
 
 .. autoclass:: IncidenceNumberPlot
+    :members:
+
+.. autoclass:: CompartmentPlot
     :members:
