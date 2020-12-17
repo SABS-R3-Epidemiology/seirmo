@@ -4,7 +4,7 @@
 # for copyright notice and full license details.
 #
 
-import dash_core_components as dcc
+import dash_daq as daq
 import dash_html_components as html
 import numpy as np
 
@@ -81,21 +81,24 @@ class _SliderComponent(object):
 
         slider_id = str(slider_id)
 
-        new_slider = [
+        new_slider = html.Div([
             html.Label(label),
-            dcc.Slider(
+            daq.Slider(
                 id=slider_id,
                 min=min_value,
                 max=max_value,
                 value=initial_value,
                 step=step_size,
-                marks={'{:.1f}'.format(i): '{:.1f}'.format(i) for i in np.linspace(
+                handleLabel={"showCurrentValue": True,
+                             "label": slider_id,
+                             "style": {"size": 0.5}},
+                marks={i: '{:.1f}'.format(i) for i in np.linspace( # noqa
                     start=min_value,
                     stop=max_value,
                     num=mark_num)
                 }
             )
-        ]
+        ], style={'marginBottom': '2em'})
 
         self._sliders[slider_id] = new_slider
 

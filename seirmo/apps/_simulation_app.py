@@ -7,13 +7,14 @@
 import dash
 import dash_bootstrap_components as dbc
 import dash_core_components as dcc
+import dash_html_components as html
 import pandas as pd
 
 import seirmo as se
-import seirmo.apps as sapps
+from seirmo import apps
 
 
-class SimulationApp(object):
+class _SimulationApp(object):
     """SimulationApp Class:
 
     Creates the SEIR model simulation app.
@@ -21,13 +22,14 @@ class SimulationApp(object):
     """
 
     def __init__(self):
-        super(SimulationApp, self).__init__()
+        super(_SimulationApp, self).__init__()
 
         self._fig_plot = se.IncidenceNumberPlot()
-        self._slider_component = sapps._SliderComponent()
+
+        self._slider_component = apps._SliderComponent()
 
         self.simulation_start = 0
-        self.simulation_end = 10
+        self.simulation_end = 50
 
     def _set_layout(self):
         """
@@ -35,20 +37,19 @@ class SimulationApp(object):
         """
 
         self.app = dash.Dash(external_stylesheets=[dbc.themes.BOOTSTRAP])
+        self._fig_plot._fig['layout']['legend']['uirevision'] = True
 
-        self.app.layout = dbc.Container(
+        self.app.layout = dbc.Container([
+            html.H1("SEIR model"),
             dbc.Row([
                     dbc.Col([dcc.Graph(
-                            figure=self._fig_plot._fig, id='fig')]),
+                            figure=self._fig_plot._fig, id='fig')],
+                            style={"height": "80vh"}, md=8
+                            ),
                     dbc.Col([
-                        dbc.Row(
-                            self._slider_component.group_sliders(
-                                self.slider_ids()[:4], 'init_value')),
-                        dbc.Row(
-                            self._slider_component.group_sliders(
-                                self.slider_ids()[4:], 'constant'))])
+                        self._slider_component()])
                     ])
-        )
+        ], fluid=True)
 
     def add_data(self, data, time_key='Time', inc_key='Incidence Number'):
         """
@@ -83,7 +84,7 @@ class SimulationApp(object):
         self._fig_plot.add_data(
             data, time_key, inc_key)
 
-    def add_model(self, model, parameters_name):
+    def add_model(self, model, parameters_name, total_population):
         """
         Plot figure of simulation for given model.
 
@@ -99,7 +100,15 @@ class SimulationApp(object):
         parameters_name = list(parameters_name)
 
         init_parameters = []
-        for model_parameter in parameters_name:
+        self._slider_component.add_slider(
+            slider_id='Total Population',
+            min_value=0,
+            max_value=total_population,
+            initial_value=0.5 * total_population)
+        init_parameters.append(
+            self._slider_component._sliders['Total Population'].children[1].value) # noqa
+
+        for model_parameter in parameters_name[1:]:
             model_parameter = str(model_parameter)
             self._slider_component.add_slider(
                 slider_id=model_parameter,
@@ -107,17 +116,18 @@ class SimulationApp(object):
                 max_value=1,
                 initial_value=0.5)
             init_parameters.append(
-                self._slider_component._sliders[model_parameter][1].value)
+                self._slider_component._sliders[model_parameter].children[1].value) # noqa
 
-        self._slider_component.group_sliders(parameters_name, 'slider_group')
+        self._slider_component.group_sliders(
+            parameters_name, 'Sliders of parameters')
 
         self.simulate = se.SimulationController(
             model, self.simulation_start, self.simulation_end)
 
-        data = self.simulate.run(init_parameters, return_incidence=True)
+        data = self.simulate.run(init_parameters[1:], return_incidence=True)
         data = pd.DataFrame({
             'Time': list(self.simulate._simulation_times),
-            'Incidence Number': data[:, -1]
+            'Incidence Number': data[:, -1] * total_population
         })
         self._fig_plot.add_simulation(data)
 
@@ -136,7 +146,7 @@ class SimulationApp(object):
         parameters
             List of parameter values for simulation.
         """
-        data = self.simulate.run(parameters, return_incidence=True)
-        self._fig_plot._fig['data'][1]['y'] = data[:, 1]
+        data = self.simulate.run(parameters[1:], return_incidence=True)
+        self._fig_plot._fig['data'][1]['y'] = data[:, 1] * parameters[0]
 
         return self._fig_plot._fig
