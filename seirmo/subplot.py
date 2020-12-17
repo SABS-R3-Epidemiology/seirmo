@@ -50,7 +50,7 @@ class SubplotFigure(object):
             row=2, col=1)
 
 
-    def _get_trace(self)
+    def _get_trace(self):
         """
 
         Get the traces from the IncidenceNumberPlot and CompartmentPlot
@@ -63,15 +63,15 @@ class SubplotFigure(object):
         num1 = len(self._incidence_num_plot._fig['data'])
 
         # Get the traces
-        for i in range(num1)
-        self._fig.add_trace(
-            go.Bar(
-                x=self._incidence_num_plot._fig['data'][i]['x'],
-                y=self._incidence_num_plot._fig['data'][i]['y'],
-                name=self._incidence_num_plot._fig['data'][i]['name'],
-                row=1, col=1
+        for i in range(num1):
+            self._fig.add_trace(
+                go.Bar(
+                    x=self._incidence_num_plot._fig['data'][i]['x'],
+                    y=self._incidence_num_plot._fig['data'][i]['y'],
+                    name=self._incidence_num_plot._fig['data'][i]['name'],
+                    row=1, col=1
+                )
             )
-        )
 
         # Get the traces from the CompartmentPlot
         # Count the number of traces in CompartmentPlot
@@ -84,7 +84,7 @@ class SubplotFigure(object):
                     x=self._compartment_plot._fig['data'][i]['x'],
                     y=self._compartment_plot._fig['data'][i]['y'],
                     mode='lines',
-                    name=self._compartment_plot._fig['data'][i]['name']
+                    name=self._compartment_plot._fig['data'][i]['name'],
                     row=2, col=1
                 )
             )
