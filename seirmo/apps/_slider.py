@@ -4,7 +4,7 @@
 # for copyright notice and full license details.
 #
 
-import dash_core_components as dcc
+import dash_daq as daq
 import dash_html_components as html
 import numpy as np
 
@@ -20,6 +20,26 @@ class _SliderComponent(object):
 
         self._sliders = {}
         self._group_ids = {}
+
+    def __call__(self):
+
+        slider_group_component = []
+        for group_id in list(self._group_ids.keys()):
+
+            slider_object = []
+            for slider_members in self._group_ids[group_id]:
+                slider_object += [self._sliders[slider_members]]
+
+            slider_group_component.append(html.Div([
+                html.Label(group_id),
+                html.Br(),
+                html.Div(
+                    children=slider_object,
+                    id=group_id,
+                    style={'marginBottom': '1em'})
+            ]))
+
+        return html.Div(slider_group_component)
 
     def add_slider(self, slider_id, min_value, max_value, initial_value=None, step_size=None, label=None, mark_num=None): # noqa
         """
@@ -54,25 +74,28 @@ class _SliderComponent(object):
         if label is None:
             label = slider_id
         if mark_num is None:
-            mark_num = 10
+            mark_num = 11
 
         slider_id = str(slider_id)
 
-        new_slider = [
+        new_slider = html.Div([
             html.Label(label),
-            dcc.Slider(
+            daq.Slider(
                 id=slider_id,
                 min=min_value,
                 max=max_value,
                 value=initial_value,
                 step=step_size,
-                marks={str(i): str(i) for i in np.arange(
+                handleLabel={"showCurrentValue": True,
+                             "label": slider_id,
+                             "style": {"size": 0.5}},
+                marks={i: '{:.1f}'.format(i) for i in np.linspace( # noqa
                     start=min_value,
                     stop=max_value,
-                    step=mark_num)
+                    num=mark_num)
                 }
             )
-        ]
+        ], style={'marginBottom': '2em'})
 
         self._sliders[slider_id] = new_slider
 
@@ -96,13 +119,12 @@ class _SliderComponent(object):
                 'at least one of the slider_ids not in list of added slider ids' # noqa
             )
 
-        slider_object = []
-        for slider_members in slider_ids:
-            slider_object += self._sliders[slider_members]
+        if group_id in list(self._group_ids.keys()):
+            raise ValueError(
+                'Group id is already used.'
+            )
 
         self._group_ids[group_id] = slider_ids
-
-        return html.Div(children=slider_object, id=group_id)
 
     def get_slider_ids(self):
         """

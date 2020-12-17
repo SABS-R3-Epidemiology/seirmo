@@ -5,3 +5,4 @@
 #
 
 from ._slider import _SliderComponent # noqa
+from ._simulation_app import _SimulationApp # noqa

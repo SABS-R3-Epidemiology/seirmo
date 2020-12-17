@@ -82,7 +82,6 @@ class IncidenceNumberPlot(object):
             go.Bar(
                 x=data[time_key],
                 y=data[inc_key],
-                width=1,
                 name='simulation'
             )
         )
