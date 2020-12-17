@@ -11,7 +11,7 @@ import dash_html_components as html
 import pandas as pd
 
 import seirmo as se
-import seirmo.apps as sapps
+from seirmo import apps
 
 
 class SimulationApp(object):
@@ -26,7 +26,7 @@ class SimulationApp(object):
 
         self._fig_plot = se.IncidenceNumberPlot()
 
-        self._slider_component = sapps._SliderComponent()
+        self._slider_component = apps._SliderComponent()
 
         self.simulation_start = 0
         self.simulation_end = 50

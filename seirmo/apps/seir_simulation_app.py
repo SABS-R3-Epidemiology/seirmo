@@ -15,9 +15,9 @@ import random
 from dash.dependencies import Input, Output
 
 import seirmo as se
-import seirmo.apps as sapps
+from seirmo import apps
 
-app = sapps.SimulationApp()
+app = apps.SimulationApp()
 data = pd.DataFrame({
     'Time': range(50),
     'Incidence Number': [random.randint(0, 3000) for i in range(50)]})
