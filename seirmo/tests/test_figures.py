@@ -10,7 +10,7 @@ from unittest.mock import patch
 import numpy as np
 import pandas as pd
 
-import seirmo as se
+from seirmo import plots
 
 
 class TestIncidenceNumberPlot(unittest.TestCase):
@@ -18,7 +18,7 @@ class TestIncidenceNumberPlot(unittest.TestCase):
     Test the 'IncidenceNumberPlot' class.
     """
     def test__init__(self):
-        se.IncidenceNumberPlot()
+        plots.IncidenceNumberPlot()
 
     def test_add_data(self):
         data = pd.DataFrame({
@@ -26,7 +26,7 @@ class TestIncidenceNumberPlot(unittest.TestCase):
             'Incidence Number': [1, 2, 3, 4, 5, 6, 7]}) # noqa
         time_key = 'Time'
         inc_key = 'Incidence Number'
-        test_plot = se.IncidenceNumberPlot()
+        test_plot = plots.IncidenceNumberPlot()
         test_plot.add_data(
             data, time_key=time_key, inc_key=inc_key)
 
@@ -68,7 +68,7 @@ class TestIncidenceNumberPlot(unittest.TestCase):
             'Incidence Number': [1, 2, 3, 4, 5, 6, 7]})
         time_key = 'Time'
         inc_key = 'Incidence Number'
-        test_plot = se.IncidenceNumberPlot()
+        test_plot = plots.IncidenceNumberPlot()
         test_plot.add_simulation(
             data, time_key=time_key, inc_key=inc_key)
 
@@ -116,7 +116,7 @@ class TestCompartmentPlot(unittest.TestCase):
     Test the 'CompartmentPlot' class.
     """
     def test__init__(self):
-        se.CompartmentPlot()
+        plots.CompartmentPlot()
 
     def test_add_simulation(self):
         data = pd.DataFrame({
@@ -128,7 +128,7 @@ class TestCompartmentPlot(unittest.TestCase):
         time_key = 'Time'
         compartment_keys = [
             'Susceptible', 'Exposed', 'Infectious', 'Recovered']
-        test_plot = se.CompartmentPlot()
+        test_plot = plots.CompartmentPlot()
         test_plot.add_simulation(
             data, time_key=time_key, compartment_keys=compartment_keys)
 
@@ -186,10 +186,10 @@ class TestSubplotFigure(unittest.TestCase):
     Test the 'SubplotFigure' class.
     """
     def test__init__(self):
-        se.SubplotFigure()
+        plots.SubplotFigure()
 
     def test_get_layout(self):
-        test_plot = se.SubplotFigure()
+        test_plot = plots.SubplotFigure()
         data = pd.DataFrame({
             'Time': [0, 1, 2, 3, 4, 5, 6],
             'Incidence Number': [1, 2, 3, 4, 5, 6, 7],
@@ -224,7 +224,7 @@ class TestSubplotFigure(unittest.TestCase):
 
     def test_get_trace(self):
 
-        test_plot = se.SubplotFigure()
+        test_plot = plots.SubplotFigure()
         data = pd.DataFrame({
             'Time': [0, 1, 2, 3, 4, 5, 6],
             'Incidence Number': [1, 2, 3, 4, 5, 6, 7],
@@ -277,7 +277,7 @@ class TestSubplotFigure(unittest.TestCase):
             np.array([4, 5, 6, 7, 8, 9, 10]))
 
     def test_add_data(self):
-        test_plot = se.SubplotFigure()
+        test_plot = plots.SubplotFigure()
         data = pd.DataFrame({
             'Time': [0, 1, 2, 3, 4, 5, 6],
             'Incidence Number': [1, 2, 3, 4, 5, 6, 7]})
@@ -307,7 +307,7 @@ class TestSubplotFigure(unittest.TestCase):
             np.array([1, 2, 3, 4, 5, 6, 7]))
         
     def test_add_simulation(self):
-        test_plot = se.SubplotFigure()
+        test_plot = plots.SubplotFigure()
         data = pd.DataFrame({
             'Time': [0, 1, 2, 3, 4, 5, 6],
             'Incidence Number': [1, 2, 3, 4, 5, 6, 7],
@@ -382,7 +382,7 @@ class TestSubplotFigure(unittest.TestCase):
             np.array([4, 5, 6, 7, 8, 9, 10]))
 
     def test_show(self):
-        test_plot = se.SubplotFigure()
+        test_plot = plots.SubplotFigure()
         with patch('plotly.graph_objects.Figure.show') as show_patch:
             test_plot.show()
             assert show_patch.called

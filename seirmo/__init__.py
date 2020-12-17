@@ -7,12 +7,6 @@
 
 from . import apps
 
-from .figures import (
-    IncidenceNumberPlot,
-    CompartmentPlot,
-    SubplotFigure
-)
-
 from .models import (
     ForwardModel,
     SEIRModel

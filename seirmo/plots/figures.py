@@ -225,8 +225,8 @@ class SubplotFigure(object):
     def __init__(self):
         super(SubplotFigure, self).__init__()
 
-        self._incidence_num_plot = se.IncidenceNumberPlot()
-        self._compartment_plot = se.CompartmentPlot()
+        self._incidence_num_plot = IncidenceNumberPlot()
+        self._compartment_plot = CompartmentPlot()
 
         self._fig = make_subplots(rows=2, cols=1)
 
