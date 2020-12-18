@@ -7,7 +7,6 @@
 import dash
 import dash_bootstrap_components as dbc
 import dash_core_components as dcc
-import dash_html_components as html
 import pandas as pd
 
 import seirmo as se
@@ -41,11 +40,10 @@ class _SimulationApp(object):
         self._subplot_fig._fig['layout']['legend']['uirevision'] = True
 
         self.app.layout = dbc.Container([
-            html.H1("SEIR model"),
             dbc.Row([
-                    dbc.Col([dbc.Row([dcc.Graph(
-                            figure=self._subplot_fig._fig, id='fig', style={'height':'50vh', 'width':'75vh'})])
-                        ]),
+                    dbc.Col([dcc.Graph(
+                            figure=self._subplot_fig._fig, id='fig',
+                            style={'height':'50vh', 'width':'75vh'})]),
                     dbc.Col([
                         self._slider_component()])
                     ])

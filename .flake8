@@ -3,6 +3,7 @@ exclude=
   .git,
   setup.py,
   seirmo/__init__.py,
+  seirmo/apps/seir_simulation_app.py,
   env,
   venv,
   build
