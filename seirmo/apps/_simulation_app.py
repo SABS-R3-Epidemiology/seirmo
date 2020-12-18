@@ -12,6 +12,7 @@ import pandas as pd
 
 import seirmo as se
 from seirmo import apps
+from seirmo import plots
 
 
 class _SimulationApp(object):
@@ -24,8 +25,7 @@ class _SimulationApp(object):
     def __init__(self):
         super(_SimulationApp, self).__init__()
 
-        self._incidence_fig = se.IncidenceNumberPlot()
-        self._compartment_fig = se.CompartmentPlot()
+        self.subplot_fig = plots.SubplotFigure()
 
         self._slider_component = apps._SliderComponent()
 
@@ -38,15 +38,14 @@ class _SimulationApp(object):
         """
 
         self.app = dash.Dash(external_stylesheets=[dbc.themes.BOOTSTRAP])
-        self._fig_plot._fig['layout']['legend']['uirevision'] = True
+        self._subplot_fig._fig['layout']['legend']['uirevision'] = True
 
         self.app.layout = dbc.Container([
             html.H1("SEIR model"),
             dbc.Row([
                     dbc.Col([dbc.Row([dcc.Graph(
-                            figure=self._fig_plot._fig, id='fig')],),
-                        dbc.Row([dcc.Graph(
-                            figure=self._compartment_plot._fig, id='fig2')])]),
+                            figure=self._subplot_fig._fig, id='fig')])
+                        ]),
                     dbc.Col([
                         self._slider_component()])
                     ])
@@ -54,7 +53,7 @@ class _SimulationApp(object):
 
     def add_data(self, data, time_key='Time', inc_key='Incidence Number'):
         """
-        Plot figure for given incidence number data.
+        Plot subplot for the given incidence number data.
 
         Parameters
         ----------
@@ -82,12 +81,12 @@ class _SimulationApp(object):
             raise ValueError(
                 'The input incidence key does not match that in the data.')
 
-        self._fig_plot.add_data(
+        self._subplot_fig.add_data(
             data, time_key, inc_key)
 
     def add_model(self, model, parameters_name, total_population):
         """
-        Plot figure of simulation for given model.
+        Plot subplots of simulation for the given model.
 
         Parameters
         ----------
@@ -135,8 +134,7 @@ class _SimulationApp(object):
             'Recovered': data[:, 3],
         })
 
-        self._fig_plot.add_simulation(data)
-        self._compartment_plot.add_simulation(data)
+        self._subplot_fig.add_simulation(data)
 
     def slider_ids(self):
         """
@@ -146,8 +144,7 @@ class _SimulationApp(object):
 
     def update_simulation(self, parameters):
         """
-        Update the two figures with simulated data of new parameters.
-        Return two plotly.graph_object.Figure instances.
+        Update the subplots with simulated data of new parameters.
 
         Parameters
         ----------
@@ -155,10 +152,10 @@ class _SimulationApp(object):
             List of parameter values for simulation.
         """
         data = self.simulate.run(parameters[1:], return_incidence=True)
-        self._fig_plot._fig['data'][1]['y'] = data[:, 4] * parameters[0]
-        self._compartment_plot._fig['data'][0]['y'] = data[:, 0]
-        self._compartment_plot._fig['data'][1]['y'] = data[:, 1]
-        self._compartment_plot._fig['data'][2]['y'] = data[:, 2]
-        self._compartment_plot._fig['data'][3]['y'] = data[:, 3]
+        self._subplot_fig._fig['data'][1]['y'] = data[:, 4] * parameters[0]
+        self._subplot_fig._fig['data'][2]['y'] = data[:, 0]
+        self._subplot_fig._fig['data'][3]['y'] = data[:, 1]
+        self._subplot_fig._fig['data'][4]['y'] = data[:, 2]
+        self._subplot_fig._fig['data'][5]['y'] = data[:, 3]
 
-        return self._fig_plot._fig, self._compartment_plot._fig
+        return self._subplot_fig._fig
