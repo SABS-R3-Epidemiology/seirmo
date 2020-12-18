@@ -43,18 +43,17 @@ app._set_layout()
 
 
 @app.app.callback(
-    [Output('fig', 'figure'),
-        Output('fig2', 'figure')],
+    [Output('fig', 'figure')],
     [Input(s, 'value') for s in sliders])
 def update_simulation(*args):
     """
     Simulates the model for the current slider values and updates the
-    plot in the figure.
+    subplots in the figure.
     """
     parameters = list(args)
-    fig, fig2 = app.update_simulation(parameters)
+    fig = app.update_simulation(parameters)
 
-    return fig, fig2
+    return fig
 
 
 if __name__ == "__main__":
