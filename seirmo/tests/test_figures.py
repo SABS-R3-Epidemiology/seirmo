@@ -199,26 +199,27 @@ class TestSubplotFigure(unittest.TestCase):
             'Recovered': [4, 5, 6, 7, 8, 9, 10]})
         test_plot._incidence_num_plot.add_simulation(data)
         test_plot._compartment_plot.add_simulation(data)
-        test_plot._get_layout
+        test_plot._get_layout()
 
         # Test the layouts of the subplots are as expected
         # Test the layout of the IncidenceNumberPlot is as expected
+
         np.testing.assert_equal(
-            test_plot._fig[0]['layout']['xaxis']['title']['text'],
+            test_plot._fig['layout']['xaxis']['title']['text'],
             'Time'
         )
         np.testing.assert_equal(
-            test_plot._fig[0]['layout']['yaxis']['title']['text'],
+            test_plot._fig['layout']['yaxis']['title']['text'],
             'Incidence Number'
         )
 
         # Test the layout of the CompartmentPlot is as expected
         np.testing.assert_equal(
-            test_plot._fig[1]['layout']['xaxis']['title']['text'],
+            test_plot._fig['layout']['xaxis2']['title']['text'],
             'Time'
         )
         np.testing.assert_equal(
-            test_plot._fig[1]['layout']['yaxis']['title']['text'],
+            test_plot._fig['layout']['yaxis2']['title']['text'],
             'Percentage in population'
         )
 
@@ -234,46 +235,46 @@ class TestSubplotFigure(unittest.TestCase):
             'Recovered': [4, 5, 6, 7, 8, 9, 10]})
         test_plot._incidence_num_plot.add_simulation(data)
         test_plot._compartment_plot.add_simulation(data)
-        test_plot._get_trace
+        test_plot._get_trace()
 
         # Test the data in the subplots are as expected
         # Test the data in the IncidenceNumberPlot is as expected
         # Test the times in the IncidenceNumberPlot is the same as what we give
         np.testing.assert_array_equal(
-            test_plot._fig[0]['data'][0]['x'],
+            test_plot._fig['data'][0]['x'],
             np.array([0, 1, 2, 3, 4, 5, 6]))
 
         # Test the incidences in the IncidenceNumberPlot is the same as what we give
         np.testing.assert_array_equal(
-            test_plot._fig[0]['data'][0]['y'],
+            test_plot._fig['data'][0]['y'],
             np.array([1, 2, 3, 4, 5, 6, 7]))
         
         # Test the times in the CompartmentPlot is the same as what we give
         np.testing.assert_array_equal(
-            test_plot._fig[1]['data'][0]['x'],
+            test_plot._fig['data'][1]['x'],
             np.array([0, 1, 2, 3, 4, 5, 6]))
         np.testing.assert_array_equal(
-            test_plot._fig[1]['data'][1]['x'],
+            test_plot._fig['data'][2]['x'],
             np.array([0, 1, 2, 3, 4, 5, 6]))
         np.testing.assert_array_equal(
-            test_plot._fig[1]['data'][2]['x'],
+            test_plot._fig['data'][3]['x'],
             np.array([0, 1, 2, 3, 4, 5, 6]))
         np.testing.assert_array_equal(
-            test_plot._fig[1]['data'][3]['x'],
+            test_plot._fig['data'][4]['x'],
             np.array([0, 1, 2, 3, 4, 5, 6]))
 
         # Test the S, E, I, R in the CompartmentPlot is the same as what we give
         np.testing.assert_array_equal(
-            test_plot._fig[1]['data'][0]['y'],
+            test_plot._fig['data'][1]['y'],
             np.array([1, 2, 3, 4, 5, 6, 7]))
         np.testing.assert_array_equal(
-            test_plot._fig[1]['data'][1]['y'],
+            test_plot._fig['data'][2]['y'],
             np.array([2, 3, 4, 5, 6, 7, 8]))
         np.testing.assert_array_equal(
-            test_plot._fig[1]['data'][2]['y'],
+            test_plot._fig['data'][3]['y'],
             np.array([3, 4, 5, 6, 7, 8, 9]))
         np.testing.assert_array_equal(
-            test_plot._fig[1]['data'][3]['y'],
+            test_plot._fig['data'][4]['y'],
             np.array([4, 5, 6, 7, 8, 9, 10]))
 
     def test_add_data(self):
@@ -286,11 +287,11 @@ class TestSubplotFigure(unittest.TestCase):
         # Test the layout of the subplot (IncidenceNumberPlot)
         # for the added data is as expected
         np.testing.assert_equal(
-            test_plot._fig[0]['layout']['xaxis']['title']['text'],
+            test_plot._fig['layout']['xaxis']['title']['text'],
             'Time'
         )
         np.testing.assert_equal(
-            test_plot._fig[0]['layout']['yaxis']['title']['text'],
+            test_plot._fig['layout']['yaxis']['title']['text'],
             'Incidence Number'
         )
 
@@ -298,12 +299,12 @@ class TestSubplotFigure(unittest.TestCase):
         # is as expected
         # Test the times in the IncidenceNumberPlot is the same as what we give
         np.testing.assert_array_equal(
-            test_plot._fig[0]['data'][0]['x'],
+            test_plot._fig['data'][0]['x'],
             np.array([0, 1, 2, 3, 4, 5, 6]))
 
         # Test the incidences in the IncidenceNumberPlot is the same as what we give
         np.testing.assert_array_equal(
-            test_plot._fig[0]['data'][0]['y'],
+            test_plot._fig['data'][0]['y'],
             np.array([1, 2, 3, 4, 5, 6, 7]))
         
     def test_add_simulation(self):
@@ -320,11 +321,11 @@ class TestSubplotFigure(unittest.TestCase):
         # Test the layout of the subplot (IncidenceNumberPlot)
         # for the added simulation data is as expected
         np.testing.assert_equal(
-            test_plot._fig[0]['layout']['xaxis']['title']['text'],
+            test_plot._fig['layout']['xaxis']['title']['text'],
             'Time'
         )
         np.testing.assert_equal(
-            test_plot._fig[0]['layout']['yaxis']['title']['text'],
+            test_plot._fig['layout']['yaxis']['title']['text'],
             'Incidence Number'
         )
 
@@ -332,22 +333,22 @@ class TestSubplotFigure(unittest.TestCase):
         # is as expected
         # Test the times in the IncidenceNumberPlot is the same as what we give
         np.testing.assert_array_equal(
-            test_plot._fig[0]['data'][0]['x'],
+            test_plot._fig['data'][0]['x'],
             np.array([0, 1, 2, 3, 4, 5, 6]))
 
         # Test the incidences in the IncidenceNumberPlot is the same as what we give
         np.testing.assert_array_equal(
-            test_plot._fig[0]['data'][0]['y'],
+            test_plot._fig['data'][0]['y'],
             np.array([1, 2, 3, 4, 5, 6, 7]))
         
         # Test the layout of the subplot (CompartmentPlot)
         # for the added simulation data is as expected
         np.testing.assert_equal(
-            test_plot._fig[1]['layout']['xaxis']['title']['text'],
+            test_plot._fig['layout']['xaxis2']['title']['text'],
             'Time'
         )
         np.testing.assert_equal(
-            test_plot._fig[1]['layout']['yaxis']['title']['text'],
+            test_plot._fig['layout']['yaxis2']['title']['text'],
             'Percentage in population'
         )
 
@@ -355,30 +356,30 @@ class TestSubplotFigure(unittest.TestCase):
         # is as expected
         # Test the times in the CompartmentPlot is the same as what we give
         np.testing.assert_array_equal(
-            test_plot._fig[1]['data'][0]['x'],
+            test_plot._fig['data'][1]['x'],
             np.array([0, 1, 2, 3, 4, 5, 6]))
         np.testing.assert_array_equal(
-            test_plot._fig[1]['data'][1]['x'],
+            test_plot._fig['data'][2]['x'],
             np.array([0, 1, 2, 3, 4, 5, 6]))
         np.testing.assert_array_equal(
-            test_plot._fig[1]['data'][2]['x'],
+            test_plot._fig['data'][3]['x'],
             np.array([0, 1, 2, 3, 4, 5, 6]))
         np.testing.assert_array_equal(
-            test_plot._fig[1]['data'][3]['x'],
+            test_plot._fig['data'][4]['x'],
             np.array([0, 1, 2, 3, 4, 5, 6]))
 
         # Test the S, E, I, R in the CompartmentPlot is the same as what we give
         np.testing.assert_array_equal(
-            test_plot._fig[1]['data'][0]['y'],
+            test_plot._fig['data'][1]['y'],
             np.array([1, 2, 3, 4, 5, 6, 7]))
         np.testing.assert_array_equal(
-            test_plot._fig[1]['data'][1]['y'],
+            test_plot._fig['data'][2]['y'],
             np.array([2, 3, 4, 5, 6, 7, 8]))
         np.testing.assert_array_equal(
-            test_plot._fig[1]['data'][2]['y'],
+            test_plot._fig['data'][3]['y'],
             np.array([3, 4, 5, 6, 7, 8, 9]))
         np.testing.assert_array_equal(
-            test_plot._fig[1]['data'][3]['y'],
+            test_plot._fig['data'][4]['y'],
             np.array([4, 5, 6, 7, 8, 9, 10]))
 
     def test_show(self):

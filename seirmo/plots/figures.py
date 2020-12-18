@@ -273,9 +273,8 @@ class SubplotFigure(object):
                 go.Bar(
                     x=self._incidence_num_plot._fig['data'][i]['x'],
                     y=self._incidence_num_plot._fig['data'][i]['y'],
-                    name=self._incidence_num_plot._fig['data'][i]['name'],
+                    name=self._incidence_num_plot._fig['data'][i]['name']),
                     row=1, col=1
-                )
             )
 
         # Get the traces from the CompartmentPlot
@@ -289,9 +288,8 @@ class SubplotFigure(object):
                     x=self._compartment_plot._fig['data'][i]['x'],
                     y=self._compartment_plot._fig['data'][i]['y'],
                     mode='lines',
-                    name=self._compartment_plot._fig['data'][i]['name'],
+                    name=self._compartment_plot._fig['data'][i]['name']),
                     row=2, col=1
-                )
             )
 
     def add_data(self, data, time_key='Time',
@@ -320,8 +318,8 @@ class SubplotFigure(object):
             data, time_key=time_key, inc_key=inc_key)
 
         # Get the layout and trace into the subplot
-        self._get_layout
-        self._get_trace
+        self._get_layout()
+        self._get_trace()
 
     def add_simulation(
         self, data, time_key='Time', inc_key='Incidence Number',
@@ -363,8 +361,8 @@ class SubplotFigure(object):
             data, time_key=time_key, compartment_keys=compartment_keys)
 
         # Get the layout and traces into the subplots
-        self._get_layout
-        self._get_trace
+        self._get_layout()
+        self._get_trace()
 
     def show(self):
 
