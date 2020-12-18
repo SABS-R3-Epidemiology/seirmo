@@ -130,7 +130,7 @@ def doctest_rst_and_public_interface():
     # this list.
     seirmo_submodules = [
         'seirmo.apps',
-        'seirmo.figures',
+        'seirmo.plots',
         'seirmo.models',
         'seirmo.simulation',
         'seirmo.version_info'
