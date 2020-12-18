@@ -40,7 +40,6 @@ class _SimulationApp(object):
         self._fig_plot._fig['layout']['legend']['uirevision'] = True
 
         self.app.layout = dbc.Container([
-            html.H1("SEIR model"),
             dbc.Row([
                     dbc.Col([dcc.Graph(
                             figure=self._fig_plot._fig, id='fig')],
