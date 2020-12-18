@@ -91,13 +91,13 @@ class _SliderComponent(object):
                 value=initial_value,
                 step=step_size,
                 handleLabel={"showCurrentValue": True,
-                             "label": slider_id,
-                             "style": {"size": 0.5}},
+                             "label": ' ',
+                             "style": {"size": 0.05}},
                 marks={i: '{:.1f}'.format(i) for i in np.linspace( # noqa
                     start=min_value,
                     stop=max_value,
-                    num=mark_num)
-                }
+                    num=mark_num)},
+                updatemode='drag'
             )
         ], style={'marginBottom': '2em'})
 
