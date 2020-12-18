@@ -7,6 +7,8 @@
 
 from . import apps
 
+from . import plots
+
 from .models import (
     ForwardModel,
     SEIRModel
