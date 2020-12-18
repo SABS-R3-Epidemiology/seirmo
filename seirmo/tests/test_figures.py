@@ -104,6 +104,18 @@ class TestIncidenceNumberPlot(unittest.TestCase):
             test_plot.add_simulation(
                 data3, time_key=time_key, inc_key=inc_key)
 
+    def test_update_axis_labels(self):
+        test_plot = plots.IncidenceNumberPlot()
+        test_plot._update_axis_labels('Time', 'Incidence Number')
+
+        # Test that warning will be raised when x axis labels not match
+        with self.assertWarns(UserWarning):
+            test_plot._update_axis_labels('times', 'Incidence Number')
+        
+        # Test that warning will be raised when y axis labels not match
+        with self.assertWarns(UserWarning):
+            test_plot._update_axis_labels('times', 'incidences')
+
     def test_show(self):
         test_plot = plots.IncidenceNumberPlot()
         with patch('plotly.graph_objects.Figure.show') as show_patch:
@@ -174,6 +186,18 @@ class TestCompartmentPlot(unittest.TestCase):
         with self.assertWarns(UserWarning):
             test_plot.add_simulation(
                 data2, time_key=time_key, compartment_keys=compartment_keys)
+        
+    def test_update_axis_labels(self):
+        test_plot = plots.CompartmentPlot()
+        test_plot._update_axis_labels('Time', 'Percentage in Population')
+
+        # Test that warning will be raised when x axis labels not match
+        with self.assertWarns(UserWarning):
+            test_plot._update_axis_labels('times', 'Percentage in Population')
+        
+        # Test that warning will be raised when y axis labels not match
+        with self.assertWarns(UserWarning):
+            test_plot._update_axis_labels('times', 'Fraction in Population')    
 
     def test_show(self):
         test_plot = plots.CompartmentPlot()
