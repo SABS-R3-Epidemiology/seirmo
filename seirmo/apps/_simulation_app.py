@@ -25,7 +25,7 @@ class _SimulationApp(object):
     def __init__(self):
         super(_SimulationApp, self).__init__()
 
-        self.subplot_fig = plots.SubplotFigure()
+        self._subplot_fig = plots.SubplotFigure()
 
         self._slider_component = apps._SliderComponent()
 
@@ -44,7 +44,7 @@ class _SimulationApp(object):
             html.H1("SEIR model"),
             dbc.Row([
                     dbc.Col([dbc.Row([dcc.Graph(
-                            figure=self._subplot_fig._fig, id='fig')])
+                            figure=self._subplot_fig._fig, id='fig', style={'height':'50vh', 'width':'75vh'})])
                         ]),
                     dbc.Col([
                         self._slider_component()])

@@ -318,8 +318,8 @@ class SubplotFigure(object):
             data, time_key=time_key, inc_key=inc_key)
 
         # Get the layout and trace into the subplot
-        self._get_layout()
-        self._get_trace()
+        # self._get_layout()
+        # self._get_trace()
 
     def add_simulation(
         self, data, time_key='Time', inc_key='Incidence Number',

@@ -20,7 +20,7 @@ from seirmo import apps
 app = apps._SimulationApp()
 data = pd.DataFrame({
     'Time': range(50),
-    'Incidence Number': [random.randint(0, 3000) for i in range(50)]})
+    'Incidence Number': [random.randint(0, 1000) for i in range(50)]})
 app.add_data(data)
 
 model = se.SEIRModel
@@ -43,7 +43,7 @@ app._set_layout()
 
 
 @app.app.callback(
-    [Output('fig', 'figure')],
+    Output('fig', 'figure'),
     [Input(s, 'value') for s in sliders])
 def update_simulation(*args):
     """
