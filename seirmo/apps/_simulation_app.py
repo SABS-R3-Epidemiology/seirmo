@@ -44,13 +44,9 @@ class _SimulationApp(object):
             html.H1("SEIR model"),
             dbc.Row([
                     dbc.Col([dbc.Row([dcc.Graph(
-                            figure=self._fig_plot._fig, id='fig')],
-                            # style={"height": "80vh"}, md=8
-                            ),
-                            dbc.Row([dcc.Graph(
-                            figure=self._compartment_plot._fig, id='fig2')],
-                            # style={"height": "80vh"}, md=8
-                                    )]),
+                            figure=self._fig_plot._fig, id='fig')],),
+                        dbc.Row([dcc.Graph(
+                            figure=self._compartment_plot._fig, id='fig2')])]),
                     dbc.Col([
                         self._slider_component()])
                     ])

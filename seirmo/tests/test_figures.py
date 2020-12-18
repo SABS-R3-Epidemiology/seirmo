@@ -181,6 +181,7 @@ class TestCompartmentPlot(unittest.TestCase):
             test_plot.show()
             assert show_patch.called
 
+
 class TestSubplotFigure(unittest.TestCase):
     """
     Test the 'SubplotFigure' class.
@@ -244,11 +245,12 @@ class TestSubplotFigure(unittest.TestCase):
             test_plot._fig['data'][0]['x'],
             np.array([0, 1, 2, 3, 4, 5, 6]))
 
-        # Test the incidences in the IncidenceNumberPlot is the same as what we give
+        # Test the incidences in the IncidenceNumberPlot
+        # is the same as what we give
         np.testing.assert_array_equal(
             test_plot._fig['data'][0]['y'],
             np.array([1, 2, 3, 4, 5, 6, 7]))
-        
+
         # Test the times in the CompartmentPlot is the same as what we give
         np.testing.assert_array_equal(
             test_plot._fig['data'][1]['x'],
@@ -263,7 +265,8 @@ class TestSubplotFigure(unittest.TestCase):
             test_plot._fig['data'][4]['x'],
             np.array([0, 1, 2, 3, 4, 5, 6]))
 
-        # Test the S, E, I, R in the CompartmentPlot is the same as what we give
+        # Test the S, E, I, R in the CompartmentPlot
+        # is the same as what we give
         np.testing.assert_array_equal(
             test_plot._fig['data'][1]['y'],
             np.array([1, 2, 3, 4, 5, 6, 7]))
@@ -297,16 +300,18 @@ class TestSubplotFigure(unittest.TestCase):
 
         # Test the added data in the subplot (IncidenceNumberPlot)
         # is as expected
-        # Test the times in the IncidenceNumberPlot is the same as what we give
+        # Test the times in the IncidenceNumberPlot
+        # is the same as what we give
         np.testing.assert_array_equal(
             test_plot._fig['data'][0]['x'],
             np.array([0, 1, 2, 3, 4, 5, 6]))
 
-        # Test the incidences in the IncidenceNumberPlot is the same as what we give
+        # Test the incidences in the IncidenceNumberPlot
+        # is the same as what we give
         np.testing.assert_array_equal(
             test_plot._fig['data'][0]['y'],
             np.array([1, 2, 3, 4, 5, 6, 7]))
-        
+
     def test_add_simulation(self):
         test_plot = plots.SubplotFigure()
         data = pd.DataFrame({
@@ -331,16 +336,18 @@ class TestSubplotFigure(unittest.TestCase):
 
         # Test the added simulation data in the subplot (IncidenceNumberPlot)
         # is as expected
-        # Test the times in the IncidenceNumberPlot is the same as what we give
+        # Test the times in the IncidenceNumberPlot
+        # is the same as what we give
         np.testing.assert_array_equal(
             test_plot._fig['data'][0]['x'],
             np.array([0, 1, 2, 3, 4, 5, 6]))
 
-        # Test the incidences in the IncidenceNumberPlot is the same as what we give
+        # Test the incidences in the IncidenceNumberPlot
+        # is the same as what we give
         np.testing.assert_array_equal(
             test_plot._fig['data'][0]['y'],
             np.array([1, 2, 3, 4, 5, 6, 7]))
-        
+
         # Test the layout of the subplot (CompartmentPlot)
         # for the added simulation data is as expected
         np.testing.assert_equal(
@@ -368,7 +375,8 @@ class TestSubplotFigure(unittest.TestCase):
             test_plot._fig['data'][4]['x'],
             np.array([0, 1, 2, 3, 4, 5, 6]))
 
-        # Test the S, E, I, R in the CompartmentPlot is the same as what we give
+        # Test the S, E, I, R in the CompartmentPlot
+        # is the same as what we give
         np.testing.assert_array_equal(
             test_plot._fig['data'][1]['y'],
             np.array([1, 2, 3, 4, 5, 6, 7]))

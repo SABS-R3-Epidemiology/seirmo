@@ -215,6 +215,7 @@ class CompartmentPlot(object):
         # Display the figure
         self._fig.show()
 
+
 class SubplotFigure(object):
     """
 
@@ -240,20 +241,19 @@ class SubplotFigure(object):
 
         # Get the layout from IncidenceNumberPlot
         self._fig.update_xaxes(
-            title_text=self._incidence_num_plot._fig['layout']['xaxis']['title']['text'],
+            title_text=self._incidence_num_plot._fig['layout']['xaxis']['title']['text'], # noqa
             row=1, col=1)
         self._fig.update_yaxes(
-            title_text=self._incidence_num_plot._fig['layout']['yaxis']['title']['text'],
+            title_text=self._incidence_num_plot._fig['layout']['yaxis']['title']['text'], # noqa
             row=1, col=1)
-        
+
         # Get the layout from CompartmentPlot
         self._fig.update_xaxes(
-            title_text=self._compartment_plot._fig['layout']['xaxis']['title']['text'],
+            title_text=self._compartment_plot._fig['layout']['xaxis']['title']['text'], # noqa
             row=2, col=1)
         self._fig.update_yaxes(
-            title_text=self._compartment_plot._fig['layout']['yaxis']['title']['text'],
+            title_text=self._compartment_plot._fig['layout']['yaxis']['title']['text'], # noqa
             row=2, col=1)
-
 
     def _get_trace(self):
         """
@@ -274,7 +274,7 @@ class SubplotFigure(object):
                     x=self._incidence_num_plot._fig['data'][i]['x'],
                     y=self._incidence_num_plot._fig['data'][i]['y'],
                     name=self._incidence_num_plot._fig['data'][i]['name']),
-                    row=1, col=1
+                row=1, col=1
             )
 
         # Get the traces from the CompartmentPlot
@@ -289,11 +289,11 @@ class SubplotFigure(object):
                     y=self._compartment_plot._fig['data'][i]['y'],
                     mode='lines',
                     name=self._compartment_plot._fig['data'][i]['name']),
-                    row=2, col=1
+                row=2, col=1
             )
 
     def add_data(self, data, time_key='Time',
-                       inc_key='Incidence Number'):
+                 inc_key='Incidence Number'):
         """
 
         Add a bar plot trace for the given incidence number data
@@ -354,7 +354,7 @@ class SubplotFigure(object):
         # in the first subplot
         self._incidence_num_plot.add_simulation(
             data, time_key=time_key, inc_key=inc_key)
-        
+
         # Add line plot traces for the simulated compartment numbers
         # in the second subplot
         self._compartment_plot.add_simulation(
@@ -368,4 +368,3 @@ class SubplotFigure(object):
 
         # Display the figure
         self._fig.show()
-
