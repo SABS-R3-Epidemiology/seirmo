@@ -12,7 +12,6 @@ import dash_bootstrap_components as dbc
 import dash_core_components as dcc
 import dash_html_components as html
 from dash.dependencies import Input, Output
-import numpy as np
 import os
 import pandas as pd
 import random
@@ -48,11 +47,13 @@ title = 'SEIR model'
 
 # Model motivation
 motivation = """
-Scientists and researchers are trying to understand the COVID-19 in hopes to predict and defeat the 
-disease. In order to understand the spread and infecting rate of the disease, many models are used 
-to characterise the disease, such as the SEIR model and the branching processes model.  
-SEIR model is a deterministic model and has been used to model infectious disease.  
-"""
+Scientists and researchers are trying to understand the COVID-19 in hopes to
+ predict and defeat the disease. In order to understand the spread and
+ infecting rate of the disease, many models are used to characterise the
+ disease, such as the SEIR model and the branching processes model.  
+  
+SEIR model is a deterministic model and has been used to model infectious
+ disease.  """
 
 # Model description
 description = """
@@ -82,7 +83,9 @@ reference = """
 
 app.app.layout = dbc.Container(children=[
     html.H1(title),
+    html.H4('Motivation'),
     dcc.Markdown(motivation),
+    html.H4('Description'),
     dcc.Markdown(description),
     html.Br(),
     fig_slider,
