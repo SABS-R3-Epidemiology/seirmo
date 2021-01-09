@@ -356,9 +356,6 @@ class SubplotFigure(object):
         self._compartment_plot.add_simulation(
             data, time_key=time_key, compartment_keys=compartment_keys)
 
-        # Get the layout and traces into the subplots
-        self._get_layout()
-        self._get_trace()
 
     def get_subplots(self):
         """
