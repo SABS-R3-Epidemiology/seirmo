@@ -134,6 +134,9 @@ class _SimulationApp(object):
 
         self._subplot_fig.add_simulation(data)
 
+    def get_subplots(self)
+        self._subplot_fig.get_subplots()
+
     def slider_ids(self):
         """
         Return the ids of sliders added to the app.
