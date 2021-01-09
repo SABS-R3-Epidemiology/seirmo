@@ -314,11 +314,11 @@ class TestSubplotFigure(unittest.TestCase):
         # Test the layout of the IncidenceNumberPlot
         # for the added data is as expected
         np.testing.assert_equal(
-            test_plot._incidence_num_plot._fig['layout']['xaxis']['title']['text'],
+            test_plot._incidence_num_plot._fig['layout']['xaxis']['title']['text'], # noqa
             'Time'
         )
         np.testing.assert_equal(
-            test_plot._incidence_num_plot._fig['layout']['yaxis']['title']['text'],
+            test_plot._incidence_num_plot._fig['layout']['yaxis']['title']['text'], # noqa
             'Incidence Number'
         )
 
@@ -350,11 +350,11 @@ class TestSubplotFigure(unittest.TestCase):
         # Test the layout of IncidenceNumberPlot
         # for the added simulation data is as expected
         np.testing.assert_equal(
-            test_plot._incidence_num_plot._fig['layout']['xaxis']['title']['text'],
+            test_plot._incidence_num_plot._fig['layout']['xaxis']['title']['text'], # noqa
             'Time'
         )
         np.testing.assert_equal(
-            test_plot._incidence_num_plot._fig['layout']['yaxis']['title']['text'],
+            test_plot._incidence_num_plot._fig['layout']['yaxis']['title']['text'], # noqa
             'Incidence Number'
         )
 
@@ -365,7 +365,7 @@ class TestSubplotFigure(unittest.TestCase):
         np.testing.assert_array_equal(
             test_plot._incidence_num_plot._fig['data'][0]['x'],
             np.array([0, 1, 2, 3, 4, 5, 6]))
-        
+
         # Test the incidences in the subplot(IncidenceNumberPlot)
         # is the same as what we give
         np.testing.assert_array_equal(
@@ -375,11 +375,11 @@ class TestSubplotFigure(unittest.TestCase):
         # Test the layout of the CompartmentPlot
         # for the added simulation data is as expected
         np.testing.assert_equal(
-            test_plot._compartment_plot._fig['layout']['xaxis']['title']['text'],
+            test_plot._compartment_plot._fig['layout']['xaxis']['title']['text'], # noqa
             'Time'
         )
         np.testing.assert_equal(
-            test_plot._compartment_plot._fig['layout']['yaxis']['title']['text'],
+            test_plot._compartment_plot._fig['layout']['yaxis']['title']['text'], # noqa
             'Percentage in population'
         )
 

@@ -356,7 +356,6 @@ class SubplotFigure(object):
         self._compartment_plot.add_simulation(
             data, time_key=time_key, compartment_keys=compartment_keys)
 
-
     def get_subplots(self):
         """
 

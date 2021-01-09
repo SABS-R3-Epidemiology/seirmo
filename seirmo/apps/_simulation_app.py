@@ -43,7 +43,7 @@ class _SimulationApp(object):
             dbc.Row([
                     dbc.Col([dcc.Graph(
                             figure=self._subplot_fig._fig, id='fig',
-                            style={'height':'67vh', 'width':'70vh'})]),
+                            style={'height': '67vh', 'width': '70vh'})]),
                     dbc.Col([
                         self._slider_component()])
                     ])
