@@ -360,7 +360,7 @@ class SubplotFigure(object):
         self._get_layout()
         self._get_trace()
 
-    def get_subplots:
+    def get_subplots(self):
         """
 
         Get the traces and layout into the subplots
