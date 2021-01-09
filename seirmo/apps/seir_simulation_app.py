@@ -36,6 +36,9 @@ parameter_name = [
 total_population = 10000
 app.add_model(model, parameter_name, total_population)
 
+# Get subplots for the figure
+app.get_subplots()
+
 # Set layout of app
 app._set_layout()
 
