@@ -24,8 +24,8 @@ class _SimulationApp(object):
     def __init__(self):
         super(_SimulationApp, self).__init__()
 
-        self._incidence_fig = se.IncidenceNumberPlot()
-        self._compartment_fig = se.CompartmentPlot()
+        self._incidence_fig = se.plots.IncidenceNumberPlot()
+        self._compartment_fig = se.plots.CompartmentPlot()
 
         self._slider_component = apps._SliderComponent()
 
@@ -38,19 +38,31 @@ class _SimulationApp(object):
         """
 
         self.app = dash.Dash(external_stylesheets=[dbc.themes.BOOTSTRAP])
-        self._fig_plot._fig['layout']['legend']['uirevision'] = True
+        self._incidence_fig._fig['layout']['legend']['uirevision'] = True
 
         self.app.layout = dbc.Container([
             html.H1("SEIR model"),
             dbc.Row([
-                    dbc.Col([dbc.Row([dcc.Graph(
-                            figure=self._fig_plot._fig, id='fig')],),
-                        dbc.Row([dcc.Graph(
-                            figure=self._compartment_plot._fig, id='fig2')])]),
-                    dbc.Col([
-                        self._slider_component()])
-                    ])
-        ], fluid=True)
+                dbc.Col([
+                    dbc.Row([dbc.Col([
+                        dcc.Graph(
+                            figure=self._incidence_fig._fig, id='fig',
+                            style={
+                                "height": '45vh',
+                                "margin-bottom": '0vh'})],
+                        width=12)]),
+                    dbc.Row([dbc.Col([
+                        dcc.Graph(
+                            figure=self._compartment_fig._fig, id='fig2',
+                            style={
+                                "height": '45vh',
+                                "margin-top": '0vh'})],
+                        width=12)])],
+                    md=9),
+                dbc.Col([
+                    self._slider_component()],
+                    md=3)])],
+            fluid=True)
 
     def add_data(self, data, time_key='Time', inc_key='Incidence Number'):
         """
@@ -82,7 +94,7 @@ class _SimulationApp(object):
             raise ValueError(
                 'The input incidence key does not match that in the data.')
 
-        self._fig_plot.add_data(
+        self._incidence_fig.add_data(
             data, time_key, inc_key)
 
     def add_model(self, model, parameters_name, total_population):
@@ -135,8 +147,8 @@ class _SimulationApp(object):
             'Recovered': data[:, 3],
         })
 
-        self._fig_plot.add_simulation(data)
-        self._compartment_plot.add_simulation(data)
+        self._incidence_fig.add_simulation(data)
+        self._compartment_fig.add_simulation(data)
 
     def slider_ids(self):
         """
@@ -155,10 +167,10 @@ class _SimulationApp(object):
             List of parameter values for simulation.
         """
         data = self.simulate.run(parameters[1:], return_incidence=True)
-        self._fig_plot._fig['data'][1]['y'] = data[:, 4] * parameters[0]
-        self._compartment_plot._fig['data'][0]['y'] = data[:, 0]
-        self._compartment_plot._fig['data'][1]['y'] = data[:, 1]
-        self._compartment_plot._fig['data'][2]['y'] = data[:, 2]
-        self._compartment_plot._fig['data'][3]['y'] = data[:, 3]
+        self._incidence_fig._fig['data'][1]['y'] = data[:, 4] * parameters[0]
+        self._compartment_fig._fig['data'][0]['y'] = data[:, 0]
+        self._compartment_fig._fig['data'][1]['y'] = data[:, 1]
+        self._compartment_fig._fig['data'][2]['y'] = data[:, 2]
+        self._compartment_fig._fig['data'][3]['y'] = data[:, 3]
 
-        return self._fig_plot._fig, self._compartment_plot._fig
+        return self._incidence_fig._fig, self._compartment_fig._fig
