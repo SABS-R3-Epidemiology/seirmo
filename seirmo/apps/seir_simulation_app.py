@@ -102,8 +102,7 @@ sliders = app.slider_ids()
 server = app.app.server
 
 @app.app.callback(
-    [Output('fig', 'figure'),
-        Output('fig2', 'figure')],
+    Output('fig', 'figure'),
     [Input(s, 'value') for s in sliders])
 def update_simulation(*args):
     """
@@ -113,7 +112,7 @@ def update_simulation(*args):
     parameters = list(args)
     fig = app.update_simulation(parameters)
 
-    return fig, fig2
+    return fig
 
 
 if __name__ == "__main__":
