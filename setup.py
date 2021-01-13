@@ -55,6 +55,7 @@ setup(
 
     # Packages to include
     packages=find_packages(include=('seirmo', 'seirmo.*')),
+    include_package_data=True,
 
     # List of dependencies
     install_requires=[
