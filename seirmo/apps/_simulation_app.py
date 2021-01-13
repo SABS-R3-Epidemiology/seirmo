@@ -120,7 +120,7 @@ class _SimulationApp(object):
         data = self.simulate.run(init_parameters, return_incidence=True)
         data = pd.DataFrame({
             'Time': list(self.simulate._simulation_times),
-            'Incidence Number': data[:, -1] * total_population,
+            'Incidence Number': data[:, -1],
             'Susceptible': data[:, 0],
             'Exposed': data[:, 1],
             'Infectious': data[:, 2],
@@ -147,8 +147,8 @@ class _SimulationApp(object):
         parameters
             List of parameter values for simulation.
         """
-        data = self.simulate.run(parameters[1:], return_incidence=True)
-        self._subplot_fig._fig['data'][1]['y'] = data[:, 4] * parameters[0]
+        data = self.simulate.run(parameters, return_incidence=True)
+        self._subplot_fig._fig['data'][1]['y'] = data[:, 4]
         self._subplot_fig._fig['data'][2]['y'] = data[:, 0]
         self._subplot_fig._fig['data'][3]['y'] = data[:, 1]
         self._subplot_fig._fig['data'][4]['y'] = data[:, 2]

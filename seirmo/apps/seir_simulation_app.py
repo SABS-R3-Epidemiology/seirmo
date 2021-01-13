@@ -49,6 +49,7 @@ fig_slider = app.app.layout.children[0]
 for slider in parameter_name[:4]:
     app._slider_component._sliders[slider].children[1].max = total_population
     app._slider_component._sliders[slider].children[1].value = total_population / 2
+    app._slider_component._sliders[slider].children[1].step = 1
     app._slider_component._sliders[slider].children[1].marks = {
         int(i): (str(i/1000) + 'k') for i in np.linspace(
             start=0,
@@ -114,8 +115,7 @@ sliders = app.slider_ids()
 server = app.app.server
 
 @app.app.callback(
-    [Output('fig', 'figure'),
-        Output('fig2', 'figure')],
+    Output('fig', 'figure'),
     [Input(s, 'value') for s in sliders])
 def update_simulation(*args):
     """
@@ -125,7 +125,7 @@ def update_simulation(*args):
     parameters = list(args)
     fig = app.update_simulation(parameters)
 
-    return fig, fig2
+    return fig
 
 
 if __name__ == "__main__":
