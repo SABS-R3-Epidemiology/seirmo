@@ -35,7 +35,7 @@ class _SliderComponent(object):
                 slider_object += [self._sliders[slider_member]]
 
             slider_group_component.append(html.Div([
-                html.Label(group_id),
+                html.H4(group_id),
                 html.Br(),
                 html.Div(
                     children=slider_object,

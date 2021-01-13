@@ -1,0 +1,1 @@
+web: gunicorn --pythonpath seirmo/apps seir_simulation_app:server
