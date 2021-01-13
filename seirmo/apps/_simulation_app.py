@@ -41,11 +41,14 @@ class _SimulationApp(object):
 
         self.app.layout = dbc.Container([
             dbc.Row([
-                    dbc.Col([dcc.Graph(
+                    dbc.Col(
+                        [dcc.Graph(
                             figure=self._subplot_fig._fig, id='fig',
-                            style={'height': '67vh', 'width': '70vh'})]),
-                    dbc.Col([
-                        self._slider_component()])
+                            style={'height': '80vh'})],
+                        md=9),
+                    dbc.Col(
+                        [self._slider_component()],
+                        md=3)
                     ])
         ], fluid=True)
 
