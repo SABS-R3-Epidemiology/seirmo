@@ -9,11 +9,11 @@ from . import apps
 
 from . import plots
 
-from .models import (
+from ._models import (
     ForwardModel,
     SEIRModel
 )
 
-from .simulation import (
+from ._simulation import (
     SimulationController
 )
