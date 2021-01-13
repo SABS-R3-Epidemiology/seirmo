@@ -26,7 +26,7 @@ app = apps._SimulationApp()
 # Create random data and add to figure
 data = pd.DataFrame({
     'Time': range(50),
-    'Incidence Number': [random.randint(0, 3000) for i in range(50)]})
+    'Incidence Number': [random.randint(0, 1000) for i in range(50)]})
 app.add_data(data)
 
 # Instantiate model and add simulation to figure
@@ -36,6 +36,9 @@ parameter_name = [
     'Infection Rate', 'Incubation Rate', 'Recovery Rate']
 total_population = 10000
 app.add_model(model, parameter_name, total_population)
+
+# Get subplots for the figure
+app.get_subplots()
 
 # Set layout of app
 app._set_layout()
@@ -117,10 +120,10 @@ server = app.app.server
 def update_simulation(*args):
     """
     Simulates the model for the current slider values and updates the
-    plot in the figure.
+    subplots in the figure.
     """
     parameters = list(args)
-    fig, fig2 = app.update_simulation(parameters)
+    fig = app.update_simulation(parameters)
 
     return fig, fig2
 
