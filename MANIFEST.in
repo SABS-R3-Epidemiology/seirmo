@@ -1,1 +1,1 @@
-recursive-include branchpro/data_library *.csv
+recursive-include branchpro/data_library *.csvMANIFEST.in
