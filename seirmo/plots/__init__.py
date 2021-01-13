@@ -4,16 +4,7 @@
 # for copyright notice and full license details.
 #
 
-
-from . import apps
-
-from . import plots
-
-from ._models import (
-    ForwardModel,
-    SEIRModel
-)
-
-from ._simulation import (
-    SimulationController
-)
+from ._figures import (  # noqa
+    IncidenceNumberPlot,
+    CompartmentPlot,
+    SubplotFigure)

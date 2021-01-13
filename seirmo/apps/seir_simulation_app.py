@@ -30,9 +30,9 @@ app.add_data(data)
 
 # Instantiate model and add simulation to figure
 model = se.SEIRModel
-parameter_name = ['Total Population', 'Initial S', 'Initial E', 'Initial I',
-                  'Initial R', 'Infection Rate', 'Incubation Rate',
-                  'Recovery Rate']
+parameter_name = [
+    'Total Population', 'Initial S', 'Initial E', 'Initial I', 'Initial R',
+    'Infection Rate', 'Incubation Rate', 'Recovery Rate']
 total_population = 10000
 app.add_model(model, parameter_name, total_population)
 
@@ -100,7 +100,8 @@ sliders = app.slider_ids()
 server = app.app.server
 
 @app.app.callback(
-    Output('fig', 'figure'),
+    [Output('fig', 'figure'),
+        Output('fig2', 'figure')],
     [Input(s, 'value') for s in sliders])
 def update_simulation(*args):
     """
@@ -108,10 +109,9 @@ def update_simulation(*args):
     plot in the figure.
     """
     parameters = list(args)
-    fig = app.update_simulation(parameters)
-    # print(parameters)
+    fig, fig2 = app.update_simulation(parameters)
 
-    return fig
+    return fig, fig2
 
 
 if __name__ == "__main__":

@@ -17,7 +17,7 @@ Contents
 .. toctree::
     
     apps
-    figures
+    plots
     models
     simulation
 

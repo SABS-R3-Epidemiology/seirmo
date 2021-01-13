@@ -23,7 +23,8 @@ class _SimulationApp(object):
     def __init__(self):
         super(_SimulationApp, self).__init__()
 
-        self._fig_plot = se.IncidenceNumberPlot()
+        self._incidence_fig = se.plots.IncidenceNumberPlot()
+        self._compartment_fig = se.plots.CompartmentPlot()
 
         self._slider_component = apps._SliderComponent()
 
@@ -36,19 +37,30 @@ class _SimulationApp(object):
         """
 
         self.app = dash.Dash(external_stylesheets=[dbc.themes.BOOTSTRAP])
-        self._fig_plot._fig['layout']['legend']['uirevision'] = True
+        self._incidence_fig._fig['layout']['legend']['uirevision'] = True
 
         self.app.layout = dbc.Container([
             dbc.Row([
-                    dbc.Col([dcc.Graph(
-                            figure=self._fig_plot._fig, id='fig',
-                            style={"height": "67vh"})],
-                            md=8
-                            ),
-                    dbc.Col([
-                        self._slider_component()])
-                    ])
-        ], fluid=True)
+                dbc.Col([
+                    dbc.Row([dbc.Col([
+                        dcc.Graph(
+                            figure=self._incidence_fig._fig, id='fig',
+                            style={
+                                "height": '45vh',
+                                "margin-bottom": '0vh'})],
+                        width=12)]),
+                    dbc.Row([dbc.Col([
+                        dcc.Graph(
+                            figure=self._compartment_fig._fig, id='fig2',
+                            style={
+                                "height": '45vh',
+                                "margin-top": '0vh'})],
+                        width=12)])],
+                    md=9),
+                dbc.Col([
+                    self._slider_component()],
+                    md=3)])],
+            fluid=True)
 
     def add_data(self, data, time_key='Time', inc_key='Incidence Number'):
         """
@@ -80,7 +92,7 @@ class _SimulationApp(object):
             raise ValueError(
                 'The input incidence key does not match that in the data.')
 
-        self._fig_plot.add_data(
+        self._incidence_fig.add_data(
             data, time_key, inc_key)
 
     def add_model(self, model, parameters_name, total_population):
@@ -126,9 +138,15 @@ class _SimulationApp(object):
         data = self.simulate.run(init_parameters[1:], return_incidence=True)
         data = pd.DataFrame({
             'Time': list(self.simulate._simulation_times),
-            'Incidence Number': data[:, -1] * total_population
+            'Incidence Number': data[:, -1] * total_population,
+            'Susceptible': data[:, 0],
+            'Exposed': data[:, 1],
+            'Infectious': data[:, 2],
+            'Recovered': data[:, 3],
         })
-        self._fig_plot.add_simulation(data)
+
+        self._incidence_fig.add_simulation(data)
+        self._compartment_fig.add_simulation(data)
 
     def slider_ids(self):
         """
@@ -138,7 +156,8 @@ class _SimulationApp(object):
 
     def update_simulation(self, parameters):
         """
-        Update the figure with simulated data of new parameters.
+        Update the two figures with simulated data of new parameters.
+        Return two plotly.graph_object.Figure instances.
 
         Parameters
         ----------
@@ -146,6 +165,10 @@ class _SimulationApp(object):
             List of parameter values for simulation.
         """
         data = self.simulate.run(parameters[1:], return_incidence=True)
-        self._fig_plot._fig['data'][1]['y'] = data[:, 1] * parameters[0]
+        self._incidence_fig._fig['data'][1]['y'] = data[:, 4] * parameters[0]
+        self._compartment_fig._fig['data'][0]['y'] = data[:, 0]
+        self._compartment_fig._fig['data'][1]['y'] = data[:, 1]
+        self._compartment_fig._fig['data'][2]['y'] = data[:, 2]
+        self._compartment_fig._fig['data'][3]['y'] = data[:, 3]
 
-        return self._fig_plot._fig
+        return self._incidence_fig._fig, self._compartment_fig._fig
