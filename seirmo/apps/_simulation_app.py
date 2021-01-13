@@ -11,6 +11,7 @@ import pandas as pd
 
 import seirmo as se
 from seirmo import apps
+from seirmo import plots
 
 
 class _SimulationApp(object):
@@ -23,9 +24,7 @@ class _SimulationApp(object):
     def __init__(self):
         super(_SimulationApp, self).__init__()
 
-        self._incidence_fig = se.plots.IncidenceNumberPlot()
-        self._compartment_fig = se.plots.CompartmentPlot()
-
+        self._subplot_fig = plots.SubplotFigure()
         self._slider_component = apps._SliderComponent()
 
         self.simulation_start = 0
@@ -37,34 +36,24 @@ class _SimulationApp(object):
         """
 
         self.app = dash.Dash(external_stylesheets=[dbc.themes.BOOTSTRAP])
-        self._incidence_fig._fig['layout']['legend']['uirevision'] = True
+        self._subplot_fig._fig['layout']['legend']['uirevision'] = True
 
         self.app.layout = dbc.Container([
             dbc.Row([
-                dbc.Col([
-                    dbc.Row([dbc.Col([
-                        dcc.Graph(
-                            figure=self._incidence_fig._fig, id='fig',
-                            style={
-                                "height": '45vh',
-                                "margin-bottom": '0vh'})],
-                        width=12)]),
-                    dbc.Row([dbc.Col([
-                        dcc.Graph(
-                            figure=self._compartment_fig._fig, id='fig2',
-                            style={
-                                "height": '45vh',
-                                "margin-top": '0vh'})],
-                        width=12)])],
-                    md=9),
-                dbc.Col([
-                    self._slider_component()],
-                    md=3)])],
-            fluid=True)
+                    dbc.Col(
+                        [dcc.Graph(
+                            figure=self._subplot_fig._fig, id='fig',
+                            style={'height': '80vh'})],
+                        md=9),
+                    dbc.Col(
+                        [self._slider_component()],
+                        md=3)
+                    ])
+        ], fluid=True)
 
     def add_data(self, data, time_key='Time', inc_key='Incidence Number'):
         """
-        Plot figure for given incidence number data.
+        Plot subplot for the given incidence number data.
 
         Parameters
         ----------
@@ -92,12 +81,12 @@ class _SimulationApp(object):
             raise ValueError(
                 'The input incidence key does not match that in the data.')
 
-        self._incidence_fig.add_data(
+        self._subplot_fig.add_data(
             data, time_key, inc_key)
 
     def add_model(self, model, parameters_name, total_population):
         """
-        Plot figure of simulation for given model.
+        Plot subplots of simulation for the given model.
 
         Parameters
         ----------
@@ -145,8 +134,10 @@ class _SimulationApp(object):
             'Recovered': data[:, 3],
         })
 
-        self._incidence_fig.add_simulation(data)
-        self._compartment_fig.add_simulation(data)
+        self._subplot_fig.add_simulation(data)
+
+    def get_subplots(self):
+        self._subplot_fig.get_subplots()
 
     def slider_ids(self):
         """
@@ -156,8 +147,7 @@ class _SimulationApp(object):
 
     def update_simulation(self, parameters):
         """
-        Update the two figures with simulated data of new parameters.
-        Return two plotly.graph_object.Figure instances.
+        Update the subplots with simulated data of new parameters.
 
         Parameters
         ----------
@@ -165,10 +155,10 @@ class _SimulationApp(object):
             List of parameter values for simulation.
         """
         data = self.simulate.run(parameters[1:], return_incidence=True)
-        self._incidence_fig._fig['data'][1]['y'] = data[:, 4] * parameters[0]
-        self._compartment_fig._fig['data'][0]['y'] = data[:, 0]
-        self._compartment_fig._fig['data'][1]['y'] = data[:, 1]
-        self._compartment_fig._fig['data'][2]['y'] = data[:, 2]
-        self._compartment_fig._fig['data'][3]['y'] = data[:, 3]
+        self._subplot_fig._fig['data'][1]['y'] = data[:, 4] * parameters[0]
+        self._subplot_fig._fig['data'][2]['y'] = data[:, 0]
+        self._subplot_fig._fig['data'][3]['y'] = data[:, 1]
+        self._subplot_fig._fig['data'][4]['y'] = data[:, 2]
+        self._subplot_fig._fig['data'][5]['y'] = data[:, 3]
 
-        return self._incidence_fig._fig, self._compartment_fig._fig
+        return self._subplot_fig._fig

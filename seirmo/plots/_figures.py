@@ -317,10 +317,6 @@ class SubplotFigure(object):
         self._incidence_num_plot.add_data(
             data, time_key=time_key, inc_key=inc_key)
 
-        # Get the layout and trace into the subplot
-        self._get_layout()
-        self._get_trace()
-
     def add_simulation(
         self, data, time_key='Time', inc_key='Incidence Number',
         compartment_keys=[
@@ -360,11 +356,21 @@ class SubplotFigure(object):
         self._compartment_plot.add_simulation(
             data, time_key=time_key, compartment_keys=compartment_keys)
 
-        # Get the layout and traces into the subplots
+    def get_subplots(self):
+        """
+
+        Get the traces and layout into the subplots
+
+        """
+
         self._get_layout()
         self._get_trace()
 
     def show(self):
+        """
 
-        # Display the figure
+        Display the figure
+
+        """
+
         self._fig.show()
