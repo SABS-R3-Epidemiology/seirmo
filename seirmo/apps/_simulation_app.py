@@ -24,8 +24,8 @@ class _SimulationApp(object):
     def __init__(self):
         super(_SimulationApp, self).__init__()
 
-        self._subplot_fig = plots.SubplotFigure()
 
+        self._subplot_fig = plots.SubplotFigure()
         self._slider_component = apps._SliderComponent()
 
         self.simulation_start = 0

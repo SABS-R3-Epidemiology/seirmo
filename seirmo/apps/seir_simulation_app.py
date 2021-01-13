@@ -99,8 +99,11 @@ app.app.layout = dbc.Container(children=[
 # Get sliders for callback
 sliders = app.slider_ids()
 
+server = app.app.server
+
 @app.app.callback(
-    Output('fig', 'figure'),
+    [Output('fig', 'figure'),
+        Output('fig2', 'figure')],
     [Input(s, 'value') for s in sliders])
 def update_simulation(*args):
     """
@@ -110,7 +113,7 @@ def update_simulation(*args):
     parameters = list(args)
     fig = app.update_simulation(parameters)
 
-    return fig
+    return fig, fig2
 
 
 if __name__ == "__main__":

@@ -4,8 +4,7 @@
 # for copyright notice and full license details.
 #
 
-from .figures import ( # noqa
+from ._figures import (  # noqa
     IncidenceNumberPlot,
     CompartmentPlot,
-    SubplotFigure
-)
+    SubplotFigure)
