@@ -131,3 +131,6 @@ dmypy.json
 # VSCode config
 .vscode
 .DS_Store
+
+# Dash app
+*.pyc

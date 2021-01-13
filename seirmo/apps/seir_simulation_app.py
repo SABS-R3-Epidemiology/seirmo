@@ -97,6 +97,8 @@ print(app.app.layout)
 # Get sliders for callback
 sliders = app.slider_ids()
 
+server = app.app.server
+
 @app.app.callback(
     Output('fig', 'figure'),
     [Input(s, 'value') for s in sliders])
