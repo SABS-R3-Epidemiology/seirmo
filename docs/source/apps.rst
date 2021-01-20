@@ -1,6 +1,6 @@
-******
-Models
-******
+****
+Apps
+****
 
 .. currentmodule:: seirmo.apps
 
