@@ -15,8 +15,7 @@ Contents
 .. module:: seirmo
 
 .. toctree::
-    
-    apps
+
     plots
     models
     simulation
