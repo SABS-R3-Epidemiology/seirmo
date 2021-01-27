@@ -30,6 +30,12 @@ data = pd.DataFrame({
     'Incidence Number': [random.randint(0, 2000) for i in range(50)]})
 app.add_data(data)
 
+# Add french flu data
+# flu_data = se.DataLibrary().french_flu()
+# flu_data = flu_data.loc[:30,:]
+# flu_data['inc'] = flu_data['inc']/60
+# app.add_data(flu_data, time_key='time_index', inc_key='inc')
+
 # Instantiate model and add simulation to figure
 model = se.SEIRModel
 parameter_name = [
@@ -87,13 +93,16 @@ example, if the incubation rate of the disease is higher, then individuals get i
 it is exposed. Finally, the rate where infected individuals get recovered is described by the *recovery 
 rate*. 
   
-The bar graph shows the daily incidence number simulated by the SEIR model. It is the number of newly 
-infectious individual every day. In this model, most individual in a population will start with being 
-susceptible, then exposed to the disease, while all individuals will get infected and finally recovers 
-from the disease. Therefore, in the second plot, number of individuals in group S, E and I will 
-eventually approach zero, while group R will eventually include everyone in the population. However, 
-for an infectious disease to spread, it will require an initial amount of cases, that is the initial 
-amount of exposed and infected individuals, to be nonzero.   
+The bar graph shows the daily incidence number of an infectious disease. The blue bars show actual 
+cases of infectious disease while the red ones show cases simulated by the SEIR model, given the 
+parameters of the sliders.  
+
+In this model, an individual in a population will start with being susceptible, then exposed to 
+the disease, get infected and finally recovers from the disease. Therefore, in the second plot, 
+number of individuals in group S, E and I will eventually approach zero, while group R will 
+eventually include everyone in the population. However, for an infectious disease to spread, 
+it will require an initial amount of cases, that is the initial amount of exposed and infected 
+individuals, to be nonzero.   
   
 You are welcome to explore the effect of initial sizes of the S, E, I and R groups, as well as 
 the different transition periods with the paramter sliders below.  
@@ -118,12 +127,6 @@ app.app.layout = dbc.Container(children=[
     html.Br(),
     fig_slider,
     # dcc.Markdown(reference),
-    dbc.Button('More details',
-        id='more_info_button',
-        color='primary'),
-    dbc.Collapse(
-        dbc.Card(dbc.CardBody(more_details)),
-        id='more_information')
 ])
 
 # Get sliders for callback
