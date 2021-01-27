@@ -1,5 +1,5 @@
 ************
-Data Library
+Dataset Library API
 ************
 
 .. currentmodule:: seirmo
