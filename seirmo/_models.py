@@ -105,7 +105,7 @@ class SEIRModel(ForwardModel):
     def n_outputs(self):
         # Return the number of outputs
         return self._n_outputs
-    
+
     def n_parameters(self):
         # Return the number of parameters
         return self._n_parameters
@@ -113,7 +113,7 @@ class SEIRModel(ForwardModel):
     def output_names(self):
         # Return the (selected) output names
         return self._output_names
-    
+
     def parameter_names(self):
         # Return the parameter names
         return self._parameter_names
@@ -171,7 +171,7 @@ class SEIRModel(ForwardModel):
         # Get the values for each selected output name
         for output_name in self._output_names:
             index = self.all_output_names.index(output_name)
-            set_output[k,:] = output[index,:]
+            set_output[k, :] = output[index, :]
             k += 1
 
         return set_output.transpose()
