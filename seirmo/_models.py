@@ -166,7 +166,7 @@ class ReducedModel(ForwardModel):
         self._fixed_params_mask = None
         self._fixed_params_values = None
         self._n_parameters = model.n_parameters()
-        self._parameter_names = model.parameters()
+        self._parameter_names = model.parameter_names()
 
     def fix_parameters(self, name_value_dict):
         """
