@@ -1,6 +1,6 @@
-*******************
-Dataset Library API
-*******************
+***************
+Dataset Library
+***************
 
 .. currentmodule:: seirmo
 
