@@ -25,23 +25,23 @@ from seirmo import apps
 app = apps._SimulationApp()
 
 # Create random data and add to figure
-data = pd.DataFrame({
-    'Time': range(50),
-    'Incidence Number': [random.randint(0, 2000) for i in range(50)]})
-app.add_data(data)
+# data = pd.DataFrame({
+#     'Time': range(50),
+#     'Incidence Number': [random.randint(0, 2000) for i in range(50)]})
+# app.add_data(data)
 
 # Add french flu data
-# flu_data = se.DataLibrary().french_flu()
-# flu_data = flu_data.loc[:30,:]
-# flu_data['inc'] = flu_data['inc']/60
-# app.add_data(flu_data, time_key='time_index', inc_key='inc')
+flu_data = se.DataLibrary().french_flu()
+flu_data = flu_data.loc[:30,:]
+flu_data['inc'] = flu_data['inc']
+app.add_data(flu_data, time_key='time_index', inc_key='inc')
 
 # Instantiate model and add simulation to figure
 model = se.SEIRModel
 parameter_name = [
     'Initial S', 'Initial E', 'Initial I', 'Initial R',
     'Infection Rate', 'Incubation Rate', 'Recovery Rate']
-total_population = 10000
+total_population = 650000
 app.add_model(model, parameter_name)
 
 # Get subplots for the figure
