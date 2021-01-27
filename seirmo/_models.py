@@ -5,16 +5,48 @@
 #
 
 import numpy as np
+import pints
 from scipy.integrate import solve_ivp
 
 
-class ForwardModel(object):
-    """ForwardModel Class:
-    Abstract base class for any models.
+class ForwardModel(pints.ForwardModel):
     """
+    Abstract base class for forward models.
 
+    Extends :class:`pints.ForwardModel`.
+    """
     def __init__(self):
         super(ForwardModel, self).__init__()
+
+    def n_outputs(self):
+        """
+        Returns the number of model outputs.
+        """
+        raise NotImplementedError
+
+    def n_parameters(self):
+        """
+        Returns the number of model parameters.
+        """
+        raise NotImplementedError
+
+    def output_names(self):
+        """
+        Returns the names of the model outputs.
+        """
+        raise NotImplementedError
+
+    def parameter_names(self):
+        """
+        Returns the names of the model parameters.
+        """
+        raise NotImplementedError
+
+    def set_outputs(self, outputs):
+        """
+        Sets the outputs of the model.
+        """
+        raise NotImplementedError
 
     def simulate(self, parameters, times):
         """
@@ -24,10 +56,11 @@ class ForwardModel(object):
         or a NumPy array of shape ``(n_times, n_outputs)`` (for multi-output
         problems), representing the values of the model at the given ``times``.
 
-        Parameters
-        ----------
-        parameters: sequence of numerics
-        times: sequence of numerics
+        :param parameters: An array-like object with parameter values of length
+            :meth:`n_parameters`.
+        :type parameters: list | numpy.ndarray
+        :param times: An array-like object with time points.
+        :type times: list | numpy.ndarray
         """
         raise NotImplementedError
 
