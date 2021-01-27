@@ -117,7 +117,13 @@ app.app.layout = dbc.Container(children=[
     dcc.Markdown(description),
     html.Br(),
     fig_slider,
-    # dcc.Markdown(reference)
+    # dcc.Markdown(reference),
+    dbc.Button('More details',
+        id='more_info_button',
+        color='primary'),
+    dbc.Collapse(
+        dbc.Card(dbc.CardBody(more_details)),
+        id='more_information')
 ])
 
 # Get sliders for callback
