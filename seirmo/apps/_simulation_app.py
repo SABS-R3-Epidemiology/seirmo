@@ -25,7 +25,6 @@ class _SimulationApp(object):
         super(_SimulationApp, self).__init__()
 
         self._subplot_fig = plots.SubplotFigure()
-
         self._slider_component = apps._SliderComponent()
 
         self.simulation_start = 0
@@ -41,11 +40,14 @@ class _SimulationApp(object):
 
         self.app.layout = dbc.Container([
             dbc.Row([
-                    dbc.Col([dcc.Graph(
+                    dbc.Col(
+                        [dcc.Graph(
                             figure=self._subplot_fig._fig, id='fig',
-                            style={'height': '67vh', 'width': '70vh'})]),
-                    dbc.Col([
-                        self._slider_component()])
+                            style={'height': '80vh'})],
+                        md=9),
+                    dbc.Col(
+                        [self._slider_component()],
+                        md=3)
                     ])
         ], fluid=True)
 
@@ -98,15 +100,8 @@ class _SimulationApp(object):
         parameters_name = list(parameters_name)
 
         init_parameters = []
-        self._slider_component.add_slider(
-            slider_id='Total Population',
-            min_value=0,
-            max_value=total_population,
-            initial_value=0.5 * total_population)
-        init_parameters.append(
-            self._slider_component._sliders['Total Population'].children[1].value) # noqa
 
-        for model_parameter in parameters_name[1:]:
+        for model_parameter in parameters_name:
             model_parameter = str(model_parameter)
             self._slider_component.add_slider(
                 slider_id=model_parameter,
@@ -122,10 +117,10 @@ class _SimulationApp(object):
         self.simulate = se.SimulationController(
             model, self.simulation_start, self.simulation_end)
 
-        data = self.simulate.run(init_parameters[1:], return_incidence=True)
+        data = self.simulate.run(init_parameters, return_incidence=True)
         data = pd.DataFrame({
             'Time': list(self.simulate._simulation_times),
-            'Incidence Number': data[:, -1] * total_population,
+            'Incidence Number': data[:, -1],
             'Susceptible': data[:, 0],
             'Exposed': data[:, 1],
             'Infectious': data[:, 2],
@@ -152,8 +147,8 @@ class _SimulationApp(object):
         parameters
             List of parameter values for simulation.
         """
-        data = self.simulate.run(parameters[1:], return_incidence=True)
-        self._subplot_fig._fig['data'][1]['y'] = data[:, 4] * parameters[0]
+        data = self.simulate.run(parameters, return_incidence=True)
+        self._subplot_fig._fig['data'][1]['y'] = data[:, 4]
         self._subplot_fig._fig['data'][2]['y'] = data[:, 0]
         self._subplot_fig._fig['data'][3]['y'] = data[:, 1]
         self._subplot_fig._fig['data'][4]['y'] = data[:, 2]

@@ -12,6 +12,7 @@ import dash_bootstrap_components as dbc
 import dash_core_components as dcc
 import dash_html_components as html
 from dash.dependencies import Input, Output
+import numpy as np
 import os
 import pandas as pd
 import random
@@ -31,7 +32,7 @@ app.add_data(data)
 # Instantiate model and add simulation to figure
 model = se.SEIRModel
 parameter_name = [
-    'Total Population', 'Initial S', 'Initial E', 'Initial I', 'Initial R',
+    'Initial S', 'Initial E', 'Initial I', 'Initial R',
     'Infection Rate', 'Incubation Rate', 'Recovery Rate']
 total_population = 10000
 app.add_model(model, parameter_name, total_population)
@@ -44,6 +45,18 @@ app._set_layout()
 
 # Identify  and keep figure and sliders of app
 fig_slider = app.app.layout.children[0]
+
+for slider in parameter_name[:4]:
+    app._slider_component._sliders[slider].children[1].max = total_population
+    app._slider_component._sliders[slider].children[1].value = total_population / 2
+    app._slider_component._sliders[slider].children[1].step = 1
+    app._slider_component._sliders[slider].children[1].marks = {
+        int(i): (str(i/1000) + 'k') for i in np.linspace(
+            start=0,
+            stop=total_population,
+            num=11
+        )
+    }
 
 # Add title
 title = 'SEIR model'
@@ -98,6 +111,8 @@ app.app.layout = dbc.Container(children=[
 
 # Get sliders for callback
 sliders = app.slider_ids()
+
+server = app.app.server
 
 @app.app.callback(
     Output('fig', 'figure'),
