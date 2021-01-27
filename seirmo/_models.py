@@ -96,5 +96,6 @@ class SEIRModel(pints.ForwardModel):
         n_incidence[1:] = total_infected[1:] - total_infected[:-1]
 
         # Append n_incidence to output
+        # Output is a matrix with rows being E
         output = np.vstack(tup=(output, n_incidence))
         return output.transpose()
