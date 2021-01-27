@@ -53,6 +53,10 @@ class SEIRModel(pints.ForwardModel):
         self.output_names = outputs
         self.n_outputs = len(outputs)
 
+    def output_names(self):
+        # Return the (selected) output names
+        return self.output_names
+
     def _right_hand_side(self, t, y, c):
         # Assuming y = [S, E, I, R] (the dependent variables in the model)
         # Assuming the parameters are ordered like
@@ -70,7 +74,7 @@ class SEIRModel(pints.ForwardModel):
 
         return dydt
 
-    def simulate(self, parameters, times, return_incidence=False):
+    def simulate(self, parameters, times):
 
         # Define time spans, initial conditions, and constants
         y_init = parameters[:4]
@@ -82,10 +86,7 @@ class SEIRModel(pints.ForwardModel):
 
         output = sol['y']
 
-        if not return_incidence:
-            return output.transpose()
-
-        # Total infected is infectiout 'i' plus recovered 'r'
+        # Total infected is infectious 'i' plus recovered 'r'
         total_infected = output[2, :] + output[3, :]
 
         # Number of incidences is the increase in total_infected
