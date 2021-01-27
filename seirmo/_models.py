@@ -5,10 +5,65 @@
 #
 
 import numpy as np
+import pints
 from scipy.integrate import solve_ivp
 
 
-class SEIRModel(pints.ForwardModel):
+class ForwardModel(pints.ForwardModel):
+    """
+    Abstract base class for forward models.
+    Extends :class:`pints.ForwardModel`.
+    """
+    def __init__(self):
+        super(ForwardModel, self).__init__()
+
+    def n_outputs(self):
+        """
+        Returns the number of model outputs.
+        """
+        raise NotImplementedError
+
+    def n_parameters(self):
+        """
+        Returns the number of model parameters.
+        """
+        raise NotImplementedError
+
+    def output_names(self):
+        """
+        Returns the names of the model outputs.
+        """
+        raise NotImplementedError
+
+    def parameter_names(self):
+        """
+        Returns the names of the model parameters.
+        """
+        raise NotImplementedError
+
+    def set_outputs(self, outputs):
+        """
+        Sets the outputs of the model.
+        """
+        raise NotImplementedError
+
+    def simulate(self, parameters, times):
+        """
+        Forward simulation of a model for a given time period
+        with given parameters
+        Returns a sequence of length ``n_times`` (for single output problems)
+        or a NumPy array of shape ``(n_times, n_outputs)`` (for multi-output
+        problems), representing the values of the model at the given ``times``.
+        :param parameters: An array-like object with parameter values of length
+            :meth:`n_parameters`.
+        :type parameters: list | numpy.ndarray
+        :param times: An array-like object with time points.
+        :type times: list | numpy.ndarray
+        """
+        raise NotImplementedError
+
+
+class SEIRModel(ForwardModel):
     r"""
     ODE model: deterministic SEIR
     The SEIR Model has four compartments:
@@ -33,29 +88,36 @@ class SEIRModel(pints.ForwardModel):
         super(SEIRModel, self).__init__()
 
         # Assign default values
-        self.output_names = ['S', 'E', 'I', 'R', 'Incidence']
+        self._output_names = ['S', 'E', 'I', 'R', 'Incidence']
+        self._parameter_names = [
+            'S0', 'E0', 'I0', 'R0', 'alpha', 'beta', 'gamma'
+        ]
         # The default number of outputs is 5,
         # i.e. S, E, I, R and Incidence
-        self.n_outputs = 5
+        self._n_outputs = 5
         # The default number of outputs is 7,
         # i.e. 4 initial conditions and 3 parameters
-        self.n_parameters = 7
+        self._n_parameters = 7
 
     def n_outputs(self):
         # Return the number of outputs
-        return self.n_outputs
+        return self._n_outputs
     
     def n_parameters(self):
         # Return the number of parameters
-        return self.n_parameters
-
-    def set_outputs(self, outputs=['Incidence']):
-        self.output_names = outputs
-        self.n_outputs = len(outputs)
+        return self._n_parameters
 
     def output_names(self):
         # Return the (selected) output names
-        return self.output_names
+        return self._output_names
+    
+    def parameter_names(self):
+        # Return the parameter names
+        return self._parameter_names
+
+    def set_outputs(self, outputs=['Incidence']):
+        self._output_names = outputs
+        self._n_outputs = len(outputs)
 
     def _right_hand_side(self, t, y, c):
         # Assuming y = [S, E, I, R] (the dependent variables in the model)
@@ -96,6 +158,20 @@ class SEIRModel(pints.ForwardModel):
         n_incidence[1:] = total_infected[1:] - total_infected[:-1]
 
         # Append n_incidence to output
-        # Output is a matrix with rows being E
+        # Output is a matrix with rows being S, E, I, R and Incidence
         output = np.vstack(tup=(output, n_incidence))
-        return output.transpose()
+
+        # Create a list of S, E, I, R and Incidence
+        all_output_names = ['S', 'E', 'I', 'R', 'Incidence']
+
+        # Allocate the shape of the selected outputs
+        set_output = np.zeros(self._n_outputs, len(times))
+        # Count the iteration
+        k = 0
+        # Get the values for each selected output name
+        for output_name in self._output_names:
+            index = all_output_names.index(output_name)
+            set_output[k,:] = output[index:]
+            k = k+1
+
+        return set_output.transpose()
