@@ -8,7 +8,7 @@ import numpy as np
 from scipy.integrate import solve_ivp
 
 
-class SEIRModel(ForwardModel):
+class SEIRModel(pints.ForwardModel):
     r"""
     ODE model: deterministic SEIR
     The SEIR Model has four compartments:
