@@ -35,8 +35,11 @@ class SEIRModel(pints.ForwardModel):
         # Assign default values
         self.output_names = ['S', 'E', 'I', 'R', 'Incidence']
         # Number of outputs and number of parameters
-        self.n_output = 5
+        self.n_outputs = 5
         self.n_parameters = 7
+
+    def n_outputs(self):
+        
 
     def _right_hand_side(self, t, y, c):
         # Assuming y = [S, E, I, R] (the dependent variables in the model)
