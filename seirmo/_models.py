@@ -94,13 +94,12 @@ class SEIRModel(ForwardModel):
         ]
         # The default number of outputs is 5,
         # i.e. S, E, I, R and Incidence
-        self._n_outputs = 5
+        self._n_outputs = len(self._output_names)
         # The default number of outputs is 7,
         # i.e. 4 initial conditions and 3 parameters
-        self._n_parameters = 7
+        self._n_parameters = len(self._parameter_names)
 
-        # Create a list of S, E, I, R and Incidence
-        self.all_output_names = ['S', 'E', 'I', 'R', 'Incidence']
+        self._output_indices = np.arrange(self._n_outputs)
 
     def n_outputs(self):
         # Return the number of outputs
@@ -118,8 +117,19 @@ class SEIRModel(ForwardModel):
         # Return the parameter names
         return self._parameter_names
 
-    def set_outputs(self, outputs=['Incidence']):
-        self._output_names = outputs
+    def set_outputs(self, outputs):
+        # Check existence of outputs
+        for output in outputs:
+            if output not in self._output_names:
+                raise ValueError('The output names specified must be in correct forms') # noqa
+
+        output_indices = []
+        for output_id, output in enumerate(self._output_names):
+            if output in outputs:
+                output_indices.append(output_id)
+
+        # Remember outputs
+        self._output_indices = output_indices
         self._n_outputs = len(outputs)
 
     def _right_hand_side(self, t, y, c):
@@ -164,14 +174,7 @@ class SEIRModel(ForwardModel):
         # Output is a matrix with rows being S, E, I, R and Incidence
         output = np.vstack(tup=(output, n_incidence))
 
-        # Allocate the shape of the selected outputs
-        set_output = np.zeros((self._n_outputs, len(times)))
-        # Count the iteration
-        k = 0
-        # Get the values for each selected output name
-        for output_name in self._output_names:
-            index = self.all_output_names.index(output_name)
-            set_output[k, :] = output[index, :]
-            k += 1
+        # Get the selected outputs
+        output = output[self._output_indices, :]
 
-        return set_output.transpose()
+        return output.transpose()
