@@ -87,12 +87,13 @@ example, if the incubation rate of the disease is higher, then individuals get i
 it is exposed. Finally, the rate where infected individuals get recovered is described by the *recovery 
 rate*. 
   
-In this model, most individual in a population will start with being susceptible, then exposed to 
-the disease, while all individuals will get infected and finally recovers from the disease. 
-Therefore, in the second plot, number of individuals in group S, E and I will eventually approach 
-zero, while group R will eventually include everyone in the population. However, for an infectious 
-disease to spread, it will require an initial amount of cases, that is the initial amount of exposed 
-and infected individuals, to be nonzero.   
+The bar graph shows the daily incidence number simulated by the SEIR model. It is the number of newly 
+infectious individual every day. In this model, most individual in a population will start with being 
+susceptible, then exposed to the disease, while all individuals will get infected and finally recovers 
+from the disease. Therefore, in the second plot, number of individuals in group S, E and I will 
+eventually approach zero, while group R will eventually include everyone in the population. However, 
+for an infectious disease to spread, it will require an initial amount of cases, that is the initial 
+amount of exposed and infected individuals, to be nonzero.   
   
 You are welcome to explore the effect of initial sizes of the S, E, I and R groups, as well as 
 the different transition periods with the paramter sliders below.  
