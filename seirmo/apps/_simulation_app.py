@@ -84,7 +84,7 @@ class _SimulationApp(object):
         self._subplot_fig.add_data(
             data, time_key, inc_key)
 
-    def add_model(self, model, parameters_name, total_population):
+    def add_model(self, model, parameters_name):
         """
         Plot subplots of simulation for the given model.
 

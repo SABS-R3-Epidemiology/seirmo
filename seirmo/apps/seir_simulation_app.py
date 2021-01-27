@@ -8,6 +8,7 @@
 with fixed example data. To run the app, use ``python dash_app.py``.
 """
 
+import base64
 import dash_bootstrap_components as dbc
 import dash_core_components as dcc
 import dash_html_components as html
@@ -26,7 +27,7 @@ app = apps._SimulationApp()
 # Create random data and add to figure
 data = pd.DataFrame({
     'Time': range(50),
-    'Incidence Number': [random.randint(0, 1000) for i in range(50)]})
+    'Incidence Number': [random.randint(0, 2000) for i in range(50)]})
 app.add_data(data)
 
 # Instantiate model and add simulation to figure
@@ -35,7 +36,7 @@ parameter_name = [
     'Initial S', 'Initial E', 'Initial I', 'Initial R',
     'Infection Rate', 'Incubation Rate', 'Recovery Rate']
 total_population = 10000
-app.add_model(model, parameter_name, total_population)
+app.add_model(model, parameter_name)
 
 # Get subplots for the figure
 app.get_subplots()
@@ -68,26 +69,30 @@ Scientists and researchers are trying to understand the COVID-19 outbreak in hop
  infecting rate of the disease, many models are used to characterise the
  disease, such as the SEIR model and the branching processes model.  
   
-SEIR model is a deterministic model and has been used to model infectious
- disease.  """
+SEIR model is a deterministic model. A deterministic model means that the simulation will always 
+be the same as long as the parameters are the same. This SEIR model has been used to model 
+infectious disease.  """
 
 # Model description
 description = """
 The SEIR model is a model of Ordinary Differential Equations (ODEs). 
 It assigns a population into 4 groups, which are Susceptible(S), Exposed(E), Infectious(I) 
 and Recovered(R). In this model, individuals will transit from being Susceptible to Exposed, from 
-Exposed to Infectious and from Infectious to Recovered. To control the rate at which the individuals
-transit from one state to the other, some parameters are imposed in the model.  
+Exposed to Infectious and from Infectious to Recovered.  
   
-The model is characterised by few constants, which include the *reproduction number*, the 
-*incubation period* and the *infection period*. The *reproduction number* measures the number of 
-infected cases originating from primary infections, the *incubation period* defines the average 
-period of time for exposed individuals to become infectious, and the *infection period* is the 
-average period of time for infected patients to recover from the disease.  
+The transition from one group to the other is controlled or described by different rates. The 
+*infection rate* indicates the speed at which an individual from the S gets exposed and enters the 
+group E. The *incubation rate* explains how fast an individual who got exposed becomes infected. For 
+example, if the incubation rate of the disease is higher, then individuals get infected quickly once 
+it is exposed. Finally, the rate where infected individuals get recovered is described by the *recovery 
+rate*. 
   
-The system of ODEs is solved to retrieve the number of inviduals in each S, E, I and R group. The
-incidence number is then inferred from the solution. To solve the system of ODEs, the initial value of
-each group is required. Different initial values will give different solutions.  
+In this model, most individual in a population will start with being susceptible, then exposed to 
+the disease, while all individuals will get infected and finally recovers from the disease. 
+Therefore, in the second plot, number of individuals in group S, E and I will eventually approach 
+zero, while group R will eventually include everyone in the population. However, for an infectious 
+disease to spread, it will require an initial amount of cases, that is the initial amount of exposed 
+and infected individuals, to be nonzero.   
   
 You are welcome to explore the effect of initial sizes of the S, E, I and R groups, as well as 
 the different transition periods with the paramter sliders below.  
@@ -97,16 +102,21 @@ reference = """
 [1] He, S., Peng, Y. & Sun, K. SEIR modeling of the COVID-19 and its dynamics. *Nonlinear Dyn*
  **101**, 1667-1680 (2020).
 """
+fname = os.path.join(os.path.dirname(__file__), 'descriptions', 'SEIR_image.png')
+
+encoded_image = base64.b64encode(open(fname, 'rb').read())
 
 app.app.layout = dbc.Container(children=[
     html.H1(title),
     html.H4('Motivation'),
     dcc.Markdown(motivation),
+    html.Img(src='data:image/png;base64,{}'.format(encoded_image.decode()),
+        style={'width': '1000px'}),
     html.H4('Description'),
     dcc.Markdown(description),
     html.Br(),
     fig_slider,
-    dcc.Markdown(reference)
+    # dcc.Markdown(reference)
 ])
 
 # Get sliders for callback
