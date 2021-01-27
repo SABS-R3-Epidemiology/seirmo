@@ -17,3 +17,7 @@ from .models import (
 from .simulation import (
     SimulationController
 )
+
+from ._dataset_library_api import (
+    DatasetLibrary
+)
