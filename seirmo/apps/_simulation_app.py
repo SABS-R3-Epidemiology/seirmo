@@ -7,6 +7,7 @@
 import dash
 import dash_bootstrap_components as dbc
 import dash_core_components as dcc
+import numpy as np
 import pandas as pd
 
 import seirmo as se
@@ -147,7 +148,10 @@ class _SimulationApp(object):
         parameters
             List of parameter values for simulation.
         """
+        population = np.sum(parameters[:4])
+        parameters[:4] = parameters[:4] / population
         data = self.simulate.run(parameters, return_incidence=True)
+        data = data * population
         self._subplot_fig._fig['data'][1]['y'] = data[:, 4]
         self._subplot_fig._fig['data'][2]['y'] = data[:, 0]
         self._subplot_fig._fig['data'][3]['y'] = data[:, 1]

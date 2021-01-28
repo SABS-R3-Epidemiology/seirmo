@@ -52,7 +52,7 @@ for slider in parameter_name[:4]:
     app._slider_component._sliders[slider].children[1].value = total_population / 2
     app._slider_component._sliders[slider].children[1].step = 1
     app._slider_component._sliders[slider].children[1].marks = {
-        int(i): (str(i/1000) + 'k') for i in np.linspace(
+        int(i): (' ') for i in np.linspace(
             start=0,
             stop=total_population,
             num=11
