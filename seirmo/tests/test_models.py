@@ -73,17 +73,30 @@ class TestSEIRModel(unittest.TestCase):
         model = se.SEIRModel()
         self.assertEqual(model.n_parameters(), 7)
 
-    def output_names(self):
+    def test_output_names(self):
         model = se.SEIRModel()
         self.assertEqual(model.output_names(), [
             'S', 'E', 'I', 'R', 'Incidence'
         ])
 
-    def parameter_names(self):
+    def test_parameter_names(self):
         model = se.SEIRModel()
         self.assertEqual(model.parameter_names(), [[
             'S0', 'E0', 'I0', 'R0', 'alpha', 'beta', 'gamma'
         ])
+
+    def test_set_outputs(self):
+        model = se.SEIRModel()
+
+        # Check ValueError will be raised when some output names
+        # are not as required
+        with self.assertRaises(ValueError):
+            model.set_outputs(['incidence number'])
+
+        model.set_outputs(['I', 'Incidences'])
+        # Check the outputs names and number are as expected
+        self.assertEqual(model._output_indices, [2, 4])
+        self.assertEqual(model._n_parameters, 2)
 
     def test_simulate(self):
         model = se.SEIRModel()
