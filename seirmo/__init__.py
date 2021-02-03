@@ -11,7 +11,8 @@ from . import plots
 
 from ._models import (
     ForwardModel,
-    SEIRModel
+    SEIRModel,
+    ReducedModel
 )
 
 from ._simulation import (
