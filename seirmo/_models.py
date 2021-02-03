@@ -99,7 +99,7 @@ class SEIRModel(ForwardModel):
         # i.e. 4 initial conditions and 3 parameters
         self._n_parameters = len(self._parameter_names)
 
-        self._output_indices = np.arrange(self._n_outputs)
+        self._output_indices = np.arange(self._n_outputs)
 
     def n_outputs(self):
         # Return the number of outputs

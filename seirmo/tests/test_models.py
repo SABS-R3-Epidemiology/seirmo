@@ -63,7 +63,7 @@ class TestSEIRModel(unittest.TestCase):
         ])
         self.assertEqual(model._n_outputs, 5)
         self.assertEqual(model._n_parameters, 7)
-        self.assertEqual(model._output_indices, np.arrange(5))
+        np.testing.assert_array_equal(model._output_indices, np.arange(5))
 
     def test_n_outputs(self):
         model = se.SEIRModel()
@@ -81,7 +81,7 @@ class TestSEIRModel(unittest.TestCase):
 
     def test_parameter_names(self):
         model = se.SEIRModel()
-        self.assertEqual(model.parameter_names(), [[
+        self.assertEqual(model.parameter_names(), [
             'S0', 'E0', 'I0', 'R0', 'alpha', 'beta', 'gamma'
         ])
 
@@ -93,10 +93,10 @@ class TestSEIRModel(unittest.TestCase):
         with self.assertRaises(ValueError):
             model.set_outputs(['incidence number'])
 
-        model.set_outputs(['I', 'Incidences'])
+        model.set_outputs(['I', 'Incidence'])
         # Check the outputs names and number are as expected
         self.assertEqual(model._output_indices, [2, 4])
-        self.assertEqual(model._n_parameters, 2)
+        self.assertEqual(model._n_outputs, 2)
 
     def test_simulate(self):
         model = se.SEIRModel()
