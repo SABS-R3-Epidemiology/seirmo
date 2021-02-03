@@ -73,6 +73,12 @@ class TestSEIRModel(unittest.TestCase):
         model = se.SEIRModel()
         self.assertEqual(model.n_parameters(), 7)
 
+    def output_names(self):
+        model = se.SEIRModel()
+        self.assertEqual(model.output_names(), [
+            'S', 'E', 'I', 'R', 'Incidence'
+        ])
+
     def test_simulate(self):
         model = se.SEIRModel()
         n_outputs = 4
