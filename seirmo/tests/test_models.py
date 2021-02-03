@@ -54,7 +54,16 @@ class TestSEIRModel(unittest.TestCase):
     Test the 'ForwardModel' class.
     """
     def test__init__(self):
-        se.SEIRModel()
+        model = se.SEIRModel()
+        self.assertEqual(model._output_names, [
+            'S', 'E', 'I', 'R', 'Incidence'
+        ])
+        self.assertEqual(model._parameter_names, [
+            'S0', 'E0', 'I0', 'R0', 'alpha', 'beta', 'gamma'
+        ])
+        self.assertEqual(model._n_outputs, 5)
+        self.assertEqual(model._n_parameters, 7)
+        self.assertEqual(model._output_indices, np.arrange(5))
 
     def test_simulate(self):
         model = se.SEIRModel()
