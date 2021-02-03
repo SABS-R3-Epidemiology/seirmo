@@ -18,6 +18,31 @@ class TestForwardModel(unittest.TestCase):
     def test__init__(self):
         se.ForwardModel()
 
+    def test_n_outputs(self):
+        forward_model = se.ForwardModel()
+        with self.assertRaises(NotImplementedError):
+            forward_model.n_outputs()
+
+    def test_n_parameters(self):
+        forward_model = se.ForwardModel()
+        with self.assertRaises(NotImplementedError):
+            forward_model.n_parameters()
+
+    def test_output_names(self):
+        forward_model = se.ForwardModel()
+        with self.assertRaises(NotImplementedError):
+            forward_model.output_names()
+
+    def test_parameter_names(self):
+        forward_model = se.ForwardModel()
+        with self.assertRaises(NotImplementedError):
+            forward_model.parameter_names()
+
+    def set_outputs(self):
+        forward_model = se.ForwardModel()
+        with self.assertRaises(NotImplementedError):
+            forward_model.set_outputs()
+
     def test_simulate(self):
         forward_model = se.ForwardModel()
         with self.assertRaises(NotImplementedError):
