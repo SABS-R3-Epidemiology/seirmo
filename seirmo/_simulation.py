@@ -31,11 +31,14 @@ class SimulationController(object):
         self._model = model()
         self._simulation_times = np.arange(start, end, step=1)
 
-    def run(self, parameters, return_incidence=False):
+    def run(self, parameters, outputs=None):
+
+        # If outputs=None, the outputs will be the default values
+        if outputs is not None:
+            self._model.set_outputs(outputs)
 
         output = self._model.simulate(
             parameters,
-            self._simulation_times,
-            return_incidence)
+            self._simulation_times)
 
         return output
