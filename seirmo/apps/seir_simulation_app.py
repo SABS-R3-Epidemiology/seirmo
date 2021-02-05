@@ -66,27 +66,30 @@ title = 'SEIR model'
 motivation = """
 Scientists and researchers are trying to understand the COVID-19 outbreak in hopes to
  predict and defeat the disease. In order to understand the spread and
- infecting rate of the disease, many models are used to characterise the
+ the infecting rate of the disease, many models are used to characterise the
  disease, such as the SEIR model and the branching processes model.  
   
-SEIR model is a deterministic model. A deterministic model means that the simulation will always 
-be the same as long as the parameters are the same. This SEIR model has been used to model 
-infectious disease.  """
+The SEIR model is a deterministic model, which means that the simulations will always 
+be the same as long as the parameters are the same.  """
 
 # Model description
-description = """
-The SEIR model is a model of Ordinary Differential Equations (ODEs). 
-It assigns a population into 4 groups, which are Susceptible(S), Exposed(E), Infectious(I) 
-and Recovered(R). In this model, individuals will transit from being Susceptible to Exposed, from 
-Exposed to Infectious and from Infectious to Recovered.  
+description1 = """
+The SEIR model assigns individuals in a population to four distinct disease stages: 
+Susceptible(S), Exposed(E), Infectious(I) and Recovered(R). Exposed individuals are infected but
+ not infectious. Susceptible individuals can become infected, then infectious and ultimately recover.
+ Diagrammatically this may be illustrated by the figure below.  """
   
-The transition from one group to the other is controlled or described by different rates. The 
+description2 = """
+  
+More formally, the SEIR model is expressed in terms of a system of ordinary differential equations. 
+The transition rates between the states are controlled by rate parameters. The 
 *infection rate* indicates the speed at which an individual from the S gets exposed and enters the 
 group E. The *incubation rate* explains how fast an individual who got exposed becomes infected. For 
 example, if the incubation rate of the disease is higher, then individuals get infected quickly once 
 it is exposed. Finally, the rate where infected individuals get recovered is described by the *recovery 
-rate*. 
-  
+rate*.  """
+
+plot_description = """  
 The bar graph shows the daily incidence number of an infectious disease. The blue bars show actual 
 cases of infectious disease while the red ones show cases simulated by the SEIR model, given the 
 parameters of the sliders.  
@@ -114,10 +117,13 @@ app.app.layout = dbc.Container(children=[
     html.H1(title),
     html.H4('Motivation'),
     dcc.Markdown(motivation),
+    html.H4('Description'),
+    dcc.Markdown(description1),
     html.Img(src='data:image/png;base64,{}'.format(encoded_image.decode()),
         style={'width': '1000px'}),
-    html.H4('Description'),
-    dcc.Markdown(description),
+    dcc.Markdown(description2),
+    html.H4('Simulation and real data'),
+    dcc.Markdown(plot_description),
     html.Br(),
     fig_slider,
     # dcc.Markdown(reference),
