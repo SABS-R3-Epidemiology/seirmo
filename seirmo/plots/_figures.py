@@ -178,7 +178,7 @@ class CompartmentPlot(object):
 
         # Update axis labels
         x_label = time_key
-        y_label = 'Percentage in population'
+        y_label = 'Number of individuals'
         self._update_axis_labels(x_label, y_label)
 
     def _update_axis_labels(self, x_label, y_label):
