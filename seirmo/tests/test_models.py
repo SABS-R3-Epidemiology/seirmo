@@ -173,85 +173,85 @@ class TestReducedModel(unittest.TestCase):
         self.assertEqual(reduced_model._fixed_params_mask, None)
         self.assertEqual(reduced_model._fixed_params_values, None)
 
-        def test_n_fixed_parameters(self):
-            # Test the number of fixed parameters is as expected
-            reduced_model = se.ReducedModel(se.SEIRModel())
-            name_value_dict = {'S0': 0.5, 'alpha': 1}
-            reduced_model.fix_parameters(name_value_dict)
-            self.assertEqual(reduced_model.n_fixed_parameters(), 2)
+    def test_n_fixed_parameters(self):
+        # Test the number of fixed parameters is as expected
+        reduced_model = se.ReducedModel(se.SEIRModel())
+        name_value_dict = {'S0': 0.5, 'alpha': 1}
+        reduced_model.fix_parameters(name_value_dict)
+        self.assertEqual(reduced_model.n_fixed_parameters(), 2)
 
-        def test_n_outputs(self):
-            # Test the number of outputs is as expected
-            reduced_model = se.ReducedModel(se.SEIRModel())
-            self.assertEqual(reduced_model.n_outputs(), 5)
+    def test_n_outputs(self):
+        # Test the number of outputs is as expected
+        reduced_model = se.ReducedModel(se.SEIRModel())
+        self.assertEqual(reduced_model.n_outputs(), 5)
 
-        def test_n_parameters(self):
-            # Test the number of (unfixed) parameters is as expected
-            reduced_model = se.ReducedModel(se.SEIRModel())
+    def test_n_parameters(self):
+        # Test the number of (unfixed) parameters is as expected
+        reduced_model = se.ReducedModel(se.SEIRModel())
 
-            # The case when the mask is None
-            self.assertEqual(reduced_model.n_parameters(), 0)
+        # The case when the mask is None
+        self.assertEqual(reduced_model.n_parameters(), 0)
 
-            name_value_dict = {'S0': 0.5, 'alpha': 1}
-            reduced_model.fix_parameters(name_value_dict)
-            self.assertEqual(reduced_model.n_parameters(), 5)
+        name_value_dict = {'S0': 0.5, 'alpha': 1}
+        reduced_model.fix_parameters(name_value_dict)
+        self.assertEqual(reduced_model.n_parameters(), 5)
 
-        def test_output_names(self):
-            # Test the output names are as expected
-            reduced_model = se.ReducedModel(se.SEIRModel())
-            self.assertEqual(reduced_model.output_names(), [
-                'S', 'E', 'I', 'R', 'Incidence'
-            ])
+    def test_output_names(self):
+        # Test the output names are as expected
+        reduced_model = se.ReducedModel(se.SEIRModel())
+        self.assertEqual(reduced_model.output_names(), [
+            'S', 'E', 'I', 'R', 'Incidence'
+        ])
 
-            reduced_model.set_outputs(['I', 'Incidence'])
-            self.assertEqual(reduced_model.output_names(), ['I', 'Incidence'])
+        reduced_model.set_outputs(['I', 'Incidence'])
+        self.assertEqual(reduced_model.output_names(), ['I', 'Incidence'])
 
-        def test_parameter_names(self):
-            # Test the parameter names are as expected
-            reduced_model = se.ReducedModel(se.SEIRModel())
-            name_value_dict = {'S0': 0.5, 'alpha': 1}
-            reduced_model.fix_parameters(name_value_dict)
-            self.assertEqual(reduced_model.parameter_names(), ['S0', 'alpha'])
+    def test_parameter_names(self):
+        # Test the parameter names are as expected
+        reduced_model = se.ReducedModel(se.SEIRModel())
+        name_value_dict = {'S0': 0.5, 'alpha': 1}
+        reduced_model.fix_parameters(name_value_dict)
+        self.assertEqual(reduced_model.parameter_names(), ['S0', 'alpha'])
 
-        def test_set_outputs(self):
-            reduced_model = se.ReducedModel(se.SEIRModel())
+    def test_set_outputs(self):
+        reduced_model = se.ReducedModel(se.SEIRModel())
 
-            # Check ValueError will be raised when some output names
-            # are not as required
-            with self.assertRaises(ValueError):
-                reduced_model.set_outputs(['incidence number'])
+        # Check ValueError will be raised when some output names
+        # are not as required
+        with self.assertRaises(ValueError):
+            reduced_model.set_outputs(['incidence number'])
 
-            reduced_model.set_outputs(['I', 'Incidence'])
-            # Check the outputs names and number are as expected
-            self.assertEqual(reduced_model.output_names(), ['I', 'Incidence'])
-            self.assertEqual(reduced_model.n_outputs, 2)
+        reduced_model.set_outputs(['I', 'Incidence'])
+        # Check the outputs names and number are as expected
+        self.assertEqual(reduced_model.output_names(), ['I', 'Incidence'])
+        self.assertEqual(reduced_model.n_outputs, 2)
 
-        def test_simulate(self):
-            reduced_model = se.ReducedModel(se.SEIRModel())
+    def test_simulate(self):
+        reduced_model = se.ReducedModel(se.SEIRModel())
 
-            initial_values = [0, 0.1, 0]
-            constants = [1, 1]
-            test_parameters = initial_values + constants
+        initial_values = [0, 0.1, 0]
+        constants = [1, 1]
+        test_parameters = initial_values + constants
 
-            n_times = 10
-            test_times = np.linspace(0, 10, num=n_times)
+        n_times = 10
+        test_times = np.linspace(0, 10, num=n_times)
 
-            reduced_model.set_outputs(['S', 'I', 'Incidence'])
-            reduced_model.fix_parameters({'S0': 0.9, 'alpha': 1})
-            output = reduced_model.simulate(test_parameters, test_times)
+        reduced_model.set_outputs(['S', 'I', 'Incidence'])
+        reduced_model.fix_parameters({'S0': 0.9, 'alpha': 1})
+        output = reduced_model.simulate(test_parameters, test_times)
 
-            # Check output shape
-            self.assertEqual(output.shape, (n_times, 3))
+        # Check output shape
+        self.assertEqual(output.shape, (n_times, 3))
 
-            # Check that sum of states is one at all times
-            reduced_model.set_outputs(['S', 'E', 'I', 'R'])
-            output = reduced_model.simulate(test_parameters, test_times)
-            total = np.sum(output, axis=1)
-            expected = np.ones(shape=n_times)
-            np.testing.assert_almost_equal(total, expected)
+        # Check that sum of states is one at all times
+        reduced_model.set_outputs(['S', 'E', 'I', 'R'])
+        output = reduced_model.simulate(test_parameters, test_times)
+        total = np.sum(output, axis=1)
+        expected = np.ones(shape=n_times)
+        np.testing.assert_almost_equal(total, expected)
 
-            # Check output shape
-            self.assertEqual(output.shape, (n_times, 4))
+        # Check output shape
+        self.assertEqual(output.shape, (n_times, 4))
 
 
 if __name__ == '__main__':
