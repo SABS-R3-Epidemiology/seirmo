@@ -188,6 +188,10 @@ class TestReducedModel(unittest.TestCase):
         def test_n_parameters(self):
             # Test the number of (unfixed) parameters is as expected
             reduced_model = se.ReducedModel(se.SEIRModel())
+
+            # The case when the mask is None
+            self.assertEqual(reduced_model.n_parameters(), 0)
+
             name_value_dict = {'S0': 0.5, 'alpha': 1}
             reduced_model.fix_parameters(name_value_dict)
             self.assertEqual(reduced_model.n_parameters(), 5)
