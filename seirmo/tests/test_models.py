@@ -139,9 +139,37 @@ class TestReducedModel(unittest.TestCase):
 
         # Test defaults
         self.assertEqual(reduced_model._fixed_params_mask, None)
-        self.assertEqual(reduced_model._fixed_params_values, None])
+        self.assertEqual(reduced_model._fixed_params_values, None)
         self.assertEqual(reduced_model._n_parameters, 5)
-        self.assertEqual(mreduced_model._parameter_names, 7)
+        self.assertEqual(reduced_model._parameter_names, 7)
+
+    def test_fix_parameters(self):
+        # Test error will be raised when the input is not a dictionary
+        reduced_model = se.ReducedModel(se.SEIRModel())
+        with self.assertRaises(TypeError):
+            reduced_model.fix_parameters(name_value_dict=1)
+
+        # Test the mask and values are as expected
+        reduced_model = se.ReducedModel(se.SEIRModel())
+        name_value_dict = {'S0': 0.5, 'alpha': 1}
+        reduced_model.fix_parameters(name_value_dict)
+
+        # Test the mask
+        self.assertEqual(
+            reduced_model._fixed_params_mask, np.array([1, 0, 0, 0, 1, 0, 0]))
+        # Test the value of S0
+        self.assertEqual(
+            reduced_model._fixed_params_values[0], 0.5)
+        # test the value of alpha
+        self.assertEqual(
+            reduced_model._fixed_params_values[4], 1)
+
+        # Test that the mask and values are None when all parameters are free
+        name_value_dict = {'S0': None, 'alpha': None}
+        reduced_model.fix_parameters(name_value_dict)
+        self.assertEqual(reduced_model._fixed_params_mask, None)
+        self.assertEqual(reduced_model._fixed_params_values, None)
+
 
 
 if __name__ == '__main__':
