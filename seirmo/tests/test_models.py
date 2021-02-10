@@ -138,18 +138,20 @@ class TestReducedModel(unittest.TestCase):
             se.ReducedModel('1')
 
         reduced_model = se.ReducedModel(se.SEIRModel())
-        self.assertEqual(reduced_model._model, se.SEIRModel())
 
         # Test defaults
         self.assertEqual(reduced_model._fixed_params_mask, None)
         self.assertEqual(reduced_model._fixed_params_values, None)
-        self.assertEqual(reduced_model._n_parameters, 5)
-        self.assertEqual(reduced_model._parameter_names, 7)
+        self.assertEqual(reduced_model._n_parameters, 7)
+        self.assertEqual(
+            reduced_model._parameter_names,
+            ['S0', 'E0', 'I0', 'R0', 'alpha', 'beta', 'gamma']
+        )
 
     def test_fix_parameters(self):
         # Test error will be raised when the input is not a dictionary
         reduced_model = se.ReducedModel(se.SEIRModel())
-        with self.assertRaises(TypeError):
+        with self.assertRaises(ValueError):
             reduced_model.fix_parameters(name_value_dict=1)
 
         # Test the mask and values are as expected
@@ -158,7 +160,7 @@ class TestReducedModel(unittest.TestCase):
         reduced_model.fix_parameters(name_value_dict)
 
         # Test the mask
-        self.assertEqual(
+        np.testing.assert_array_equal(
             reduced_model._fixed_params_mask, np.array([1, 0, 0, 0, 1, 0, 0]))
         # Test the value of S0
         self.assertEqual(reduced_model._fixed_params_values[0], 0.5)
