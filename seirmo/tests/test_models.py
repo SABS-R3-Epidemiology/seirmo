@@ -176,6 +176,10 @@ class TestReducedModel(unittest.TestCase):
             self.assertEqual(reduced_model.n_fixed_parameters(), 2)
 
         def test_n_outputs(self):
+            # Test the number of outputs is as expected
+            reduced_model = se.ReducedModel(se.SEIRModel())
+            self.assertEqual(reduced_model.n_outputs(), 5)
+
         def test_n_parameters(self):
         def test_output_names(self):
         def test_parameter_names(self):
