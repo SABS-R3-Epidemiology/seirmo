@@ -191,6 +191,15 @@ class TestReducedModel(unittest.TestCase):
             self.assertEqual(reduced_model.n_parameters(), 5)
 
         def test_output_names(self):
+            # Test the output names are as expected
+            reduced_model = se.ReducedModel(se.SEIRModel())
+            self.assertEqual(reduced_model.output_names(), [
+                'S', 'E', 'I', 'R', 'Incidence'
+            ])
+
+            reduced_model.set_outputs(['I', 'Incidence'])
+            self.assertEqual(reduced_model.output_names(), ['I', 'Incidence'])
+
         def test_parameter_names(self):
         def test_set_outputs(self):
         def test_simulate(self):
