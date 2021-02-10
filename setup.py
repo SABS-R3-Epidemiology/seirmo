@@ -67,6 +67,7 @@ setup(
         'dash-html-components==1.1.1',
         'numpy>=1.8',
         'pandas',
+        'pints',
         'plotly',
         'scipy',
     ],

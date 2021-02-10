@@ -5,16 +5,47 @@
 #
 
 import numpy as np
+import pints
 from scipy.integrate import solve_ivp
 
 
-class ForwardModel(object):
-    """ForwardModel Class:
-    Abstract base class for any models.
+class ForwardModel(pints.ForwardModel):
     """
-
+    Abstract base class for forward models.
+    Extends :class:`pints.ForwardModel`.
+    """
     def __init__(self):
         super(ForwardModel, self).__init__()
+
+    def n_outputs(self):
+        """
+        Returns the number of model outputs.
+        """
+        raise NotImplementedError
+
+    def n_parameters(self):
+        """
+        Returns the number of model parameters.
+        """
+        raise NotImplementedError
+
+    def output_names(self):
+        """
+        Returns the names of the model outputs.
+        """
+        raise NotImplementedError
+
+    def parameter_names(self):
+        """
+        Returns the names of the model parameters.
+        """
+        raise NotImplementedError
+
+    def set_outputs(self, outputs):
+        """
+        Sets the outputs of the model.
+        """
+        raise NotImplementedError
 
     def simulate(self, parameters, times):
         """
@@ -24,10 +55,11 @@ class ForwardModel(object):
         or a NumPy array of shape ``(n_times, n_outputs)`` (for multi-output
         problems), representing the values of the model at the given ``times``.
 
-        Parameters
-        ----------
-        parameters: sequence of numerics
-        times: sequence of numerics
+        :param parameters: An array-like object with parameter values
+         of length :meth:`n_parameters`.
+        :type parameters: list, numpy.ndarray
+        :param times: An array-like object with time points.
+        :type times: list, numpy.ndarray
         """
         raise NotImplementedError
 
@@ -56,6 +88,52 @@ class SEIRModel(ForwardModel):
     def __init__(self):
         super(SEIRModel, self).__init__()
 
+        # Assign default values
+        self._output_names = ['S', 'E', 'I', 'R', 'Incidence']
+        self._parameter_names = [
+            'S0', 'E0', 'I0', 'R0', 'alpha', 'beta', 'gamma'
+        ]
+        # The default number of outputs is 5,
+        # i.e. S, E, I, R and Incidence
+        self._n_outputs = len(self._output_names)
+        # The default number of outputs is 7,
+        # i.e. 4 initial conditions and 3 parameters
+        self._n_parameters = len(self._parameter_names)
+
+        self._output_indices = np.arange(self._n_outputs)
+
+    def n_outputs(self):
+        # Return the number of outputs
+        return self._n_outputs
+
+    def n_parameters(self):
+        # Return the number of parameters
+        return self._n_parameters
+
+    def output_names(self):
+        # Return the (selected) output names
+        return self._output_names
+
+    def parameter_names(self):
+        # Return the parameter names
+        return self._parameter_names
+
+    def set_outputs(self, outputs):
+        # Check existence of outputs
+        for output in outputs:
+            if output not in self._output_names:
+                raise ValueError(
+                    'The output names specified must be in correct forms')
+
+        output_indices = []
+        for output_id, output in enumerate(self._output_names):
+            if output in outputs:
+                output_indices.append(output_id)
+
+        # Remember outputs
+        self._output_indices = output_indices
+        self._n_outputs = len(outputs)
+
     def _right_hand_side(self, t, y, c):
         # Assuming y = [S, E, I, R] (the dependent variables in the model)
         # Assuming the parameters are ordered like
@@ -73,7 +151,7 @@ class SEIRModel(ForwardModel):
 
         return dydt
 
-    def simulate(self, parameters, times, return_incidence=False):
+    def simulate(self, parameters, times):
 
         # Define time spans, initial conditions, and constants
         y_init = parameters[:4]
@@ -85,10 +163,7 @@ class SEIRModel(ForwardModel):
 
         output = sol['y']
 
-        if not return_incidence:
-            return output.transpose()
-
-        # Total infected is infectiout 'i' plus recovered 'r'
+        # Total infected is infectious 'i' plus recovered 'r'
         total_infected = output[2, :] + output[3, :]
 
         # Number of incidences is the increase in total_infected
@@ -98,5 +173,10 @@ class SEIRModel(ForwardModel):
         n_incidence[1:] = total_infected[1:] - total_infected[:-1]
 
         # Append n_incidence to output
+        # Output is a matrix with rows being S, E, I, R and Incidence
         output = np.vstack(tup=(output, n_incidence))
+
+        # Get the selected outputs
+        output = output[self._output_indices, :]
+
         return output.transpose()
