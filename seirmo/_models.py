@@ -117,7 +117,8 @@ class SEIRModel(ForwardModel):
 
     def output_names(self):
         # Return the (selected) output names
-        return self._output_names
+        names = [self._output_names[x] for x in self._output_indices]
+        return names
 
     def parameter_names(self):
         # Return the parameter names

@@ -181,6 +181,12 @@ class TestReducedModel(unittest.TestCase):
             self.assertEqual(reduced_model.n_outputs(), 5)
 
         def test_n_parameters(self):
+            # Test the number of (unfixed) parameters is as expected
+            reduced_model = se.ReducedModel(se.SEIRModel())
+            name_value_dict = {'S0': 0.5, 'alpha': 1}
+            reduced_model.fix_parameters(name_value_dict)
+            self.assertEqual(reduced_model.n_parameters(), 5)
+
         def test_output_names(self):
         def test_parameter_names(self):
         def test_set_outputs(self):
