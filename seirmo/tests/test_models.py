@@ -201,9 +201,26 @@ class TestReducedModel(unittest.TestCase):
             self.assertEqual(reduced_model.output_names(), ['I', 'Incidence'])
 
         def test_parameter_names(self):
-        def test_set_outputs(self):
-        def test_simulate(self):
+            # Test the parameter names are as expected
+            reduced_model = se.ReducedModel(se.SEIRModel())
+            name_value_dict = {'S0': 0.5, 'alpha': 1}
+            reduced_model.fix_parameters(name_value_dict)
+            self.assertEqual(reduced_model.parameter_names(), ['S0', 'alpha'])
 
+        def test_set_outputs(self):
+            reduced_model = se.ReducedModel(se.SEIRModel())
+
+            # Check ValueError will be raised when some output names
+            # are not as required
+            with self.assertRaises(ValueError):
+                reduced_model.set_outputs(['incidence number'])
+
+            reduced_model.set_outputs(['I', 'Incidence'])
+            # Check the outputs names and number are as expected
+            self.assertEqual(reduced_model.output_names(), ['I', 'Incidence'])
+            self.assertEqual(reduced_model.n_outputs, 2)
+
+        def test_simulate(self):
 
 
 if __name__ == '__main__':
