@@ -158,17 +158,29 @@ class TestReducedModel(unittest.TestCase):
         self.assertEqual(
             reduced_model._fixed_params_mask, np.array([1, 0, 0, 0, 1, 0, 0]))
         # Test the value of S0
-        self.assertEqual(
-            reduced_model._fixed_params_values[0], 0.5)
+        self.assertEqual(reduced_model._fixed_params_values[0], 0.5)
         # test the value of alpha
-        self.assertEqual(
-            reduced_model._fixed_params_values[4], 1)
+        self.assertEqual(reduced_model._fixed_params_values[4], 1)
 
         # Test that the mask and values are None when all parameters are free
         name_value_dict = {'S0': None, 'alpha': None}
         reduced_model.fix_parameters(name_value_dict)
         self.assertEqual(reduced_model._fixed_params_mask, None)
         self.assertEqual(reduced_model._fixed_params_values, None)
+
+        def test_n_fixed_parameters(self):
+            # Test the number of fixed parameters is as expected
+            reduced_model = se.ReducedModel(se.SEIRModel())
+            name_value_dict = {'S0': 0.5, 'alpha': 1}
+            reduced_model.fix_parameters(name_value_dict)
+            self.assertEqual(reduced_model.n_fixed_parameters(), 2)
+
+        def test_n_outputs(self):
+        def test_n_parameters(self):
+        def test_output_names(self):
+        def test_parameter_names(self):
+        def test_set_outputs(self):
+        def test_simulate(self):
 
 
 
