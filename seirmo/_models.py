@@ -56,7 +56,7 @@ class ForwardModel(pints.ForwardModel):
         problems), representing the values of the model at the given ``times``.
 
         :param parameters: An array-like object with parameter values
-        of length :meth:`n_parameters`.
+         of length :meth:`n_parameters`.
         :type parameters: list, numpy.ndarray
         :param times: An array-like object with time points.
         :type times: list, numpy.ndarray
