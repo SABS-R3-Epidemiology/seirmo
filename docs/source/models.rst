@@ -19,3 +19,6 @@ SEIR Model
 
 .. autoclass:: SEIRModel
     :members:
+
+.. autoclass:: ReducedModel
+    :members:
