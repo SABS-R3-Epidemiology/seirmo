@@ -23,6 +23,7 @@ class ForwardModel(object):
         Returns a sequence of length ``n_times`` (for single output problems)
         or a NumPy array of shape ``(n_times, n_outputs)`` (for multi-output
         problems), representing the values of the model at the given ``times``.
+
         Parameters
         ----------
         parameters: sequence of numerics
@@ -38,6 +39,7 @@ class SEIRModel(ForwardModel):
     susceptible individuals (:math:`S`),
     exposed but not yet infectious (:math:`E`),
     infectious (:math:`I`) and recovered (:math:`R`):
+
     .. math::
         \frac{dS(t)}{dt} = -\beta S(t)I(t),
     .. math::
@@ -46,6 +48,7 @@ class SEIRModel(ForwardModel):
         \frac{dI(t)}{dt} = \kappa E(t) - \gamma I(t),
     .. math::
         \frac{dR(t)}{dt} = \gamma I(t),
+
     where :math:`S(0) = S_0, E(0) = E_0, I(O) = I_0, R(0) = R_0`
     are also parameters of the model.
     """
