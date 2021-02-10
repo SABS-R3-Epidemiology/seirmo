@@ -54,11 +54,12 @@ class ForwardModel(pints.ForwardModel):
         Returns a sequence of length ``n_times`` (for single output problems)
         or a NumPy array of shape ``(n_times, n_outputs)`` (for multi-output
         problems), representing the values of the model at the given ``times``.
+
         :param parameters: An array-like object with parameter values
         of length :meth:`n_parameters`.
-        :type parameters: list | numpy.ndarray
+        :type parameters: list, numpy.ndarray
         :param times: An array-like object with time points.
-        :type times: list | numpy.ndarray
+        :type times: list, numpy.ndarray
         """
         raise NotImplementedError
 
@@ -121,7 +122,8 @@ class SEIRModel(ForwardModel):
         # Check existence of outputs
         for output in outputs:
             if output not in self._output_names:
-                raise ValueError('The output names specified must be in correct forms') # noqa
+                raise ValueError(
+                    'The output names specified must be in correct forms')
 
         output_indices = []
         for output_id, output in enumerate(self._output_names):
