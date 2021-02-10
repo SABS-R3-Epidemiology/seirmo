@@ -134,8 +134,14 @@ class TestReducedModel(unittest.TestCase):
         with self.assertRaises(TypeError):
             se.ReducedModel('1')
 
-        # reduced_model = se.ReducedModel(se.ForwardModel())
-        # self.assertEqual(reduced_model._model, se.ForwardModel())
+        reduced_model = se.ReducedModel(se.SEIRModel())
+        self.assertEqual(reduced_model._model, se.SEIRModel())
+
+        # Test defaults
+        self.assertEqual(reduced_model._fixed_params_mask, None)
+        self.assertEqual(reduced_model._fixed_params_values, None])
+        self.assertEqual(reduced_model._n_parameters, 5)
+        self.assertEqual(mreduced_model._parameter_names, 7)
 
 
 if __name__ == '__main__':
