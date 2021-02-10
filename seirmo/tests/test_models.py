@@ -221,6 +221,31 @@ class TestReducedModel(unittest.TestCase):
             self.assertEqual(reduced_model.n_outputs, 2)
 
         def test_simulate(self):
+            reduced_model = se.ReducedModel(se.SEIRModel())
+
+            initial_values = [0, 0.1, 0]
+            constants = [1, 1]
+            test_parameters = initial_values + constants
+
+            n_times = 10
+            test_times = np.linspace(0, 10, num=n_times)
+
+            reduced_model.set_outputs(['S', 'I', 'Incidence'])
+            reduced_model.fix_parameters({'S0': 0.9, 'alpha': 1})
+            output = reduced_model.simulate(test_parameters, test_times)
+
+            # Check output shape
+            self.assertEqual(output.shape, (n_times, 3))
+
+            # Check that sum of states is one at all times
+            reduced_model.set_outputs(['S', 'E', 'I', 'R'])
+            output = reduced_model.simulate(test_parameters, test_times)
+            total = np.sum(output, axis=1)
+            expected = np.ones(shape=n_times)
+            np.testing.assert_almost_equal(total, expected)
+
+            # Check output shape
+            self.assertEqual(output.shape, (n_times, 4))
 
 
 if __name__ == '__main__':
