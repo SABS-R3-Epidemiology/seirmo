@@ -245,7 +245,7 @@ class TestSubplotFigure(unittest.TestCase):
         )
         np.testing.assert_equal(
             test_plot._fig['layout']['yaxis2']['title']['text'],
-            'Percentage in population'
+            'Number of individuals'
         )
 
     def test_get_trace(self):
@@ -380,7 +380,7 @@ class TestSubplotFigure(unittest.TestCase):
         )
         np.testing.assert_equal(
             test_plot._compartment_plot._fig['layout']['yaxis']['title']['text'], # noqa
-            'Percentage in population'
+            'Number of individuals'
         )
 
         # Test the added simulation data in the CompartmentPlot
@@ -446,7 +446,7 @@ class TestSubplotFigure(unittest.TestCase):
         )
         np.testing.assert_equal(
             test_plot._fig['layout']['yaxis2']['title']['text'],
-            'Percentage in population'
+            'Number of individuals'
         )
 
         # Test the added simulation data in the subplot(IncidenceNumberPlot)

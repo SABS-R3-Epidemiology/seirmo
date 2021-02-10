@@ -19,7 +19,7 @@ Contents
     plots
     models
     simulation
-    dataset_library_api
+    dataset_library
 
 
 Search
