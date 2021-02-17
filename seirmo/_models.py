@@ -79,11 +79,18 @@ class SEIRModel(ForwardModel):
         y_init = parameters[:4]
         c = parameters[4:]
 
+        # Normalise population
+        population_size = np.sum(y_init)
+        y_init = y_init / population_size
+
         # Solve the system of ODEs
         sol = solve_ivp(lambda t, y: self._right_hand_side(t, y, c),
                         [times[0], times[-1]], y_init, t_eval=times)
 
         output = sol['y']
+
+        # Rescale to population numbers
+        output = output * population_size
 
         if not return_incidence:
             return output.transpose()
