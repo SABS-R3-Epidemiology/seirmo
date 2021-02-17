@@ -17,8 +17,8 @@ SEIR Model
 .. autoclass:: ForwardModel
     :members:
 
-.. autoclass:: SEIRModel
+.. autoclass:: ReducedModel
     :members:
 
-.. autoclass:: ReducedModel
+.. autoclass:: SEIRModel
     :members:
