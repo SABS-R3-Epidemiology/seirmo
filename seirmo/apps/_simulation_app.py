@@ -118,7 +118,7 @@ class _SimulationApp(object):
         self.simulate = se.SimulationController(
             model, self.simulation_start, self.simulation_end)
 
-        data = self.simulate.run(init_parameters, return_incidence=True)
+        data = self.simulate.run(init_parameters)
         data = pd.DataFrame({
             'Time': list(self.simulate._simulation_times),
             'Incidence Number': data[:, -1],
@@ -150,7 +150,7 @@ class _SimulationApp(object):
         """
         population = np.sum(parameters[:4])
         parameters[:4] = parameters[:4] / population
-        data = self.simulate.run(parameters, return_incidence=True)
+        data = self.simulate.run(parameters)
         data = data * population
         self._subplot_fig._fig['data'][1]['y'] = data[:, 4]
         self._subplot_fig._fig['data'][2]['y'] = data[:, 0]
