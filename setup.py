@@ -67,7 +67,7 @@ setup(
         'dash-html-components==1.1.1',
         'numpy>=1.8',
         'pandas',
-        'pints @ git+git://github.com/pints-team/pints.git#egg=pints', 
+        'pints @ git+git://github.com/pints-team/pints.git#egg=pints-latest', 
         'plotly',
         'scipy',
     ],
