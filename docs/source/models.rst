@@ -9,6 +9,7 @@ The models provide a framework for the implementation of any models.
 Overview:
 
 - :class:`ForwardModel`
+- :class:`ReducedModel`
 - :class:`SEIRModel`
 
 SEIR Model
