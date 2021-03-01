@@ -10,9 +10,9 @@ import dash_core_components as dcc
 import dash_html_components as html
 import numpy as np
 import pandas as pd
+import pints
 
 import seirmo as se
-from seirmo import apps
 from seirmo import plots
 
 
@@ -46,9 +46,9 @@ class _OptimisationApp(object):
                             figure=self._subplot_fig._fig, id='fig',
                             style={'height': '80vh'})],
                         md=9),
-                    dbc.Col(
-                        [html.Button('Run', id='button')],
-                        md=3)
+                    dbc.Col([
+                        html.Button('Run', id='run-button', n_clicks=0),
+                        html.H6('Click to run')], md=3)
                     ])
         ], fluid=True)
 
@@ -118,7 +118,7 @@ class _OptimisationApp(object):
         self.simulate = se.SimulationController(
             model, self.simulation_start, self.simulation_end)
 
-        data = self.simulate.run(init_parameters, return_incidence=True)
+        data = self.simulate.run(init_parameters)
         data = pd.DataFrame({
             'Time': list(self.simulate._simulation_times),
             'Incidence Number': data[:, -1],
@@ -130,6 +130,58 @@ class _OptimisationApp(object):
 
         self._subplot_fig.add_simulation(data)
 
+    def add_problem(self, data, model):
+        # Check model is ForwardModel
+
+        time_key = 'Time'
+        inc_key = 'Incidence Number'
+        # Visualise data
+        self._subplot_fig.add_data(
+            data, time_key, inc_key)
+
+        self.simulate = se.SimulationController(
+            model, self.simulation_start, self.simulation_end)
+
+        initialise_data = self.simulate.run([0] * 7)
+        initialise_data = pd.DataFrame({
+            'Time': list(self.simulate._simulation_times),
+            'Incidence Number': initialise_data[:, -1],
+            'Susceptible': initialise_data[:, 0],
+            'Exposed': initialise_data[:, 1],
+            'Infectious': initialise_data[:, 2],
+            'Recovered': initialise_data[:, 3],
+        })
+
+        self._subplot_fig.add_simulation(initialise_data)
+
+        # Create inverse problem
+        model = model()
+        model = se.ReducedModel(model)
+        model.set_outputs(['Incidence'])
+        problem = pints.SingleOutputProblem(
+            model=model,
+            times=data[time_key].to_numpy(),
+            values=data[inc_key].to_numpy())
+        log_likelihood = pints.GaussianLogLikelihood(problem)
+        log_prior = pints.ComposedLogPrior(
+            pints.UniformLogPrior(0, 100),
+            pints.UniformLogPrior(0, 10),
+            pints.UniformLogPrior(0, 10),
+            pints.UniformLogPrior(0, 100),
+            pints.UniformLogPrior(0, 1),
+            pints.UniformLogPrior(0, 1),
+            pints.UniformLogPrior(0, 1),
+            pints.UniformLogPrior(0, 1))
+        self.log_posterior = pints.LogPosterior(log_likelihood, log_prior)
+
+        # Run inference
+        # n_runs = 1
+        self.transformations = pints.LogTransformation(
+            self.log_posterior.n_parameters())
+
+        # estimates = np.empty(shape=(n_runs, log_posterior.n_parameters()))
+        self.initial_parameters = log_prior.sample()
+
     def get_subplots(self):
         self._subplot_fig.get_subplots()
 
@@ -139,7 +191,7 @@ class _OptimisationApp(object):
         """
         return self._slider_component.get_slider_ids()
 
-    def update_simulation(self, parameters):
+    def update_simulation(self):
         """
         Update the subplots with simulated data of new parameters.
 
@@ -148,9 +200,17 @@ class _OptimisationApp(object):
         parameters
             List of parameter values for simulation.
         """
+        opt = pints.OptimisationController(
+            function=self.log_posterior,
+            x0=self.initial_parameters,
+            method=pints.CMAES,
+            transform=self.transformations)
+        opt.set_parallel(True)
+        opt.set_log_to_screen(False)
+        parameters = opt.run()
         population = np.sum(parameters[:4])
         parameters[:4] = parameters[:4] / population
-        data = self.simulate.run(parameters, return_incidence=True)
+        data = self.simulate.run(parameters)
         data = data * population
         self._subplot_fig._fig['data'][1]['y'] = data[:, 4]
         self._subplot_fig._fig['data'][2]['y'] = data[:, 0]
