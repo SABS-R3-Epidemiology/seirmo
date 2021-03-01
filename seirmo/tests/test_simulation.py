@@ -24,8 +24,6 @@ class TestSimulationController(unittest.TestCase):
 
     def test_run(self):
 
-        n_outputs = 4
-
         start = 0
         end = 10
         model = se.SEIRModel
@@ -34,10 +32,10 @@ class TestSimulationController(unittest.TestCase):
         initial_values = [0.9, 0, 0.1, 0]
         constants = [1, 1, 1]
         test_parameters = initial_values + constants
-        output = simulation.run(test_parameters, return_incidence=True)
+        output = simulation.run(test_parameters, ['S', 'E', 'I', 'R'])
 
         # Check output shape
-        self.assertEqual(output.shape, (10, n_outputs + 1))
+        self.assertEqual(output.shape, (10, 4))
 
         # Check that sum of states is one at all times
         output = simulation.run(test_parameters)
