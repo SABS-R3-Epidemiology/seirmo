@@ -67,7 +67,11 @@ class _OptimisationApp(object):
                             id="loading-1",
                             type="default",
                             children=html.Div(id="loading-output-1")),
-                        ], md=3)
+                        html.I("Enter in the below boxes to fix the parameter values"),
+                        html.Br(),
+                        dcc.Input(id="Initial R", type="number", placeholder="Initial R"),
+                        html.Div(id="fixed-parameters-output")
+                    ], md=3)
                     ])
         ], fluid=True)
 
@@ -155,8 +159,9 @@ class _OptimisationApp(object):
         time_key = 'Time'
         inc_key = 'Incidence Number'
         # Visualise data
+        self.data = data
         self._subplot_fig.add_data(
-            data, time_key, inc_key)
+            self.data, time_key, inc_key)
 
         self.simulate = se.SimulationController(
             model, self.simulation_start, self.simulation_end)
@@ -177,27 +182,7 @@ class _OptimisationApp(object):
         model = model()
         model = se.SEIRModel()
         model.set_outputs(['Incidence'])
-        model = se.ReducedModel(model)
-        problem = pints.SingleOutputProblem(
-            model=model,
-            times=data['Time'].to_numpy(),
-            values=data['Incidence Number'].to_numpy())
-        log_likelihood = pints.GaussianLogLikelihood(problem)
-        self.log_prior = pints.ComposedLogPrior(
-            pints.UniformLogPrior(0, 100),
-            pints.UniformLogPrior(0, 10),
-            pints.UniformLogPrior(0, 10),
-            pints.UniformLogPrior(0, 100),
-            pints.UniformLogPrior(0, 1),
-            pints.UniformLogPrior(0, 1),
-            pints.UniformLogPrior(0, 1),
-            pints.UniformLogPrior(0, 1))
-        self.log_posterior = pints.LogPosterior(log_likelihood, self.log_prior)
-
-        # Run inference
-        # n_runs = 1
-        self.transformations = pints.LogTransformation(
-            self.log_posterior.n_parameters())
+        self.model = se.ReducedModel(model)
 
     def get_subplots(self):
         self._subplot_fig.get_subplots()
@@ -207,6 +192,47 @@ class _OptimisationApp(object):
         Return the ids of sliders added to the app.
         """
         return self._slider_component.get_slider_ids()
+
+    def update_model(self, R0):
+        """
+        Update the model with fixed parameters.
+
+        Parameters
+        ----------
+        R0
+            Initial R.
+        """
+        name_value_dict = {'R0': R0}
+        self.model.fix_parameters(name_value_dict)
+        problem = pints.SingleOutputProblem(
+            model=self.model,
+            times=self.data['Time'].to_numpy(),
+            values=self.data['Incidence Number'].to_numpy())
+        log_likelihood = pints.GaussianLogLikelihood(problem)
+        if R0 is None:
+            self.log_prior = pints.ComposedLogPrior(
+                pints.UniformLogPrior(0, 100),
+                pints.UniformLogPrior(0, 10),
+                pints.UniformLogPrior(0, 10),
+                pints.UniformLogPrior(0, 100),
+                pints.UniformLogPrior(0, 1),
+                pints.UniformLogPrior(0, 1),
+                pints.UniformLogPrior(0, 1),
+                pints.UniformLogPrior(0, 1))
+        else:
+            self.log_prior = pints.ComposedLogPrior(
+                pints.UniformLogPrior(0, 100),
+                pints.UniformLogPrior(0, 10),
+                pints.UniformLogPrior(0, 10),
+                pints.UniformLogPrior(0, 1),
+                pints.UniformLogPrior(0, 1),
+                pints.UniformLogPrior(0, 1),
+                pints.UniformLogPrior(0, 1))
+        self.log_posterior = pints.LogPosterior(log_likelihood, self.log_prior)
+
+        # Run transformation
+        self.transformations = pints.LogTransformation(
+            self.log_posterior.n_parameters())
 
     def update_simulation(self, n_clicks):
         """
@@ -221,6 +247,7 @@ class _OptimisationApp(object):
             return self._subplot_fig._fig, self._inferred_params_table
         else:
             initial_parameters = self.log_prior.sample()
+            print(initial_parameters)
             opt = pints.OptimisationController(
                 function=self.log_posterior,
                 x0=initial_parameters,
@@ -229,7 +256,18 @@ class _OptimisationApp(object):
             opt.set_parallel(True)
             opt.set_log_to_screen(False)
             parameters, _ = opt.run()
-            data = self.simulate.run(parameters[:-1])
+
+            full_params_value = self.model._fixed_params_values
+            if full_params_value is None:
+                full_params_value = parameters[:-1]
+            else:
+                count = 0
+                for i in range(int(self.model.n_parameters() + self.model.n_fixed_parameters())):
+                    if self.model._fixed_params_mask[i] == 0:
+                        full_params_value[i] = parameters[count]
+                        count += 1
+
+            data = self.simulate.run(full_params_value)
             self._subplot_fig._fig['data'][1]['y'] = data[:, 4]
             self._subplot_fig._fig['data'][2]['y'] = data[:, 0]
             self._subplot_fig._fig['data'][3]['y'] = data[:, 1]
@@ -237,6 +275,6 @@ class _OptimisationApp(object):
             self._subplot_fig._fig['data'][5]['y'] = data[:, 3]
 
             self._inferred_params_table[n_clicks - 1] = dict(
-                Run=n_clicks, **{param: round(value, 3) for (param, value) in zip(self.params, parameters[:-1])})
+                Run=n_clicks, **{param: round(value, 3) for (param, value) in zip(self.params, full_params_value)})
 
             return self._subplot_fig._fig, self._inferred_params_table

@@ -71,7 +71,8 @@ server = app.app.server
 @app.app.callback(
     [Output('fig', 'figure'),
         Output('inferred-parameters-table', 'data')],
-    [Input('run-button', 'n_clicks')],
+    [Input('run-button', 'n_clicks'),
+        Input("Initial R", "value")],
     State('fig', 'figure'))
 def update_simulation(n_clicks, *args):
     """
@@ -83,6 +84,18 @@ def update_simulation(n_clicks, *args):
     fig, table = app.update_simulation(n_clicks)
 
     return fig, table
+
+
+@app.app.callback(
+    Output("fixed-parameters-output", "children"),
+    Input("Initial R", "value"))
+def update_model(R0, *args):
+    """
+    Set up reduced model
+    """
+    app.update_model(R0)
+
+    return u'Initial R = {}'.format(R0)
 
 
 if __name__ == "__main__":
