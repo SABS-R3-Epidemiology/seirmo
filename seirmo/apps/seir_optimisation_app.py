@@ -69,21 +69,24 @@ server = app.app.server
 
 
 @app.app.callback(
-    Output('fig', 'figure'),
+    [Output('fig', 'figure'),
+        Output('inferred-parameters-table', 'data')],
     [Input('run-button', 'n_clicks')],
     State('fig', 'figure'))
-def update_simulation(*args):
+def update_simulation(n_clicks, *args):
     """
     Simulates the model for the current slider values and updates the
     subplots in the figure.
     """
     # parameters = list(args)
-    fig = app.update_simulation()
+    print(n_clicks)
+    fig, table = app.update_simulation(n_clicks)
 
-    return fig
+    return fig, table
 
 
 if __name__ == "__main__":
-    app.app.run_server(
-        host=os.getenv('IP', '0.0.0.0'),
-        port=int(os.getenv('PORT', 4444)), debug=True)
+    # app.app.run_server(
+    #     host=os.getenv('IP', '0.0.0.0'),
+    #     port=int(os.getenv('PORT', 4444)), debug=True)
+    app.app.run_server(debug=True)

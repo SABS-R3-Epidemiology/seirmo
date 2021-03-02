@@ -136,6 +136,7 @@ server = app.app.server
 
 @app.app.callback(
     Output('fig', 'figure'),
+    Output("loading-output-1", "children"),
     [Input(s, 'value') for s in sliders])
 def update_simulation(*args):
     """

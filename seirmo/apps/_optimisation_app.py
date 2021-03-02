@@ -8,6 +8,7 @@ import dash
 import dash_bootstrap_components as dbc
 import dash_core_components as dcc
 import dash_html_components as html
+import dash_table
 import numpy as np
 import pandas as pd
 import pints
@@ -26,10 +27,17 @@ class _OptimisationApp(object):
     def __init__(self):
         super(_OptimisationApp, self).__init__()
 
+        self.params = [
+            'Initial S', 'Initial E', 'Initial I', 'Initial R',
+            'Infection Rate', 'Incubation Rate', 'Recovery Rate'
+        ]
+
         self._subplot_fig = plots.SubplotFigure()
+        self._inferred_params_table = [dict(
+            Run=i, **{param: 0 for param in self.params}) for i in range(1, 6)]
 
         self.simulation_start = 0
-        self.simulation_end = 50
+        self.simulation_end = 30
 
     def _set_layout(self):
         """
@@ -44,11 +52,22 @@ class _OptimisationApp(object):
                     dbc.Col(
                         [dcc.Graph(
                             figure=self._subplot_fig._fig, id='fig',
-                            style={'height': '80vh'})],
+                            style={'height': '80vh'}),
+                            dash_table.DataTable(
+                            id='inferred-parameters-table',
+                            columns=(
+                                [{'id': 'Run', 'name': 'Run'}] +
+                                [{'id': p, 'name': p} for p in self.params]
+                            ),
+                            data=self._inferred_params_table)],
                         md=9),
                     dbc.Col([
                         html.Button('Run', id='run-button', n_clicks=0),
-                        html.H6('Click to run')], md=3)
+                        dcc.Loading(
+                            id="loading-1",
+                            type="default",
+                            children=html.Div(id="loading-output-1")),
+                        ], md=3)
                     ])
         ], fluid=True)
 
@@ -156,14 +175,15 @@ class _OptimisationApp(object):
 
         # Create inverse problem
         model = model()
-        model = se.ReducedModel(model)
+        model = se.SEIRModel()
         model.set_outputs(['Incidence'])
+        model = se.ReducedModel(model)
         problem = pints.SingleOutputProblem(
             model=model,
-            times=data[time_key].to_numpy(),
-            values=data[inc_key].to_numpy())
+            times=data['Time'].to_numpy(),
+            values=data['Incidence Number'].to_numpy())
         log_likelihood = pints.GaussianLogLikelihood(problem)
-        log_prior = pints.ComposedLogPrior(
+        self.log_prior = pints.ComposedLogPrior(
             pints.UniformLogPrior(0, 100),
             pints.UniformLogPrior(0, 10),
             pints.UniformLogPrior(0, 10),
@@ -172,15 +192,12 @@ class _OptimisationApp(object):
             pints.UniformLogPrior(0, 1),
             pints.UniformLogPrior(0, 1),
             pints.UniformLogPrior(0, 1))
-        self.log_posterior = pints.LogPosterior(log_likelihood, log_prior)
+        self.log_posterior = pints.LogPosterior(log_likelihood, self.log_prior)
 
         # Run inference
         # n_runs = 1
         self.transformations = pints.LogTransformation(
             self.log_posterior.n_parameters())
-
-        # estimates = np.empty(shape=(n_runs, log_posterior.n_parameters()))
-        self.initial_parameters = log_prior.sample()
 
     def get_subplots(self):
         self._subplot_fig.get_subplots()
@@ -191,7 +208,7 @@ class _OptimisationApp(object):
         """
         return self._slider_component.get_slider_ids()
 
-    def update_simulation(self):
+    def update_simulation(self, n_clicks):
         """
         Update the subplots with simulated data of new parameters.
 
@@ -200,22 +217,26 @@ class _OptimisationApp(object):
         parameters
             List of parameter values for simulation.
         """
-        opt = pints.OptimisationController(
-            function=self.log_posterior,
-            x0=self.initial_parameters,
-            method=pints.CMAES,
-            transform=self.transformations)
-        opt.set_parallel(True)
-        opt.set_log_to_screen(False)
-        parameters = opt.run()
-        population = np.sum(parameters[:4])
-        parameters[:4] = parameters[:4] / population
-        data = self.simulate.run(parameters)
-        data = data * population
-        self._subplot_fig._fig['data'][1]['y'] = data[:, 4]
-        self._subplot_fig._fig['data'][2]['y'] = data[:, 0]
-        self._subplot_fig._fig['data'][3]['y'] = data[:, 1]
-        self._subplot_fig._fig['data'][4]['y'] = data[:, 2]
-        self._subplot_fig._fig['data'][5]['y'] = data[:, 3]
+        if n_clicks == 0:
+            return self._subplot_fig._fig, self._inferred_params_table
+        else:
+            initial_parameters = self.log_prior.sample()
+            opt = pints.OptimisationController(
+                function=self.log_posterior,
+                x0=initial_parameters,
+                method=pints.CMAES,
+                transform=self.transformations)
+            opt.set_parallel(True)
+            opt.set_log_to_screen(False)
+            parameters, _ = opt.run()
+            data = self.simulate.run(parameters[:-1])
+            self._subplot_fig._fig['data'][1]['y'] = data[:, 4]
+            self._subplot_fig._fig['data'][2]['y'] = data[:, 0]
+            self._subplot_fig._fig['data'][3]['y'] = data[:, 1]
+            self._subplot_fig._fig['data'][4]['y'] = data[:, 2]
+            self._subplot_fig._fig['data'][5]['y'] = data[:, 3]
 
-        return self._subplot_fig._fig
+            self._inferred_params_table[n_clicks - 1] = dict(
+                Run=n_clicks, **{param: round(value, 3) for (param, value) in zip(self.params, parameters[:-1])})
+
+            return self._subplot_fig._fig, self._inferred_params_table
