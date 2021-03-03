@@ -71,16 +71,13 @@ server = app.app.server
 @app.app.callback(
     [Output('fig', 'figure'),
         Output('inferred-parameters-table', 'data')],
-    [Input('run-button', 'n_clicks'),
-        Input("Initial R", "value")],
+    Input('run-button', 'n_clicks'),
     State('fig', 'figure'))
 def update_simulation(n_clicks, *args):
     """
     Simulates the model for the current slider values and updates the
     subplots in the figure.
     """
-    # parameters = list(args)
-    print(n_clicks)
     fig, table = app.update_simulation(n_clicks)
 
     return fig, table

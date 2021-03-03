@@ -33,8 +33,9 @@ class _OptimisationApp(object):
         ]
 
         self._subplot_fig = plots.SubplotFigure()
-        self._inferred_params_table = [dict(
-            Run=i, **{param: 0 for param in self.params}) for i in range(1, 6)]
+        self._inferred_params_table = []
+            # dict(
+            # Run=i, **{param: 0 for param in self.params}) for i in range(1, 2)]
 
         self.simulation_start = 0
         self.simulation_end = 30
@@ -202,6 +203,10 @@ class _OptimisationApp(object):
         R0
             Initial R.
         """
+        self._inferred_params_table = []
+            # dict(
+            # Run=i, **{param: 0 for param in self.params}) for i in range(1, 2)]
+
         name_value_dict = {'R0': R0}
         self.model.fix_parameters(name_value_dict)
         problem = pints.SingleOutputProblem(
@@ -247,7 +252,6 @@ class _OptimisationApp(object):
             return self._subplot_fig._fig, self._inferred_params_table
         else:
             initial_parameters = self.log_prior.sample()
-            print(initial_parameters)
             opt = pints.OptimisationController(
                 function=self.log_posterior,
                 x0=initial_parameters,
@@ -274,7 +278,11 @@ class _OptimisationApp(object):
             self._subplot_fig._fig['data'][4]['y'] = data[:, 2]
             self._subplot_fig._fig['data'][5]['y'] = data[:, 3]
 
-            self._inferred_params_table[n_clicks - 1] = dict(
-                Run=n_clicks, **{param: round(value, 3) for (param, value) in zip(self.params, full_params_value)})
+            inferred_params_dict = dict(Run=n_clicks, **{param: round(value, 3) for (param, value) in zip(self.params, full_params_value)})
+            print('check')
+            # if n_clicks < 2:
+            #     self._inferred_params_table[n_clicks - 1] = inferred_params_dict
+            # else:
+            self._inferred_params_table.append(inferred_params_dict)
 
             return self._subplot_fig._fig, self._inferred_params_table
