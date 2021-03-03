@@ -17,7 +17,7 @@ import seirmo as se
 from seirmo import plots
 
 
-class _OptimisationApp(object):
+class _OptimisationApp2(object):
     """SimulationApp Class:
 
     Creates the SEIR model simulation app.
@@ -25,7 +25,7 @@ class _OptimisationApp(object):
     """
 
     def __init__(self):
-        super(_OptimisationApp, self).__init__()
+        super(_OptimisationApp2, self).__init__()
 
         self.params = [
             'Initial S', 'Initial E', 'Initial I', 'Initial R',
@@ -34,8 +34,6 @@ class _OptimisationApp(object):
 
         self._subplot_fig = plots.SubplotFigure()
         self._inferred_params_table = []
-            # dict(
-            # Run=i, **{param: 0 for param in self.params}) for i in range(1, 2)]
 
         self.simulation_start = 0
         self.simulation_end = 30
@@ -70,7 +68,16 @@ class _OptimisationApp(object):
                             children=html.Div(id="loading-output-1")),
                         html.I("Enter in the below boxes to fix the parameter values"),
                         html.Br(),
+                        dcc.Input(id="Initial S", type="number", placeholder="Initial S"),
+                        dcc.Input(id="Initial E", type="number", placeholder="Initial E"),
+                        dcc.Input(id="Initial I", type="number", placeholder="Initial I"),
                         dcc.Input(id="Initial R", type="number", placeholder="Initial R"),
+                        dcc.Input(
+                            id="Infection Rate", type="number", placeholder="Infection Rate"),
+                        dcc.Input(
+                            id="Incubation Rate", type="number", placeholder="Incubation Rate"),
+                        dcc.Input(
+                            id="Recovery Rate", type="number", placeholder="Recovery Rate"),
                         html.Div(id="fixed-parameters-output")
                     ], md=3)
                     ])
@@ -194,48 +201,62 @@ class _OptimisationApp(object):
         """
         return self._slider_component.get_slider_ids()
 
-    def update_model(self, R0):
+    def set_prior(self, name_value_dict):
+        """
+        Organise the priors for free parameters.
+        
+        The priors are pre-tested separately.
+
+        Parameters
+        ----------
+        name_value_dict
+            List of parameters w
+        """
+        prior_list = [pints.UniformLogPrior(0, 100),
+                      pints.UniformLogPrior(0, 10),
+                      pints.UniformLogPrior(0, 10),
+                      pints.UniformLogPrior(0, 100),
+                      pints.UniformLogPrior(0, 1),
+                      pints.UniformLogPrior(0, 1),
+                      pints.UniformLogPrior(0, 1)]
+        prior_dict = {name: value for (name, value) in zip(
+            self.model._parameter_names, prior_list)}
+
+        priors = []
+        for key in name_value_dict:
+            if name_value_dict[key] is None:
+                priors.append(prior_dict[key])
+
+        priors.append(pints.UniformLogPrior(0, 1))
+
+        return priors
+
+    def update_model(self, fixed_parameters_list):
         """
         Update the model with fixed parameters.
 
         Parameters
         ----------
-        R0
-            Initial R parameter value.
+        fixed_parameters_list
+            List of parameters with their fixed values.
         """
-        # Reset inferred-parameters-table
-        self._inferred_params_table = []
 
         # Create dictionary of fixed parameters and its vaues
-        name_value_dict = {'R0': R0}
+        name_value_dict = {name: value for (name, value) in zip(
+            self.model._parameter_names, fixed_parameters_list)}
         self.model.fix_parameters(name_value_dict)
+        print(self.model._fixed_params_mask)
 
         # Setup the problem with pints,
         # including likelihood, prior and posterior
+        print(self.model.n_parameters())
         problem = pints.SingleOutputProblem(
             model=self.model,
             times=self.data['Time'].to_numpy(),
             values=self.data['Incidence Number'].to_numpy())
         log_likelihood = pints.GaussianLogLikelihood(problem)
-        if R0 is None:
-            self.log_prior = pints.ComposedLogPrior(
-                pints.UniformLogPrior(0, 100),
-                pints.UniformLogPrior(0, 10),
-                pints.UniformLogPrior(0, 10),
-                pints.UniformLogPrior(0, 100),
-                pints.UniformLogPrior(0, 1),
-                pints.UniformLogPrior(0, 1),
-                pints.UniformLogPrior(0, 1),
-                pints.UniformLogPrior(0, 1))
-        else:
-            self.log_prior = pints.ComposedLogPrior(
-                pints.UniformLogPrior(0, 100),
-                pints.UniformLogPrior(0, 10),
-                pints.UniformLogPrior(0, 10),
-                pints.UniformLogPrior(0, 1),
-                pints.UniformLogPrior(0, 1),
-                pints.UniformLogPrior(0, 1),
-                pints.UniformLogPrior(0, 1))
+        priors = self.set_prior(name_value_dict)
+        self.log_prior = pints.ComposedLogPrior(*priors)
         self.log_posterior = pints.LogPosterior(log_likelihood, self.log_prior)
 
         # Run transformation
@@ -248,8 +269,8 @@ class _OptimisationApp(object):
 
         Parameters
         ----------
-        parameters
-            List of parameter values for simulation.
+        n_clicks
+            Number of 'Run' button clicks.
         """
         if n_clicks == 0:
             return self._subplot_fig._fig, self._inferred_params_table
@@ -265,7 +286,7 @@ class _OptimisationApp(object):
             opt.set_log_to_screen(False)
             parameters, _ = opt.run()
 
-            # Organise free parameters and fixed parameters
+            # Organise free parameters and fixed parameters for simulation
             full_params_value = self.model._fixed_params_values
             if full_params_value is None:
                 full_params_value = parameters[:-1]
