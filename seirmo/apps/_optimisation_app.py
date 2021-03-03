@@ -61,11 +61,18 @@ class _OptimisationApp(object):
                             data=self._inferred_params_table)],
                         md=9),
                     dbc.Col([
+                        html.Br(),
+                        html.Br(),
+                        html.Br(),
+                        html.Br(),
                         html.Button('Run', id='run-button', n_clicks=0),
                         dcc.Loading(
                             id="loading-1",
                             type="default",
                             children=html.Div(id="loading-output-1")),
+                        html.Button('Reset', id='reset-button', n_clicks=0),
+                        html.Br(),
+                        html.Br(),
                         html.I("Enter in the below boxes to fix the parameter values"),
                         html.Br(),
                         dcc.Input(id="Initial S", type="number", placeholder="Initial S"),
@@ -78,7 +85,7 @@ class _OptimisationApp(object):
                             id="Incubation Rate", type="number", placeholder="Incubation Rate"),
                         dcc.Input(
                             id="Recovery Rate", type="number", placeholder="Recovery Rate"),
-                        html.Div(id="fixed-parameters-output")
+                        html.Div(id="fixed-parameters-output"),
                     ], md=3)
                     ])
         ], fluid=True)
@@ -174,14 +181,14 @@ class _OptimisationApp(object):
         self.simulate = se.SimulationController(
             model, self.simulation_start, self.simulation_end)
 
-        initialise_data = self.simulate.run([0] * 7)
+        self.initialise_data = self.simulate.run([0] * 7)
         initialise_data = pd.DataFrame({
             'Time': list(self.simulate._simulation_times),
-            'Incidence Number': initialise_data[:, -1],
-            'Susceptible': initialise_data[:, 0],
-            'Exposed': initialise_data[:, 1],
-            'Infectious': initialise_data[:, 2],
-            'Recovered': initialise_data[:, 3],
+            'Incidence Number': self.initialise_data[:, -1],
+            'Susceptible': self.initialise_data[:, 0],
+            'Exposed': self.initialise_data[:, 1],
+            'Infectious': self.initialise_data[:, 2],
+            'Recovered': self.initialise_data[:, 3],
         })
 
         self._subplot_fig.add_simulation(initialise_data)
@@ -262,6 +269,21 @@ class _OptimisationApp(object):
         # Run transformation
         self.transformations = pints.LogTransformation(
             self.log_posterior.n_parameters())
+
+    def reset(self):
+        """
+        Reset the app
+        """
+
+        self._subplot_fig._fig['data'][1]['y'] = self.initialise_data[:, 4]
+        self._subplot_fig._fig['data'][2]['y'] = self.initialise_data[:, 0]
+        self._subplot_fig._fig['data'][3]['y'] = self.initialise_data[:, 1]
+        self._subplot_fig._fig['data'][4]['y'] = self.initialise_data[:, 2]
+        self._subplot_fig._fig['data'][5]['y'] = self.initialise_data[:, 3]
+
+        self._inferred_params_table = []
+
+        return self._subplot_fig._fig, self._inferred_params_table
 
     def update_simulation(self, n_clicks):
         """

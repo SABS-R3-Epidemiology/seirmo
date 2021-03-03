@@ -8,7 +8,9 @@
 with fixed example data. To run the app, use ``python dash_app.py``.
 """
 
+import dash
 from dash.dependencies import Input, Output, State
+import dash_html_components as html
 
 import seirmo as se
 from seirmo import apps
@@ -48,16 +50,27 @@ server = app.app.server
 @app.app.callback(
     [Output('fig', 'figure'),
         Output('inferred-parameters-table', 'data')],
-    Input('run-button', 'n_clicks'),
+    [Input('run-button', 'n_clicks'),
+        Input('reset-button', 'n_clicks')],
     State('fig', 'figure'))
 def update_simulation(n_clicks, *args):
     """
     Simulates the model for the current slider values and updates the
-    subplots in the figure.
+    subplots in the figure when the Run button is clicked.
+    Reset the app when the Reset button is clicked.
     """
-    fig, table = app.update_simulation(n_clicks)
 
-    return fig, table
+    ctx = dash.callback_context
+    if ctx.triggered:
+        input_id = ctx.triggered[0]["prop_id"].split(".")[0]
+        if input_id == "reset-button":
+            fig, table = app.reset()
+        else:
+            fig, table = app.update_simulation(n_clicks)
+        return fig, table
+    else:
+        fig, table = app.update_simulation(n_clicks)
+        return fig, table
 
 
 @app.app.callback(
@@ -70,9 +83,7 @@ def update_model(*args):
     fixed_parameters = list(args)
     app.update_model(fixed_parameters)
 
-    return u'Initial S = {}, Initial E = {}, Initial I = {}, Initial R = {}, Infection Rate = {}, Incubation Rate = {}, Recovery Rate = {}'.format(
-        fixed_parameters[0], fixed_parameters[1], fixed_parameters[2], fixed_parameters[3], fixed_parameters[4], fixed_parameters[5], fixed_parameters[6])
-
+    return (html.P(['Initial S = {}'.format(fixed_parameters[0]), html.Br(), 'Initial E = {}'.format(fixed_parameters[1]), html.Br(), 'Initial I = {}'.format(fixed_parameters[2]), html.Br(), 'Initial R = {}'.format(fixed_parameters[3]), html.Br(), 'Infection rate = {}'.format(fixed_parameters[4]), html.Br(), 'Incubation rate = {}'.format(fixed_parameters[5]), html.Br(),'Recovery rate = {}'.format(fixed_parameters[6])]))
 
 if __name__ == "__main__":
     app.app.run_server(debug=True)
