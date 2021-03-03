@@ -9,29 +9,27 @@ with fixed example data. To run the app, use ``python dash_app.py``.
 """
 
 from dash.dependencies import Input, Output, State
-import os
 
 import seirmo as se
 from seirmo import apps
 
 # Instantiate app
-app = apps._OptimisationApp()
+app = apps._OptimisationApp2()
 
 # Add french flu data
 flu_data = se.DatasetLibrary().french_flu()
-flu_data = flu_data.rename(columns={'time_index': 'Time', 'inc': 'Incidence Number'})
+flu_data = flu_data.rename(
+    columns={'time_index': 'Time', 'inc': 'Incidence Number'})
 flu_data = flu_data.loc[60:90, :]
 flu_data['Time'] = flu_data['Time'] - flu_data['Time'].min()
 flu_data['Incidence Number'] = flu_data['Incidence Number'] / 1e5
-# app.add_data(flu_data, time_key='Time', inc_key='Incidence Number')
 
 # Instantiate model and add simulation to figure
 model = se.SEIRModel
 
-parameter_name = [
+parameters_name = [
     'Initial S', 'Initial E', 'Initial I', 'Initial R',
     'Infection Rate', 'Incubation Rate', 'Recovery Rate']
-# app.add_model(model, parameter_name)
 
 app.add_problem(flu_data, model)
 
@@ -43,27 +41,6 @@ app._set_layout()
 
 # Add title
 title = 'SEIR model - optimisation'
-
-# fname = os.path.join(os.path.dirname(__file__), 'descriptions', 'SEIR_image.png')
-
-# encoded_image = base64.b64encode(open(fname, 'rb').read())
-# content = app.app.layout.children[0]
-
-# app.app.layout = dbc.Container(children=[
-#     html.H1(title),
-#     html.H4('Motivation'),
-#     dcc.Markdown(motivation),
-#     html.H4('Description'),
-#     dcc.Markdown(description1),
-#     html.Img(src='data:image/png;base64,{}'.format(encoded_image.decode()),
-#         style={'width': '1000px'}),
-#     dcc.Markdown(description2),
-#     html.H4('Simulation and real data'),
-#     dcc.Markdown(plot_description),
-#     html.Br(),
-#     fig_slider,
-#     dcc.Markdown(reference),
-# ])
 
 server = app.app.server
 
@@ -85,18 +62,17 @@ def update_simulation(n_clicks, *args):
 
 @app.app.callback(
     Output("fixed-parameters-output", "children"),
-    Input("Initial R", "value"))
-def update_model(R0, *args):
+    [Input(param, 'value') for param in parameters_name])
+def update_model(*args):
     """
     Set up reduced model
     """
-    app.update_model(R0)
+    fixed_parameters = list(args)
+    app.update_model(fixed_parameters)
 
-    return u'Initial R = {}'.format(R0)
+    return u'Initial S = {}, Initial E = {}, Initial I = {}, Initial R = {}, Infection Rate = {}, Incubation Rate = {}, Recovery Rate = {}'.format(
+        fixed_parameters[0], fixed_parameters[1], fixed_parameters[2], fixed_parameters[3], fixed_parameters[4], fixed_parameters[5], fixed_parameters[6])
 
 
 if __name__ == "__main__":
-    # app.app.run_server(
-    #     host=os.getenv('IP', '0.0.0.0'),
-    #     port=int(os.getenv('PORT', 4444)), debug=True)
     app.app.run_server(debug=True)
