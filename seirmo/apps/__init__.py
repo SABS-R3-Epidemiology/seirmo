@@ -7,4 +7,3 @@
 from ._slider import _SliderComponent # noqa
 from ._simulation_app import _SimulationApp # noqa
 from ._optimisation_app import _OptimisationApp # noqa
-from ._optimisation_app2 import _OptimisationApp2 # noqa

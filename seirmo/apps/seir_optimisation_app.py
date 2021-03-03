@@ -14,7 +14,7 @@ import seirmo as se
 from seirmo import apps
 
 # Instantiate app
-app = apps._OptimisationApp2()
+app = apps._OptimisationApp()
 
 # Add french flu data
 flu_data = se.DatasetLibrary().french_flu()

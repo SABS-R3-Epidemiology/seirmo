@@ -17,7 +17,7 @@ import seirmo as se
 from seirmo import plots
 
 
-class _OptimisationApp2(object):
+class _OptimisationApp(object):
     """SimulationApp Class:
 
     Creates the SEIR model simulation app.
@@ -25,7 +25,7 @@ class _OptimisationApp2(object):
     """
 
     def __init__(self):
-        super(_OptimisationApp2, self).__init__()
+        super(_OptimisationApp, self).__init__()
 
         self.params = [
             'Initial S', 'Initial E', 'Initial I', 'Initial R',
