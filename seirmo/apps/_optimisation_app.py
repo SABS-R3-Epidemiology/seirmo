@@ -55,7 +55,9 @@ class _OptimisationApp(object):
                             id='inferred-parameters-table',
                             columns=(
                                 [{'id': 'Run', 'name': 'Run'}] +
-                                [{'id': p, 'name': p} for p in self.params]
+                                [{'id': p, 'name': p} for p in self.params] +
+                                [{'id': 'Reproduction Number',
+                                    'name': 'Reproduction Number'}]
                             ),
                             data=self._inferred_params_table)],
                         md=9),
@@ -353,7 +355,9 @@ class _OptimisationApp(object):
             # Update table with inferred parameters
             inferred_params_dict = dict(
                 Run=n_clicks, **{param: round(value, 3) for (
-                    param, value) in zip(self.params, full_params_value)})
+                    param, value) in zip(self.params, full_params_value)},
+                **{'Reproduction Number': full_params_value[4] * sum(
+                    full_params_value[:4]) / full_params_value[6]})
 
             self._inferred_params_table.append(inferred_params_dict)
 
