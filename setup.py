@@ -67,16 +67,18 @@ setup(
         'dash-html-components==1.1.1',
         'numpy>=1.8',
         'pandas',
-        'pints',
+        'pints @ git+git://github.com/pints-team/pints.git#egg=pints-latest', 
         'plotly',
         'scipy',
     ],
+    dependency_links=[
+     "git+git://github.com/pints-team/pints.git#egg=pints-latest",
+    ],
+
     extras_require={
         'docs': [
             # Sphinx for doc generation. Version 1.7.3 has a bug:
             'sphinx>=1.5, !=1.7.3',
-            # Nice theme for docs
-            'sphinx_rtd_theme',
         ],
         'dev': [
             # Flake8 for code style checking
