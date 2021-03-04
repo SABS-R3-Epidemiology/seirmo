@@ -294,8 +294,8 @@ class _OptimisationApp(object):
         """
 
         for i in range(5):
-            self._subplot_fig._fig['data'][i+1]['x'] = [0]
-            self._subplot_fig._fig['data'][i+1]['y'] = [0]
+            self._subplot_fig._fig['data'][i + 1]['x'] = [0]
+            self._subplot_fig._fig['data'][i + 1]['y'] = [0]
 
         self._inferred_params_table = []
 
@@ -343,7 +343,8 @@ class _OptimisationApp(object):
             # Update figure with simulation from inferred parameters
             # Update times (x values)
             for i in range(5):
-                self._subplot_fig._fig['data'][i+1]['x'] = list(self.simulate._simulation_times)
+                self._subplot_fig._fig['data'][i + 1]['x'] = list(
+                    self.simulate._simulation_times)
 
             # Update y values
             self._subplot_fig._fig['data'][1]['y'] = data[:, 4]
@@ -354,8 +355,9 @@ class _OptimisationApp(object):
 
             # Update table with inferred parameters
             inferred_params_dict = dict(
-                Run=len(self._inferred_params_table) + 1, **{param: round(value, 3) for (
-                    param, value) in zip(self.params, full_params_value)})
+                Run=len(self._inferred_params_table) + 1,
+                    **{param: round(value, 3) for (param, value) in zip(
+                        self.params, full_params_value)})
 
             self._inferred_params_table.append(inferred_params_dict)
 
