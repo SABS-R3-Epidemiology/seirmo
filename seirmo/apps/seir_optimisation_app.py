@@ -83,7 +83,13 @@ def update_model(*args):
     fixed_parameters = list(args)
     app.update_model(fixed_parameters)
 
-    return (html.P(['Initial S = {}'.format(fixed_parameters[0]), html.Br(), 'Initial E = {}'.format(fixed_parameters[1]), html.Br(), 'Initial I = {}'.format(fixed_parameters[2]), html.Br(), 'Initial R = {}'.format(fixed_parameters[3]), html.Br(), 'Infection rate = {}'.format(fixed_parameters[4]), html.Br(), 'Incubation rate = {}'.format(fixed_parameters[5]), html.Br(),'Recovery rate = {}'.format(fixed_parameters[6])]))
+    output = []
+    for i in range(len(parameters_name)):
+        output.append(parameters_name[i] + ' = {}'.format(fixed_parameters[i]))
+        output.append(html.Br())
+
+    return html.P(output)
+
 
 if __name__ == "__main__":
     app.app.run_server(debug=True)

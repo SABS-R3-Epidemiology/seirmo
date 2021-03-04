@@ -9,7 +9,6 @@ import dash_bootstrap_components as dbc
 import dash_core_components as dcc
 import dash_html_components as html
 import dash_table
-import numpy as np
 import pandas as pd
 import pints
 
@@ -73,18 +72,36 @@ class _OptimisationApp(object):
                         html.Button('Reset', id='reset-button', n_clicks=0),
                         html.Br(),
                         html.Br(),
-                        html.I("Enter in the below boxes to fix the parameter values"),
+                        html.I("Enter in the below boxes to fix the parameter values"), # noqa
                         html.Br(),
-                        dcc.Input(id="Initial S", type="number", placeholder="Initial S"),
-                        dcc.Input(id="Initial E", type="number", placeholder="Initial E"),
-                        dcc.Input(id="Initial I", type="number", placeholder="Initial I"),
-                        dcc.Input(id="Initial R", type="number", placeholder="Initial R"),
                         dcc.Input(
-                            id="Infection Rate", type="number", placeholder="Infection Rate"),
+                            id="Initial S",
+                            type="number",
+                            placeholder="Initial S"),
                         dcc.Input(
-                            id="Incubation Rate", type="number", placeholder="Incubation Rate"),
+                            id="Initial E",
+                            type="number",
+                            placeholder="Initial E"),
                         dcc.Input(
-                            id="Recovery Rate", type="number", placeholder="Recovery Rate"),
+                            id="Initial I",
+                            type="number",
+                            placeholder="Initial I"),
+                        dcc.Input(
+                            id="Initial R",
+                            type="number",
+                            placeholder="Initial R"),
+                        dcc.Input(
+                            id="Infection Rate",
+                            type="number",
+                            placeholder="Infection Rate"),
+                        dcc.Input(
+                            id="Incubation Rate",
+                            type="number",
+                            placeholder="Incubation Rate"),
+                        dcc.Input(
+                            id="Recovery Rate",
+                            type="number",
+                            placeholder="Recovery Rate"),
                         html.Div(id="fixed-parameters-output"),
                     ], md=3)
                     ])
@@ -170,6 +187,9 @@ class _OptimisationApp(object):
 
     def add_problem(self, data, model):
         # Check model is ForwardModel
+        if not issubclass(model, se.ForwardModel):
+            raise TypeError(
+                'Model has to be a subclass of seirmo.ForwardModel.')
 
         time_key = 'Time'
         inc_key = 'Incidence Number'
@@ -211,13 +231,13 @@ class _OptimisationApp(object):
     def set_prior(self, name_value_dict):
         """
         Organise the priors for free parameters.
-        
+
         The priors are pre-tested separately.
 
         Parameters
         ----------
         name_value_dict
-            List of parameters w
+            Dictionary of fixed parameters with their values.
         """
         prior_list = [pints.UniformLogPrior(0, 100),
                       pints.UniformLogPrior(0, 10),
@@ -245,14 +265,13 @@ class _OptimisationApp(object):
         Parameters
         ----------
         fixed_parameters_list
-            List of parameters with their fixed values.
+            List of fixed parameter values.
         """
 
-        # Create dictionary of fixed parameters and its vaues
+        # Create dictionary of fixed parameters and its values
         name_value_dict = {name: value for (name, value) in zip(
             self.model._parameter_names, fixed_parameters_list)}
         self.model.fix_parameters(name_value_dict)
-        print(self.model._fixed_params_mask)
 
         # Setup the problem with pints,
         # including likelihood, prior and posterior
