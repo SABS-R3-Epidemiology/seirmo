@@ -5,6 +5,8 @@ omit =
     seirmo/version_info.py
     seirmo/apps/_simulation_app.py
     seirmo/apps/seir_simulation_app.py
+    seirmo/apps/_optimisation_app.py
+    seirmo/apps/seir_optimisation_app.py
 
 [report]
 exclude_lines =
