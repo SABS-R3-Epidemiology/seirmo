@@ -201,14 +201,13 @@ class _OptimisationApp(object):
         self.simulate = se.SimulationController(
             model, self.simulation_start, self.simulation_end)
 
-        self.initialise_data = self.simulate.run([0] * 7)
         initialise_data = pd.DataFrame({
-            'Time': list(self.simulate._simulation_times),
-            'Incidence Number': self.initialise_data[:, -1],
-            'Susceptible': self.initialise_data[:, 0],
-            'Exposed': self.initialise_data[:, 1],
-            'Infectious': self.initialise_data[:, 2],
-            'Recovered': self.initialise_data[:, 3],
+            'Time': [0],
+            'Incidence Number': [0],
+            'Susceptible': [0],
+            'Exposed': [0],
+            'Infectious': [0],
+            'Recovered': [0],
         })
 
         self._subplot_fig.add_simulation(initialise_data)
@@ -294,11 +293,9 @@ class _OptimisationApp(object):
         Reset the app
         """
 
-        self._subplot_fig._fig['data'][1]['y'] = self.initialise_data[:, 4]
-        self._subplot_fig._fig['data'][2]['y'] = self.initialise_data[:, 0]
-        self._subplot_fig._fig['data'][3]['y'] = self.initialise_data[:, 1]
-        self._subplot_fig._fig['data'][4]['y'] = self.initialise_data[:, 2]
-        self._subplot_fig._fig['data'][5]['y'] = self.initialise_data[:, 3]
+        for i in range(5):
+            self._subplot_fig._fig['data'][i+1]['x'] = [0]
+            self._subplot_fig._fig['data'][i+1]['y'] = [0]
 
         self._inferred_params_table = []
 
@@ -344,6 +341,11 @@ class _OptimisationApp(object):
             data = self.simulate.run(full_params_value)
 
             # Update figure with simulation from inferred parameters
+            # Update times (x values)
+            for i in range(5):
+                self._subplot_fig._fig['data'][i+1]['x'] = list(self.simulate._simulation_times)
+
+            # Update y values
             self._subplot_fig._fig['data'][1]['y'] = data[:, 4]
             self._subplot_fig._fig['data'][2]['y'] = data[:, 0]
             self._subplot_fig._fig['data'][3]['y'] = data[:, 1]
@@ -352,7 +354,7 @@ class _OptimisationApp(object):
 
             # Update table with inferred parameters
             inferred_params_dict = dict(
-                Run=n_clicks, **{param: round(value, 3) for (
+                Run=len(self._inferred_params_table) + 1, **{param: round(value, 3) for (
                     param, value) in zip(self.params, full_params_value)})
 
             self._inferred_params_table.append(inferred_params_dict)
