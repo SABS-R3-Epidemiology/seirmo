@@ -55,53 +55,59 @@ class _OptimisationApp(object):
                             id='inferred-parameters-table',
                             columns=(
                                 [{'id': 'Run', 'name': 'Run'}] +
-                                [{'id': p, 'name': p} for p in self.params]
+                                [{'id': p, 'name': p} for p in self.params] +
+                                [{'id': 'Reproduction Number',
+                                    'name': 'Reproduction Number'}]
                             ),
                             data=self._inferred_params_table)],
                         md=9),
                     dbc.Col([
-                        html.Br(),
-                        html.Br(),
-                        html.Br(),
-                        html.Br(),
-                        html.Button('Run', id='run-button', n_clicks=0),
+                        html.Button('Run', id='run-button', n_clicks=0,
+                            style={'marginBottom': '1em', 'marginTop': '6em'}),
                         dcc.Loading(
                             id="loading-1",
                             type="default",
-                            children=html.Div(id="loading-output-1")),
-                        html.Button('Reset', id='reset-button', n_clicks=0),
-                        html.Br(),
+                            children=html.Div(id="run-optimisation")),
+                        html.Button('Reset', id='reset-button', n_clicks=0,
+                                    style={'marginBottom': '1.8em'}),
                         html.Br(),
                         html.I("Enter in the below boxes to fix the parameter values"), # noqa
                         html.Br(),
                         dcc.Input(
                             id="Initial S",
                             type="number",
-                            placeholder="Initial S"),
+                            placeholder="Initial S",
+                            style={'marginBottom': '0.3em'}),
                         dcc.Input(
                             id="Initial E",
                             type="number",
-                            placeholder="Initial E"),
+                            placeholder="Initial E",
+                            style={'marginBottom': '0.3em'}),
                         dcc.Input(
                             id="Initial I",
                             type="number",
-                            placeholder="Initial I"),
+                            placeholder="Initial I",
+                            style={'marginBottom': '0.3em'}),
                         dcc.Input(
                             id="Initial R",
                             type="number",
-                            placeholder="Initial R"),
+                            placeholder="Initial R",
+                            style={'marginBottom': '0.3em'}),
                         dcc.Input(
                             id="Infection Rate",
                             type="number",
-                            placeholder="Infection Rate"),
+                            placeholder="Infection Rate",
+                            style={'marginBottom': '0.3em'}),
                         dcc.Input(
                             id="Incubation Rate",
                             type="number",
-                            placeholder="Incubation Rate"),
+                            placeholder="Incubation Rate",
+                            style={'marginBottom': '0.3em'}),
                         dcc.Input(
                             id="Recovery Rate",
                             type="number",
-                            placeholder="Recovery Rate"),
+                            placeholder="Recovery Rate",
+                            style={'marginBottom': '0.3em'}),
                         html.Div(id="fixed-parameters-output"),
                     ], md=3)
                     ])
@@ -299,7 +305,7 @@ class _OptimisationApp(object):
 
         self._inferred_params_table = []
 
-        return self._subplot_fig._fig, self._inferred_params_table
+        return self._subplot_fig._fig, self._inferred_params_table, ''
 
     def update_simulation(self, n_clicks):
         """
@@ -311,7 +317,7 @@ class _OptimisationApp(object):
             Number of 'Run' button clicks.
         """
         if n_clicks == 0:
-            return self._subplot_fig._fig, self._inferred_params_table
+            return self._subplot_fig._fig, self._inferred_params_table, ''
         else:
             # Set up optimisation controller
             initial_parameters = self.log_prior.sample()
@@ -356,9 +362,11 @@ class _OptimisationApp(object):
             # Update table with inferred parameters
             inferred_params_dict = dict(
                 Run=len(self._inferred_params_table) + 1,
-                **{param: round(value, 3) for (param, value) in zip(
-                    self.params, full_params_value)})
+                **{param: round(value, 3) for (
+                    param, value) in zip(self.params, full_params_value)},
+                **{'Reproduction Number': round(full_params_value[4] * sum(
+                    full_params_value[:4]) / full_params_value[6], 3)})
 
             self._inferred_params_table.append(inferred_params_dict)
 
-            return self._subplot_fig._fig, self._inferred_params_table
+            return self._subplot_fig._fig, self._inferred_params_table, ''
