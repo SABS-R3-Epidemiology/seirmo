@@ -37,10 +37,10 @@ app.add_problem(flu_data, model)
 
 # Get subplots for the figure
 app.get_subplots()
-app._subplot_fig._fig.update_yaxes(title_text='Incidence Number <br> (100K)',
-                                   row=1, col=1)
-app._subplot_fig._fig.update_yaxes(title_text='Number of individuals <br> (100K)',
-                                   row=2, col=1)
+app._subplot_fig._fig.update_yaxes(
+    title_text='Incidence Number <br> (100K)', row=1, col=1)
+app._subplot_fig._fig.update_yaxes(
+    title_text='Number of individuals <br> (100K)', row=2, col=1)
 
 # Set layout of app
 app._set_layout()
