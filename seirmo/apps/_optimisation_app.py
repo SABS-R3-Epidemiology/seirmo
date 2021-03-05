@@ -361,7 +361,7 @@ class _OptimisationApp(object):
 
             # Update table with inferred parameters
             inferred_params_dict = dict(
-                Run=len(self._inferred_params_table) + 1, 
+                Run=len(self._inferred_params_table) + 1,
                 **{param: round(value, 3) for (
                     param, value) in zip(self.params, full_params_value)},
                 **{'Reproduction Number': round(full_params_value[4] * sum(
