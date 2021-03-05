@@ -37,6 +37,10 @@ app.add_problem(flu_data, model)
 
 # Get subplots for the figure
 app.get_subplots()
+app._subplot_fig._fig.update_yaxes(title_text='Incidence Number <br> (100K)',
+                                   row=1, col=1)
+app._subplot_fig._fig.update_yaxes(title_text='Number of individuals <br> (100K)',
+                                   row=2, col=1)
 
 # Set layout of app
 app._set_layout()
@@ -49,7 +53,8 @@ server = app.app.server
 
 @app.app.callback(
     [Output('fig', 'figure'),
-        Output('inferred-parameters-table', 'data')],
+        Output('inferred-parameters-table', 'data'),
+        Output("run-optimisation", "children")],
     [Input('run-button', 'n_clicks'),
         Input('reset-button', 'n_clicks')],
     State('fig', 'figure'))
@@ -59,18 +64,17 @@ def update_simulation(n_clicks, *args):
     subplots in the figure when the Run button is clicked.
     Reset the app when the Reset button is clicked.
     """
-
     ctx = dash.callback_context
     if ctx.triggered:
         input_id = ctx.triggered[0]["prop_id"].split(".")[0]
         if input_id == "reset-button":
-            fig, table = app.reset()
+            fig, table, display = app.reset()
         else:
-            fig, table = app.update_simulation(n_clicks)
-        return fig, table
+            fig, table, display = app.update_simulation(n_clicks)
+        return fig, table, display
     else:
-        fig, table = app.update_simulation(n_clicks)
-        return fig, table
+        fig, table, display = app.update_simulation(n_clicks)
+        return fig, table, display
 
 
 @app.app.callback(
