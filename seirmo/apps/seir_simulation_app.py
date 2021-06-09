@@ -67,42 +67,42 @@ motivation = """
 Scientists and researchers are trying to understand the COVID-19 outbreak in hopes to
  predict and defeat the disease. In order to understand the spread and
  the infecting rate of the disease, many models are used to characterise the
- disease, such as the SEIR model and the branching processes model.  
-  
-The SEIR model is a deterministic model, which means that the simulations will always 
+ disease, such as the SEIR model and the branching processes model.
+
+The SEIR model is a deterministic model, which means that the simulations will always
 be the same as long as the parameters are the same.  """
 
 # Model description
 description1 = """
-The SEIR model assigns individuals in a population to four distinct disease stages: 
+The SEIR model assigns individuals in a population to four distinct disease stages:
 Susceptible(S), Exposed(E), Infectious(I) and Recovered(R). Exposed individuals are infected but
  not infectious. Susceptible individuals can become infected, then infectious and ultimately recover.
  Diagrammatically this may be illustrated by the figure below.  """
-  
+
 description2 = """
-  
-More formally, the SEIR model is expressed in terms of a system of ordinary differential equations. 
-The transition rates between the states are controlled by rate parameters. The 
-*infection rate* indicates the speed at which an individual from the S gets exposed and enters the 
-group E. The *incubation rate* explains how fast an individual who got exposed becomes infected. For 
-example, if the incubation rate of the disease is higher, then individuals get infected quickly once 
-it is exposed. Finally, the rate where infected individuals get recovered is described by the *recovery 
+
+More formally, the SEIR model is expressed in terms of a system of ordinary differential equations.
+The transition rates between the states are controlled by rate parameters. The
+*infection rate* indicates the speed at which an individual from the S gets exposed and enters the
+group E. The *incubation rate* explains how fast an individual who got exposed becomes infected. For
+example, if the incubation rate of the disease is higher, then individuals get infected quickly once
+it is exposed. Finally, the rate where infected individuals get recovered is described by the *recovery
 rate*.  """
 
-plot_description = """  
-The bar graph shows the daily incidence number of an infectious disease. The blue bars show actual 
-cases of infectious disease while the red ones show cases simulated by the SEIR model, given the 
-parameters of the sliders.  
+plot_description = """
+The bar graph shows the daily incidence number of an infectious disease. The blue bars show actual
+cases of infectious disease while the red ones show cases simulated by the SEIR model, given the
+parameters of the sliders.
 
-In this model, an individual in a population will start with being susceptible, then exposed to 
-the disease, get infected and finally recovers from the disease. Therefore, in the second plot, 
-number of individuals in group S, E and I will eventually approach zero, while group R will 
-eventually include everyone in the population. However, for an infectious disease to spread, 
-it will require an initial amount of cases, that is the initial amount of exposed and infected 
-individuals, to be nonzero.   
-  
-You are welcome to explore the effect of initial sizes of the S, E, I and R groups, as well as 
-the different transition periods with the paramter sliders below.  
+In this model, an individual in a population will start with being susceptible, then exposed to
+the disease, get infected and finally recovers from the disease. Therefore, in the second plot,
+number of individuals in group S, E and I will eventually approach zero, while group R will
+eventually include everyone in the population. However, for an infectious disease to spread,
+it will require an initial amount of cases, that is the initial amount of exposed and infected
+individuals, to be nonzero.
+
+You are welcome to explore the effect of initial sizes of the S, E, I and R groups, as well as
+the different transition periods with the paramter sliders below.
 """
 
 reference = """
@@ -136,7 +136,6 @@ server = app.app.server
 
 @app.app.callback(
     Output('fig', 'figure'),
-    Output("loading-output-1", "children"),
     [Input(s, 'value') for s in sliders])
 def update_simulation(*args):
     """
