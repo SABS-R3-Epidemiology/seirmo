@@ -136,7 +136,6 @@ server = app.app.server
 
 @app.app.callback(
     Output('fig', 'figure'),
-    Output("loading-output-1", "children"),
     [Input(s, 'value') for s in sliders])
 def update_simulation(*args):
     """
@@ -150,6 +149,4 @@ def update_simulation(*args):
 
 
 if __name__ == "__main__":
-    app.app.run_server(
-        host=os.getenv('IP', '0.0.0.0'),
-        port=int(os.getenv('PORT', 4444)), debug=True)
+    app.app.run_server(debug=True)
