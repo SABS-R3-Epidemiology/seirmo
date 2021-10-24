@@ -6,9 +6,9 @@
 
 import dash
 import dash_bootstrap_components as dbc
-import dash_core_components as dcc
-import dash_html_components as html
-import dash_table
+from dash import dcc
+from dash import html
+from dash import dash_table
 import pandas as pd
 import pints
 
@@ -325,7 +325,7 @@ class _OptimisationApp(object):
                 function=self.log_posterior,
                 x0=initial_parameters,
                 method=pints.CMAES,
-                transform=self.transformations)
+                transformation=self.transformations)
             opt.set_parallel(True)
             opt.set_log_to_screen(False)
             parameters, _ = opt.run()

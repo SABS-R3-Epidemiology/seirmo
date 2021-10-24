@@ -60,12 +60,12 @@ setup(
     # List of dependencies
     install_requires=[
         # Dependencies go here!
-        'dash==1.17.0',
-        'dash-bootstrap-components==0.11.0',
-        'dash-core-components==1.13.0',
-        'dash-daq==0.5.0',
-        'dash-html-components==1.1.1',
-        'numpy>=1.8',
+        'dash',
+        'dash-bootstrap-components',
+        'dash-core-components',
+        'dash-daq',
+        'dash-html-components',
+        'numpy',
         'pandas',
         'pints @ git+git://github.com/pints-team/pints.git#egg=pints-latest', 
         'plotly',

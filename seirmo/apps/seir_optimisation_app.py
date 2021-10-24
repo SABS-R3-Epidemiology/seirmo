@@ -10,7 +10,7 @@ with fixed example data. To run the app, use ``python dash_app.py``.
 
 import dash
 from dash.dependencies import Input, Output, State
-import dash_html_components as html
+from dash import html
 
 import seirmo as se
 from seirmo import apps
