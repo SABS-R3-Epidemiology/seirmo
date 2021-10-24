@@ -10,8 +10,8 @@ with fixed example data. To run the app, use ``python dash_app.py``.
 
 import base64
 import dash_bootstrap_components as dbc
-import dash_core_components as dcc
-import dash_html_components as html
+from dash import dcc
+from dash import html
 from dash.dependencies import Input, Output
 import numpy as np
 import os
