@@ -324,7 +324,8 @@ class _OptimisationApp(object):
             opt = pints.OptimisationController(
                 function=self.log_posterior,
                 x0=initial_parameters,
-                method=pints.CMAES)
+                method=pints.CMAES,
+                transformation=self.transformations)
             opt.set_parallel(True)
             opt.set_log_to_screen(False)
             parameters, _ = opt.run()
