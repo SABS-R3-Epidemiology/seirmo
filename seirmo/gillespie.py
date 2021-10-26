@@ -38,16 +38,17 @@ def solve_gillespie(propensities: typing.Callable[[np.ndarray], np.ndarray],
     """
     if len(t_span) != 2:
         raise ValueError("`t_span must be 2-dimensional - form [start, end]")
-    if t_span[0] >= t_span[1]:
-        raise ValueError("End time must be after start time")
-    if t_span[0] < 0:
-        raise ValueError(f"Start time (t = {t_span[0]}) cannot be negative")
     try:
         float(t_span[1]) - float(t_span[0])
     except ValueError:
         raise TypeError("Cannot convert t_span values to float")
 
-    if np.any(initial_cond < 0):
+    if t_span[0] >= t_span[1]:
+        raise ValueError("End time must be after start time")
+    if t_span[0] < 0:
+        raise ValueError(f"Start time (t = {t_span[0]}) cannot be negative")
+
+    if np.any(np.array(initial_cond) < 0):
         raise ValueError("Cannot have negative elements in initial_cond")
 
     state = np.zeros(len(initial_cond) + 1)
@@ -55,20 +56,21 @@ def solve_gillespie(propensities: typing.Callable[[np.ndarray], np.ndarray],
     state[1:] = initial_cond
 
     while state[0] < t_span[1]:
-        propensities = propensities(state)
-        total_rate = np.sum(propensities)
+        propensity_values = propensities(state)
+        total_rate = np.sum(propensity_values)
         time_step = np.log(1 / np.random.rand()) / total_rate
         state[0] += time_step
 
-        normal_prop = propensities / total_rate
+        normal_prop = propensity_values / total_rate
         running_tot = 0
         random_proc = np.random.rand()
         for index, value in np.ndenumerate(normal_prop):
             running_tot += value
             if value != 0 and running_tot > random_proc:
                 loss, gain = index
-                state[loss + 1] -= 1  # +1 to skip past time index
-                state[gain + 1] += 1
+                if state[loss + 1] > 0:  # Can't remove counts from empty state
+                    state[loss + 1] -= 1  # +1 to skip past time index
+                    state[gain + 1] += 1
                 break
 
         yield state
