@@ -59,15 +59,15 @@ class TestSEIRParameters(unittest.TestCase):
     def test_configureParametersError(self):
         testSubject = se.SEIRParameters(1, ['a', 'b'])
         with self.assertRaises(AssertionError):
-            testSubject.configureParameters(np.array([1,2,3]))
-    
+            testSubject.configureParameters(np.array([1, 2, 3]))
+
     def test__getitem__(self):
         testSubject = se.SEIRParameters(1, ['a', 'b'])
         params = np.array([1, 2])
         testSubject.configureParameters(params)
         for i in range(params.shape[0]):
             self.assertEqual(params[i], testSubject[i])
-    
+
     def test_n_parameters(self):
         testSubject = se.SEIRParameters(1, ['a', 'b'])
         self.assertEqual(2, testSubject.n_parameters())
@@ -81,7 +81,7 @@ class TestSEIRDataCollector(unittest.TestCase):
     """Tests the SEIRDataCollector Class"""
     def test__init__(self):
         se.SEIRDataCollector([])
-    
+
     def test_n_outputs(self):
         testSubject = se.SEIRDataCollector(['a', 'b'])
         self.assertEqual(2, testSubject.n_outputs())
@@ -96,11 +96,12 @@ class TestSEIRDataCollector(unittest.TestCase):
 
     def test_set_outputsFail(self):
         testSubject = se.SEIRDataCollector(['a', 'b'])
-        self.assertRaises(ValueError, testSubject.set_outputs,['c'])
+        self.assertRaises(ValueError, testSubject.set_outputs, ['c'])
 
     def test_report(self):
         testSubject = se.SEIRDataCollector(['a', 'b'])
-        testSubject.report(np.zeros((2,1)))
+        testSubject.report(np.zeros((2, 1)))
+
 
 if __name__ == '__main__':
     unittest.main()
