@@ -1,5 +1,5 @@
 import unittest
-from unittest import Mock, MagicMock
+from unittest.mock import Mock, MagicMock, patch
 import numpy as np
 
 import seirmo as se
@@ -58,6 +58,7 @@ class TestStochModel(unittest.TestCase):
         self.assertEqual(model._dataCollector._output_indices, [2, 4])
         self.assertEqual(model.n_outputs(), 2)
 
+    @patch('gillespie.solve_gillespie', return_value= np.zeros((5,10)))
     def test_simulate(self):
         model = se.StochasticSEIRModel()
 

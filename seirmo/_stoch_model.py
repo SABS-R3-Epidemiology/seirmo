@@ -24,8 +24,8 @@ class StochasticSEIRModel(SEIRForwardModel):
         gamma = self._parameters[params_names.index('gamma')]
 
         [t, S, E, I, R] = current_states
-        N = self._parameters.n_outputs
-
+        N = self.n_outputs
+        propens_matrix = np.zeros((N,N))
         propens_matrix[0, 1] = beta * S * I
         propens_matrix[1, 2] = kappa * E
         propens_matrix[2, 3] = gamma * I
