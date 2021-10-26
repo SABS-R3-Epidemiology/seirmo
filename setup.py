@@ -83,6 +83,8 @@ setup(
         'dev': [
             # Flake8 for code style checking
             'flake8>=3',
+            # Parameterized for code testing
+            'parameterized',
         ],
     },
 )
