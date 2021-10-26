@@ -75,14 +75,14 @@ class TestDeterministicSEIRModel(unittest.TestCase):
         test_times = np.linspace(0, 10, num=n_times)
 
         model.set_outputs(['S', 'I', 'Incidence'])
-        output = model.simulate(test_parameters, test_times)
+        output = model.simulate(np.array(test_parameters), test_times)
 
         # Check output shape
         self.assertEqual(output.shape, (n_times, 3))
 
         # Check that sum of states is one at all times
         model.set_outputs(['S', 'E', 'I', 'R'])
-        output = model.simulate(test_parameters, test_times)
+        output = model.simulate(np.array(test_parameters), test_times)
         total = np.sum(output, axis=1)
         expected = np.ones(shape=n_times)
         np.testing.assert_almost_equal(total, expected)
