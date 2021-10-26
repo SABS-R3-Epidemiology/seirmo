@@ -12,3 +12,6 @@ Overview:
 
 
 .. autoclass:: SimulationController
+
+
+.. autofunction:: solve_gillespie
