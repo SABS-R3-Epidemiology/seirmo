@@ -17,6 +17,7 @@ Contents
 .. toctree::
 
     plots
+    core
     models
     simulation
     dataset_library
