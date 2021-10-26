@@ -1,3 +1,10 @@
+#
+# This file is part of seirmo (https://github.com/SABS-R3-Epidemiology/seirmo/)
+# which is released under the BSD 3-clause license. See accompanying LICENSE.md
+# for copyright notice and full license details.
+#
+
+
 import pints
 import typing
 import numpy as np
@@ -71,6 +78,7 @@ class SEIRDataCollector():
     def retrieve(self):
         """Return Formatted Data"""
         return self._data[:, self._output_indices]
+
 
 
 class SEIRForwardModel(pints.ForwardModel):
