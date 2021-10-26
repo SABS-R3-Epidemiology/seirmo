@@ -9,6 +9,16 @@ from . import apps
 
 from . import plots
 
+from ._core import (
+    SEIRParameters,
+    SEIRDataCollector,
+    SEIRForwardModel
+)
+
+from ._deterministicModels import (
+    DeterministicSEIRModel
+)
+
 from ._models import (
     ForwardModel,
     ReducedModel,
