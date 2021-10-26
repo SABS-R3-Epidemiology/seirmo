@@ -80,7 +80,6 @@ class SEIRDataCollector():
         return self._data[:, self._output_indices]
 
 
-
 class SEIRForwardModel(pints.ForwardModel):
     """
     Abstract base class for forward seir models.
