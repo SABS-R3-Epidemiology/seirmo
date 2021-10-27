@@ -40,7 +40,7 @@ class DeterministicSEIRModel(seirmo.SEIRForwardModel):
         self._output_collector = seirmo.SEIROutputCollector(
             ['S', 'E', 'I', 'R', 'Incidence'])
         self._parameters = seirmo.SEIRParameters(
-            4, ['S0', 'E0', 'I0', 'R0', 'alpha', 'beta', 'gamma'])
+            ['S0', 'E0', 'I0', 'R0', 'alpha', 'beta', 'gamma'])
 
     def _right_hand_side(self, t, y, c):
         # Assuming y = [S, E, I, R] (the dependent variables in the model)

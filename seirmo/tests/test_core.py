@@ -50,30 +50,30 @@ class TestSEIRForwardModel(unittest.TestCase):
 class TestSEIRParameters(unittest.TestCase):
     """Tests the SEIRParameters Class"""
     def test__init__(self):
-        se.SEIRParameters(0, [])
+        se.SEIRParameters([])
 
     def test_configureParameters(self):
-        testSubject = se.SEIRParameters(1, ['a', 'b'])
+        testSubject = se.SEIRParameters(['a', 'b'])
         testSubject.configureParameters(np.zeros((2,)))
 
     def test_configureParametersError(self):
-        testSubject = se.SEIRParameters(1, ['a', 'b'])
+        testSubject = se.SEIRParameters(['a', 'b'])
         with self.assertRaises(AssertionError):
             testSubject.configureParameters(np.array([1, 2, 3]))
 
     def test__getitem__(self):
-        testSubject = se.SEIRParameters(1, ['a', 'b'])
+        testSubject = se.SEIRParameters(['a', 'b'])
         params = np.array([1, 2])
         testSubject.configureParameters(params)
         for i in range(params.shape[0]):
             self.assertEqual(params[i], testSubject[i])
 
     def test_n_parameters(self):
-        testSubject = se.SEIRParameters(1, ['a', 'b'])
+        testSubject = se.SEIRParameters(['a', 'b'])
         self.assertEqual(2, testSubject.n_parameters())
 
     def test_parameter_names(self):
-        testSubject = se.SEIRParameters(1, ['a', 'b'])
+        testSubject = se.SEIRParameters(['a', 'b'])
         self.assertEqual(['a', 'b'], testSubject.parameter_names())
 
 
