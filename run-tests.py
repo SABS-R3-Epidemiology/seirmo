@@ -132,6 +132,7 @@ def doctest_rst_and_public_interface():
         'seirmo.apps',
         'seirmo.plots',
         'seirmo.models',
+        'seirmo.deterministic_models',
         'seirmo.simulation',
         'seirmo.version_info'
     ]
