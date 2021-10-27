@@ -77,30 +77,32 @@ class TestSEIRParameters(unittest.TestCase):
         self.assertEqual(['a', 'b'], testSubject.parameter_names())
 
 
-class TestSEIRDataCollector(unittest.TestCase):
-    """Tests the SEIRDataCollector Class"""
+class TestSEIROutputCollector(unittest.TestCase):
+    """Tests the SEIROutputCollector Class"""
     def test__init__(self):
-        se.SEIRDataCollector([])
+        se.SEIROutputCollector([])
 
     def test_n_outputs(self):
-        testSubject = se.SEIRDataCollector(['a', 'b'])
+        testSubject = se.SEIROutputCollector(['a', 'b'])
         self.assertEqual(2, testSubject.n_outputs())
 
     def test_output_names(self):
-        testSubject = se.SEIRDataCollector(['a', 'b'])
+        testSubject = se.SEIROutputCollector(['a', 'b'])
         self.assertEqual(['a', 'b'], testSubject.output_names())
 
     def test_set_outputs(self):
-        testSubject = se.SEIRDataCollector(['a', 'b'])
+        testSubject = se.SEIROutputCollector(['a', 'b'])
         testSubject.set_outputs(['a'])
 
     def test_set_outputsFail(self):
-        testSubject = se.SEIRDataCollector(['a', 'b'])
+        testSubject = se.SEIROutputCollector(['a', 'b'])
         self.assertRaises(ValueError, testSubject.set_outputs, ['c'])
 
     def test_report(self):
-        testSubject = se.SEIRDataCollector(['a', 'b'])
-        testSubject.report(np.zeros((2, 1)))
+        testSubject = se.SEIROutputCollector(['a', 'b'])
+        self.assertRaises(
+            NotImplementedError,
+            testSubject.report, np.zeros((2, 1)))
 
 
 if __name__ == '__main__':

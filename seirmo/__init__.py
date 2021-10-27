@@ -11,7 +11,7 @@ from . import plots
 
 from ._core import (
     SEIRParameters,
-    SEIRDataCollector,
+    SEIROutputCollector,
     SEIRForwardModel
 )
 

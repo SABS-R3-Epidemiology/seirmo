@@ -37,7 +37,7 @@ class DeterministicSEIRModel(seirmo.SEIRForwardModel):
         super(DeterministicSEIRModel, self).__init__()
 
         # Assign default values
-        self._dataCollector = seirmo.SEIRDataCollector(
+        self._output_collector = seirmo.SEIROutputCollector(
             ['S', 'E', 'I', 'R', 'Incidence'])
         self._parameters = seirmo.SEIRParameters(
             4, ['S0', 'E0', 'I0', 'R0', 'alpha', 'beta', 'gamma'])
@@ -86,7 +86,7 @@ class DeterministicSEIRModel(seirmo.SEIRForwardModel):
         output = np.vstack(tup=(output, n_incidence))
 
         # Get the selected outputs
-        self._dataCollector.reportAll(output.transpose())
+        self._output_collector.reportAll(output.transpose())
         #output = output[self._output_indices, :]
 
-        return self._dataCollector.retrieve()
+        return self._output_collector.retrieve()
