@@ -84,7 +84,7 @@ class SEIROutputCollector():
         Abstract Method which is for reporting observations from
         each iteration of a simulation.
 
-        This allows for subclasses to perform extra operations on the data
+        This allows for subclasses to perform extra operations on the data.
 
         Also allows for subclasses to filter / decide which
         observations should be stored
