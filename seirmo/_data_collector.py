@@ -1,12 +1,12 @@
-"""Module containing the pharmokinetics abstract data collector class.
-"""
+
+
 
 import numpy as np
-from ._core import SEIRDataCollector
+from ._core import SEIROutputCollector
 import typing
 
 
-class DataCollector(SEIRDataCollector):
+class DataCollector(SEIROutputCollector):
     """Base Data Collecting Class for SEIR Forward Models"""
     def __init__(self, outputNames: typing.List[str]):
         self._output_names = outputNames

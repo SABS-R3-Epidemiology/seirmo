@@ -9,11 +9,18 @@ from . import apps
 
 from . import plots
 
+from ._core import (
+    SEIRParameters,
+    SEIROutputCollector,
+    SEIRForwardModel
+)
+
 from ._models import (
     ForwardModel,
     ReducedModel,
     SEIRModel
 )
+from ._stoch_model import StochasticSEIRModel
 
 from ._simulation import (
     SimulationController

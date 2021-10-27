@@ -31,7 +31,7 @@ class SEIRParameters():
         return self._parameters[val]
 
 
-class SEIRDataCollector():
+class SEIROutputCollector():
     """Base Data Collecting Class for SEIR Forward Models"""
     def __init__(self, outputNames: typing.List[str]):
         self._output_names = outputNames
