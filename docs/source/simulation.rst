@@ -12,3 +12,9 @@ Overview:
 
 
 .. autoclass:: SimulationController
+
+
+Home-Brew Simulation Methods:
+*****************************
+
+.. autofunction:: solve_gillespie

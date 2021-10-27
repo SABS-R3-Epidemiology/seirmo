@@ -9,6 +9,16 @@ from . import apps
 
 from . import plots
 
+from ._core import (
+    SEIRParameters,
+    SEIROutputCollector,
+    SEIRForwardModel
+)
+
+from .deterministic_models import (
+    DeterministicSEIRModel
+)
+
 from ._models import (
     ForwardModel,
     ReducedModel,
@@ -21,4 +31,8 @@ from ._simulation import (
 
 from ._dataset_library_api import (
     DatasetLibrary
+)
+
+from ._gillespie import (
+    solve_gillespie
 )
