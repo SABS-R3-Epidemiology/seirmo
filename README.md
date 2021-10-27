@@ -37,7 +37,7 @@ The deterministic model solves this set of ODEs:
 <img src="https://render.githubusercontent.com/render/math?math=\frac{dI(t)}{dt} = \kappa E(t) - \gamma I(t)">
 <img src="https://render.githubusercontent.com/render/math?math=\frac{dR(t)}{dt} = \gamma I(t)">
 
-The system of ODEs is nonlinear and must be solved by numerical integration methods. It is solved here using a forward model, using the solve_ivp method in the scipy.integrate library.
+The system of ODEs is nonlinear and must be solved by numerical integration methods. It is solved here using a forward model, using the `solve_ivp` method in the `scipy.integrate` library.
 
 
 &nbsp;
