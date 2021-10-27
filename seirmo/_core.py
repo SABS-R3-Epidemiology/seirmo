@@ -53,7 +53,7 @@ class SEIROutputCollector():
         return [self._output_names[x] for x in self._output_indices]
 
     def set_outputs(self, outputs):
-        """Sets the Output Parameters to Keep"""
+        """Sets the Outputs to Keep"""
         # Check existence of outputs
         for output in outputs:
             if output not in self._output_names:
