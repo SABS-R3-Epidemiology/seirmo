@@ -10,7 +10,6 @@ class StochasticPlotter():
     def plot(self, labels: list,
              filename: str = 'SEIR_stochastic_simulation.png'):
         new_data = self.remove_zero_row()
-        print(new_data)
         time = new_data[:, 0]
         data = new_data[:, 1:]
         fig, axes = plt.subplots()
