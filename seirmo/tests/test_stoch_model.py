@@ -5,7 +5,7 @@
 #
 
 import unittest
-from unittest.mock import Mock, MagicMock, patch
+from unittest.mock import patch
 import numpy as np
 import numpy.testing as nptest
 import seirmo as se
@@ -16,7 +16,7 @@ class TestStochModel(unittest.TestCase):
     Test the 'StochasticSEIRModel' subclass.
     """
     def test__init__(self):
-        model = se.StochasticSEIRModel(4, [
+        model = se.StochasticSEIRModel([
             'S0', 'E0', 'I0', 'R0', 'beta', 'kappa', 'gamma'
         ])
         self.assertEqual(model.output_names(), [
@@ -31,17 +31,17 @@ class TestStochModel(unittest.TestCase):
             model._output_collector._output_indices, np.arange(4))
 
     def test_n_outputs(self):
-        model = se.StochasticSEIRModel(4, np.zeros((4, 4)))
+        model = se.StochasticSEIRModel(np.zeros((4, 4)))
         self.assertEqual(model.n_outputs(), 4)
 
     def test_n_parameters(self):
-        model = se.StochasticSEIRModel(4, [
+        model = se.StochasticSEIRModel([
             'S0', 'E0', 'I0', 'R0', 'beta', 'kappa', 'gamma'
         ])
         self.assertEqual(model.n_parameters(), 7)
 
     def test_output_names(self):
-        model = se.StochasticSEIRModel(4, [
+        model = se.StochasticSEIRModel([
             'S0', 'E0', 'I0', 'R0', 'beta', 'kappa', 'gamma'
         ])
         self.assertEqual(model.output_names(), [
@@ -51,7 +51,7 @@ class TestStochModel(unittest.TestCase):
         self.assertEqual(model.output_names(), ['I'])
 
     def test_parameter_names(self):
-        model = se.StochasticSEIRModel(4, [
+        model = se.StochasticSEIRModel([
             'S0', 'E0', 'I0', 'R0', 'beta', 'kappa', 'gamma'
         ])
         self.assertEqual(model.parameter_names(), [
@@ -59,7 +59,7 @@ class TestStochModel(unittest.TestCase):
         ])
 
     def test_set_outputs(self):
-        model = se.StochasticSEIRModel(4, [
+        model = se.StochasticSEIRModel([
             'S0', 'E0', 'I0', 'R0', 'beta', 'kappa', 'gamma'
         ])
 
@@ -74,7 +74,7 @@ class TestStochModel(unittest.TestCase):
         self.assertEqual(model.n_outputs(), 2)
 
     def test_propens_func(self):
-        model = se.StochasticSEIRModel(4, [
+        model = se.StochasticSEIRModel([
             'S0', 'E0', 'I0', 'R0', 'beta', 'kappa', 'gamma'
         ])
         #check it works
@@ -98,7 +98,7 @@ class TestStochModel(unittest.TestCase):
         nptest.assert_array_equal(model_prop, expected_propensity)
 
     def test_simulate(self):
-        model = se.StochasticSEIRModel(4, [
+        model = se.StochasticSEIRModel([
             'S0', 'E0', 'I0', 'R0', 'beta', 'kappa', 'gamma'
         ])
 
@@ -116,7 +116,6 @@ class TestStochModel(unittest.TestCase):
         def inner(*args, **kwargs):
             for i in range(n_times):
                 yield np.zeros((5,))
-    
         with patch('seirmo._stoch_model.solve_gillespie',
                    side_effect=inner):
             output = model.simulate(np.array(test_parameters), test_times)

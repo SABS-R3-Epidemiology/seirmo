@@ -14,9 +14,11 @@ class StochasticOutputCollector(se.SEIROutputCollector):
         self._output_indices = np.arange(self._n_outputs)
     '''
     def begin(self, times):
+        
         self._data = np.zeros((len(times), len(self._output_names) + 1))
-        self._data[:, 0] = times
+        self._data[:, 0] = np.transpose(times)
         self._index = 0
+        self._output_indices = np.arange(len(self._output_names) + 1)
 
     '''def set_outputs(self, outputs):
         """Sets the Output Parameters to Keep"""

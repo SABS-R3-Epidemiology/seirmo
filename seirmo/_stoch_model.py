@@ -38,7 +38,7 @@ class StochasticSEIRModel(se.SEIRForwardModel):
 
         return propens_matrix
 
-    def simulate(self, parameters: np.ndarray, times: list):
+    def simulate(self, parameters: np.ndarray, times: list, max_t_step: float = 0.01):
         self._parameters.configure_parameters(parameters)  # array of length 7
         # with values of beta
         # gamma kappa and initial
@@ -47,10 +47,12 @@ class StochasticSEIRModel(se.SEIRForwardModel):
         initial_states = self._parameters[:4]  # input initial values
 
         for point in solve_gillespie(
-                fun=lambda states: self.update_propensity(states),  # states
+                lambda states: self.update_propensity(states),  # states
                 # includes t as first argument
-                y0=initial_states,
-                t_span=[times[0], times[-1]]):
+                initial_states,
+                [times[0], times[-1]], max_t_step):
+            
             self._output_collector.report(point)
+            self._output_collector.retrieve()
 
         return self._output_collector.retrieve()
