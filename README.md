@@ -54,7 +54,7 @@ The model is solved using the Gillespie algorithm (see documentation here: https
 
 <img src="https://render.githubusercontent.com/render/math?math=E(t %2B 1)=E(t) %2B 1 ">
 
-where (t+1) is the next timestep. 
+where _(t+1)_ is the next timestep. 
 
 
 &nbsp;
