@@ -5,17 +5,18 @@
 #
 
 import numpy as np
-from ._core import SEIRForwardModel, SEIRParameters, SEIROutputCollector
-from .gillespie import solve_gillespie
+import seirmo as se
+from ._gillespie import solve_gillespie
 
 
-class StochasticSEIRModel(SEIRForwardModel):
+class StochasticSEIRModel(se.SEIRForwardModel):
     def __init__(self, ncompartments, params_names: list):
         super(StochasticSEIRModel, self).__init__()
-        self._parameters = SEIRParameters(ncompartments, params_names)
+        self._parameters = se.SEIRParameters(ncompartments, params_names)
         # sets up n compart and param names output are the variables
         # we want to look at like S, E etc, compartment pops
-        self._output = SEIROutputCollector(['S', 'E', 'I', 'R'])
+        self._output_collector = se.StochasticOutputCollector(
+            ['S', 'E', 'I', 'R'])
 
     def update_propensity(self, current_states: np.ndarray) -> np.ndarray:
 
@@ -29,7 +30,7 @@ class StochasticSEIRModel(SEIRForwardModel):
         gamma = self._parameters[params_names.index('gamma')]
 
         [t, S, E, I, R] = current_states
-        N = self.n_outputs
+        N = self._parameters._n_compartments
         propens_matrix = np.zeros((N, N))
         propens_matrix[0, 1] = beta * S * I
         propens_matrix[1, 2] = kappa * E
@@ -38,10 +39,10 @@ class StochasticSEIRModel(SEIRForwardModel):
         return propens_matrix
 
     def simulate(self, parameters: np.ndarray, times: list):
-        self._parameters.configureParameters(parameters)  # array of length 7
+        self._parameters.configure_parameters(parameters)  # array of length 7
         # with values of beta
         # gamma kappa and initial
-        self._output.begin(times)
+        self._output_collector.begin(times)
 
         initial_states = self._parameters[:4]  # input initial values
 
@@ -50,6 +51,6 @@ class StochasticSEIRModel(SEIRForwardModel):
                 # includes t as first argument
                 y0=initial_states,
                 t_span=[times[0], times[-1]]):
-            self._output.report(point)
+            self._output_collector.report(point)
 
-        return self._output.retrieve()
+        return self._output_collector.retrieve()
