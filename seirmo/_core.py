@@ -87,7 +87,7 @@ class SEIROutputCollector():
         This allows for subclasses to perform extra operations on the data.
 
         Also allows for subclasses to filter / decide which
-        observations should be stored
+        observations should be stored.
         """
         raise NotImplementedError
 
