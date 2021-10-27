@@ -24,6 +24,9 @@ from ._models import (
     ReducedModel,
     SEIRModel
 )
+from ._stoch_model import StochasticSEIRModel
+
+from ._stochastic_output_collector import StochasticOutputCollector
 
 from ._simulation import (
     SimulationController
