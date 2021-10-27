@@ -95,7 +95,7 @@ class SEIROutputCollector():
         """
         Save all Datapoints to the OutputCollector.
 
-        Overwrites any existing data with this
+        Overwrites any existing data with this.
 
         : param: data np.ndarray: Data to save.
         """
