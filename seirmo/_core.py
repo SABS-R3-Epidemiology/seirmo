@@ -45,7 +45,7 @@ class SEIROutputCollector():
         self._output_indices = np.arange(self._n_outputs)
 
     def n_outputs(self):
-        """Returns the Number of Output Parameters"""
+        """Returns the Number of Outputs"""
         return self._n_outputs
 
     def output_names(self):
