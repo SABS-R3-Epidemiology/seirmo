@@ -58,7 +58,7 @@ class SEIROutputCollector():
         for output in outputs:
             if output not in self._output_names:
                 raise ValueError(
-                    'The output names specified must be in correct forms')
+                    'The provided output names are not recognized')
 
         output_indices = []
         for output_id, output in enumerate(self._output_names):
