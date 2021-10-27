@@ -106,7 +106,7 @@ class SEIROutputCollector():
         Returns the Data stored in the Collector.
 
         If the collector is configured to only output specific columns,
-        these are filtered here
+        these are filtered here.
         """
         return self._data[:, self._output_indices]
 
