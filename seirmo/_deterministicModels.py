@@ -77,7 +77,7 @@ class DeterministicSEIRModel(seirmo.SEIRForwardModel):
 
         # Number of incidences is the increase in total_infected
         # between the time points (add a 0 at the front to
-        # make the length consistent with the solution
+        # make the length consistent with the solution)
         n_incidence = np.zeros(len(times))
         n_incidence[1:] = total_infected[1:] - total_infected[:-1]
 
