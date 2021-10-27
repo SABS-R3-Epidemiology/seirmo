@@ -16,7 +16,7 @@ class SEIRParameters():
         self._parameter_names = parameterNames
         self._n_parameters = len(parameterNames)
 
-    def configureParameters(self, parameters: np.ndarray):
+    def configure_parameters(self, parameters: np.ndarray):
         """Set the current parameters"""
         assert parameters.shape == (self._n_parameters,),\
             f"Expected Parameter Shape {(self._n_parameters,)},\
@@ -69,6 +69,16 @@ class SEIROutputCollector():
         self._output_indices = output_indices
         self._n_outputs = len(outputs)
 
+    def begin(self, *args, **kwargs):
+        """
+        Abstract method which is called before observations from
+        simulation are reported.
+
+        This allows for subclasses to pre-initialize a datastructure
+        for when observations are then reported.
+        """
+        raise NotImplementedError
+
     def report(self, row):
         """
         Abstract Method which is for reporting observations from
@@ -81,7 +91,7 @@ class SEIROutputCollector():
         """
         raise NotImplementedError
 
-    def reportAll(self, data):
+    def report_all(self, data):
         """
         Save all Datapoints to the OutputCollector.
 

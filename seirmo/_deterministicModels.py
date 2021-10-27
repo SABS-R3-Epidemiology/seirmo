@@ -60,7 +60,7 @@ class DeterministicSEIRModel(seirmo.SEIRForwardModel):
         return dydt
 
     def simulate(self, parameters, times):
-        self._parameters.configureParameters(parameters)
+        self._parameters.configure_parameters(parameters)
         # Define time spans, initial conditions, and constants
         #y_init = parameters[:4]
         #c = parameters[4:]
@@ -86,7 +86,7 @@ class DeterministicSEIRModel(seirmo.SEIRForwardModel):
         output = np.vstack(tup=(output, n_incidence))
 
         # Get the selected outputs
-        self._output_collector.reportAll(output.transpose())
+        self._output_collector.report_all(output.transpose())
         #output = output[self._output_indices, :]
 
         return self._output_collector.retrieve()

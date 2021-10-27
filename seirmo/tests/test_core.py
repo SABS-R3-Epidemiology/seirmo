@@ -54,17 +54,17 @@ class TestSEIRParameters(unittest.TestCase):
 
     def test_configureParameters(self):
         testSubject = se.SEIRParameters(['a', 'b'])
-        testSubject.configureParameters(np.zeros((2,)))
+        testSubject.configure_parameters(np.zeros((2,)))
 
     def test_configureParametersError(self):
         testSubject = se.SEIRParameters(['a', 'b'])
         with self.assertRaises(AssertionError):
-            testSubject.configureParameters(np.array([1, 2, 3]))
+            testSubject.configure_parameters(np.array([1, 2, 3]))
 
     def test__getitem__(self):
         testSubject = se.SEIRParameters(['a', 'b'])
         params = np.array([1, 2])
-        testSubject.configureParameters(params)
+        testSubject.configure_parameters(params)
         for i in range(params.shape[0]):
             self.assertEqual(params[i], testSubject[i])
 
@@ -97,6 +97,10 @@ class TestSEIROutputCollector(unittest.TestCase):
     def test_set_outputsFail(self):
         testSubject = se.SEIROutputCollector(['a', 'b'])
         self.assertRaises(ValueError, testSubject.set_outputs, ['c'])
+
+    def test_begin(self):
+        testSubject = se.SEIROutputCollector(['a', 'b'])
+        self.assertRaises(NotImplementedError, testSubject.begin)
 
     def test_report(self):
         testSubject = se.SEIROutputCollector(['a', 'b'])
