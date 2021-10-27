@@ -15,6 +15,10 @@ from ._core import (
     SEIRForwardModel
 )
 
+from ._deterministicModels import (
+    DeterministicSEIRModel
+)
+
 from ._models import (
     ForwardModel,
     ReducedModel,

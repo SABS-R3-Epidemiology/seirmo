@@ -1,3 +1,6 @@
+#
+# This file is part of seirmo (https://github.com/SABS-R3-Epidemiology/seirmo/)
+# which is released under the BSD 3-clause license. See accompanying LICENSE.md
 # for copyright notice and full license details.
 #
 
@@ -8,14 +11,17 @@ import numpy as np
 
 
 class SEIRParameters():
-    """Base Parameter Class for SEIR Forward Models"""
+    """Base Parameter Class for SEIR and Related Forward Models"""
     def __init__(self, nCompartments: int, parameterNames: typing.List[str]):
         self._n_compartments = nCompartments
         self._parameter_names = parameterNames
         self._n_parameters = len(parameterNames)
 
-    def configureParameters(self, parameters: np.ndarray):
+    def configure_parameters(self, parameters: np.ndarray):
         """Set the current parameters"""
+        assert parameters.shape == (self._n_parameters,),\
+            f"Expected Parameter Shape {(self._n_parameters,)},\
+                but got {parameters.shape}"
         self._parameters = parameters
 
     def n_parameters(self):
@@ -32,7 +38,10 @@ class SEIRParameters():
 
 
 class SEIROutputCollector():
-    """Base Data Collecting Class for SEIR Forward Models"""
+    """
+    Base Class for Accumulating the Output Data from SEIR
+    and Related Forward Models
+    """
     def __init__(self, outputNames: typing.List[str]):
         self._output_names = outputNames
         self._n_outputs = len(outputNames)
@@ -43,7 +52,7 @@ class SEIROutputCollector():
         return self._n_outputs
 
     def output_names(self):
-        """Returns the Name of the Output Parameters"""
+        """Returns the Names of the Output Parameters"""
         return [self._output_names[x] for x in self._output_indices]
 
     def set_outputs(self, outputs):
@@ -52,7 +61,7 @@ class SEIROutputCollector():
         for output in outputs:
             if output not in self._output_names:
                 raise ValueError(
-                    'The output names specified must be in correct forms')
+                    'The provided output names are not recognized')
 
         output_indices = []
         for output_id, output in enumerate(self._output_names):
@@ -63,23 +72,51 @@ class SEIROutputCollector():
         self._output_indices = output_indices
         self._n_outputs = len(outputs)
 
-    def report(self, row):
-        """Report a Single Datapoint"""
-        pass
+    def begin(self, *args, **kwargs):
+        """
+        Abstract method which is called before observations from
+        simulation are reported.
 
-    def reportAll(self, data):
-        """Report All Data"""
-        # Perform some check
+        This allows for subclasses to pre-initialize a datastructure
+        for when observations are then reported.
+        """
+        raise NotImplementedError
+
+    def report(self, row):
+        """
+        Abstract Method which is for reporting observations from
+        each iteration of a simulation.
+
+        This allows for subclasses to perform extra operations on the data
+
+        Also allows for subclasses to filter / decide which
+        observations should be stored
+        """
+        raise NotImplementedError
+
+    def report_all(self, data):
+        """
+        Save all Datapoints to the OutputCollector.
+
+        Overwrites any existing data with this
+
+        : param: data np.ndarray: Data to save.
+        """
         self._data = data
 
     def retrieve(self):
-        """Return Formatted Data"""
+        """
+        Returns the Data stored in the Collector.
+
+        If the collector is configured to only output specific columns,
+        these are filtered here
+        """
         return self._data[:, self._output_indices]
 
 
 class SEIRForwardModel(pints.ForwardModel):
     """
-    Abstract base class for forward seir models.
+    Abstract base class for forward SEIR and Related models.
 
     Extends :class:`pints.ForwardModel`.
     """
@@ -96,14 +133,14 @@ class SEIRForwardModel(pints.ForwardModel):
     def n_outputs(self):
         """Returns Number of Output Parameters"""
         try:
-            return self._dataCollector.n_outputs()
+            return self._output_collector.n_outputs()
         except AttributeError:
             raise NotImplementedError
 
     def set_outputs(self, outputs):
         """Set the Desired Output Parameters"""
         try:
-            self._dataCollector.set_outputs(outputs)
+            self._output_collector.set_outputs(outputs)
         except AttributeError:
             raise NotImplementedError
 
@@ -117,7 +154,7 @@ class SEIRForwardModel(pints.ForwardModel):
     def output_names(self):
         """Returns the Output Names"""
         try:
-            return self._dataCollector.output_names()
+            return self._output_collector.output_names()
         except AttributeError:
             raise NotImplementedError
 
