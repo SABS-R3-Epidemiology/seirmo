@@ -9,12 +9,18 @@ import typing
 
 
 def solve_gillespie(propensities: typing.Callable[[np.ndarray], np.ndarray],
-                    initial_cond: np.ndarray, t_span: typing.List[float]):
+                    initial_cond: np.ndarray, t_span: typing.List[float],
+                    max_t_step: float = 0.01):
     """ Solve an initial_cond value problem using gillespie algorithm
 
     This function numerically integrates a system of ordinary differential
     equations given initial_cond conditions. We use the Gillespie algorithm
     with tau-leaping, so that the time step is not uniform but sampled randomly
+
+    N.B If all propensities are zero, this would give an infinite timestep.
+    We allow the simulation to continue at a large time_step, to allow for time
+    dependant rates that may be non-zero at later times
+    This time step is drawn from an exp dist based on ((t_stop-t_start)/100)
 
     Parameters
     ----------
@@ -28,6 +34,11 @@ def solve_gillespie(propensities: typing.Callable[[np.ndarray], np.ndarray],
         (Note that the final value may be greater than t_end)
     initial_cond : array_like, shape (N,)
         Initial state, gives counts in each of N compartments
+    max_t_step : float (default value 0.01)
+        This is the maximum allowed timestep, as a fraction of the total t_span
+        Default value is 0.01, so (t_span[1] - t_span[0])/100
+        Note that the exact time_steps are sampled from an exponential
+        distribution, and so may be smaller than this
 
     Yields
     -------
@@ -58,6 +69,8 @@ def solve_gillespie(propensities: typing.Callable[[np.ndarray], np.ndarray],
     while state[0] < t_span[1]:
         propensity_values = propensities(state)
         total_rate = np.sum(propensity_values)
+        if total_rate == 0:
+            total_rate = 1 / ((t_span[1] - t_span[0]) * max_t_step)
         time_step = np.log(1 / np.random.rand()) / total_rate
         state[0] += time_step
 

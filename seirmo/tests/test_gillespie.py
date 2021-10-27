@@ -25,6 +25,7 @@ class TestGillespieFunc(unittest.TestCase):
         cls.m.return_value = np.array([[0, 1], [0, 0]])
 
     def test_t_span_input(self):
+        """Ensure correct error handling for invalid t_span inputs"""
         with self.assertRaises(ValueError):  # t_span is 2D
             list(se.solve_gillespie(self.m, self.initial, t_span=[0]))
             # convert generator to list to force function to be evaluated#
@@ -60,6 +61,7 @@ class TestGillespieFunc(unittest.TestCase):
                          'Propensity Func called unexpected number of times')
 
     def test_gillespie_output(self):
+        """Ensure complete infection in 2 state model, with positive pop"""
         solution = list(se.solve_gillespie(self.m, self.initial, [0, 100]))
         self.assertTrue(np.all(np.array(solution) >= 0),
                         'Returned negative values in solution array')
@@ -67,15 +69,27 @@ class TestGillespieFunc(unittest.TestCase):
         self.assertEqual(final_sol.tolist(), [0, 10],
                          'Unexpected output - incomplete infection')
 
+    @parameterized.expand([(np.random.randint(0, 100, (2,)),)
+                           for _ in range(numReps)])
+    def test_gillespie_zeros(self, initial):
+        """Ensure that zero propensity gives unchanged state for any initial"""
+        m_zeros = MagicMock()
+        m_zeros.return_value = np.array([[0, 0], [0, 0]])
+        solution = list(se.solve_gillespie(m_zeros, initial, [0, 10]))
+        final_sol = solution[-1][1:]  # take only compartment nums at end
+        self.assertEqual(final_sol.tolist(), initial.tolist(),
+                         'Unexpected output - changed state')
+
     @parameterized.expand([(np.random.randint(0, 100, (3,)),
                             np.random.rand(3, 3) * 100)
                            for _ in range(numReps)])
     def test_population_conservation(self, initial, propensity_mat):
-        m_4dim = MagicMock()
-        m_4dim.return_value = propensity_mat
+        """Ensure population is conserved for any initial and prop matrix"""
+        m_3dim = MagicMock()
+        m_3dim.return_value = propensity_mat
         initial_pop = np.sum(initial)
 
-        solve = se.solve_gillespie(m_4dim, initial, [0, 1])
+        solve = se.solve_gillespie(m_3dim, initial, [0, 1])
         while True:
             try:
                 output = next(solve)
