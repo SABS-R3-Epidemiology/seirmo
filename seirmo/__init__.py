@@ -33,6 +33,6 @@ from ._dataset_library_api import (
     DatasetLibrary
 )
 
-from .gillespie import (
+from ._gillespie import (
     solve_gillespie
 )
