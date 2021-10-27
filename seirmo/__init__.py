@@ -32,3 +32,7 @@ from ._simulation import (
 from ._dataset_library_api import (
     DatasetLibrary
 )
+
+from ._gillespie import (
+    solve_gillespie
+)
