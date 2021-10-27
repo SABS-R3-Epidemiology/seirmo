@@ -23,7 +23,7 @@ The deterministic model supposes that the population is large and well-mixed, an
 
 | Parameter     | Description                                                                             | Unit |
 | ------------- | --------------------------------------------------------------------------------------- | ---- |
-| β             | Average number of contacts per person per time, divided by the total population number  | 1/t  |
+| β             | Percentage of infected and susceptible encounters per day that lead to transmission     | 1/t  |
 | κ             | Inverse of the average latent period                                                    | 1/t  |
 | γ             | Inverse of the average duration of infectiousness                                       | 1/t  |
 
