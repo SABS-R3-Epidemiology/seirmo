@@ -10,9 +10,9 @@ from ._gillespie import solve_gillespie
 
 
 class StochasticSEIRModel(se.SEIRForwardModel):
-    def __init__(self, ncompartments, params_names: list):
+    def __init__(self, params_names: list):
         super(StochasticSEIRModel, self).__init__()
-        self._parameters = se.SEIRParameters(ncompartments, params_names)
+        self._parameters = se.SEIRParameters(params_names)
         # sets up n compart and param names output are the variables
         # we want to look at like S, E etc, compartment pops
         self._output_collector = se.StochasticOutputCollector(
@@ -30,7 +30,7 @@ class StochasticSEIRModel(se.SEIRForwardModel):
         gamma = self._parameters[params_names.index('gamma')]
 
         [t, S, E, I, R] = current_states
-        N = self._parameters._n_compartments
+        N = len(current_states) - 1
         propens_matrix = np.zeros((N, N))
         propens_matrix[0, 1] = beta * S * I
         propens_matrix[1, 2] = kappa * E

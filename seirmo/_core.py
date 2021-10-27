@@ -12,8 +12,7 @@ import numpy as np
 
 class SEIRParameters():
     """Base Parameter Class for SEIR and Related Forward Models"""
-    def __init__(self, nCompartments: int, parameterNames: typing.List[str]):
-        self._n_compartments = nCompartments
+    def __init__(self, parameterNames: typing.List[str]):
         self._parameter_names = parameterNames
         self._n_parameters = len(parameterNames)
 
