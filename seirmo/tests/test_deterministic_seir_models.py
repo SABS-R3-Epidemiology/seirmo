@@ -26,7 +26,7 @@ class TestDeterministicSEIRModel(unittest.TestCase):
         self.assertEqual(model.n_outputs(), 5)
         self.assertEqual(model.n_parameters(), 7)
         np.testing.assert_array_equal(
-            model._dataCollector._output_indices, np.arange(5))
+            model._output_collector._output_indices, np.arange(5))
 
     def test_n_outputs(self):
         model = se.DeterministicSEIRModel()
@@ -61,7 +61,7 @@ class TestDeterministicSEIRModel(unittest.TestCase):
 
         model.set_outputs(['I', 'Incidence'])
         # Check the outputs names and number are as expected
-        self.assertEqual(model._dataCollector._output_indices, [2, 4])
+        self.assertEqual(model._output_collector._output_indices, [2, 4])
         self.assertEqual(model.n_outputs(), 2)
 
     def test_simulate(self):

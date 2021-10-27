@@ -11,11 +11,11 @@ from . import plots
 
 from ._core import (
     SEIRParameters,
-    SEIRDataCollector,
+    SEIROutputCollector,
     SEIRForwardModel
 )
 
-from ._deterministicModels import (
+from .deterministic_models import (
     DeterministicSEIRModel
 )
 

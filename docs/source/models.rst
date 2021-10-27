@@ -11,7 +11,7 @@ Overview:
 - :class:`ForwardModel`
 - :class:`ReducedModel`
 - :class:`SEIRModel`
-- :class:'DeterministicSEIRModel'
+- :class:`DeterministicSEIRModel`
 
 SEIR Model
 **********

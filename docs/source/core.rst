@@ -4,15 +4,15 @@ Core
 
 .. currentmodule:: seirmo
 
-Core provide a framework for the implementation of any SIER Models.
+Core provides a framework for the implementation of SEIR and Related Models.
 
 Overview:
 
-- :class:'SEIRForwardModel'
-- :class:'SEIRParameters'
-- :class:'SEIRDataCollector'
+- :class:`SEIRForwardModel`
+- :class:`SEIRParameters`
+- :class:`SEIROutputCollector`
 
-SEIR CORE
+SEIR Core
 *********
 
 .. autoclass:: SEIRForwardModel
@@ -21,5 +21,5 @@ SEIR CORE
 .. autoclass:: SEIRParameters
     :members:
 
-.. autoclass:: SEIRDataCollector
+.. autoclass:: SEIROutputCollector
     :members:
