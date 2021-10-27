@@ -60,13 +60,30 @@ class TestGillespieFunc(unittest.TestCase):
         self.assertEqual(m_count.call_count, 2,
                          'Propensity Func called unexpected number of times')
 
+    def test_neg_propensity(self):
+        """Test error handling of negative elements in propensity matrix"""
+        m_neg = MagicMock()
+        m_neg.return_value = np.array([[0, -1], [0, 0]])
+        solve = se.solve_gillespie(m_neg, self.initial, self.t_span)
+        with self.assertRaises(ValueError):
+            next(solve)
+
     def test_gillespie_output(self):
-        """Ensure complete infection in 2 state model, with positive pop"""
-        solution = list(se.solve_gillespie(self.m, self.initial, [0, 100]))
-        self.assertTrue(np.all(np.array(solution) >= 0),
-                        'Returned negative values in solution array')
-        final_sol = solution[-1][1:]  # take only compartment nums at end
-        self.assertEqual(final_sol.tolist(), [0, 10],
+        def prop_func(x: np.ndarray):
+            return np.array([[0, x[1]], [0, 0]])
+
+        state = self.initial
+        solve = se.solve_gillespie(prop_func, state, [0, 100])
+        while True:
+            try:
+                output = next(solve)
+            except StopIteration:
+                break
+            state = output[1:]
+            self.assertTrue(np.all(state >= 0),
+                            'Returned negative values in state array')
+
+        self.assertEqual(state.tolist(), [0, 10],
                          'Unexpected output - incomplete infection')
 
     @parameterized.expand([(np.random.randint(0, 100, (2,)),)
