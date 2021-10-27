@@ -111,7 +111,6 @@ class SEIROutputCollector():
         return self._data[:, self._output_indices]
 
 
-
 class SEIRForwardModel(pints.ForwardModel):
     """
     Abstract base class for forward SEIR and Related models.
