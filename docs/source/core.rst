@@ -4,7 +4,7 @@ Core
 
 .. currentmodule:: seirmo
 
-Core provides a framework for the implementation of any SEIR Models and Related Models.
+Core provides a framework for the implementation of SEIR and Related Models.
 
 Overview:
 
