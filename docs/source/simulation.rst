@@ -15,6 +15,6 @@ Overview:
 
 
 Home-Brew Simulation Methods:
-**********
+*****************************
 
 .. autofunction:: solve_gillespie
