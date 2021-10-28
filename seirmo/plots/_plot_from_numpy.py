@@ -51,7 +51,7 @@ class ConfigurablePlotter():
 
         # if-loop defines which subplot to use,
         # and whether a second axis if needed
-        if self._nrows == 0 and self._ncolumns == 0:
+        if self._nrows == 1 and self._ncolumns == 1:
             assert position[0] == 0 and position[1] == 0, \
                 'position and shape are not compatible'
             if new_axis:
