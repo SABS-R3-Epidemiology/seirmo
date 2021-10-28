@@ -39,6 +39,14 @@ class TestPlotFromNumpy(unittest.TestCase):
                          int(row_num * col_num),
                          'Unexpected number of axes objects')
 
+    @parameterized.expand([(1, 1), (3, 1), (1, 3), (3, 3)])
+    def test_begin_axes_objects(self, row_num, col_num):
+        figure = se.plots.ConfigurablePlotter()
+        figure.begin(int(row_num), int(col_num))
+        self.assertEqual(np.shape(figure._axes),
+                         (row_num, col_num),
+                         'Unexpected shape of axes objects')     
+
     def test_begin_bad_input(self):
         figure = se.plots.ConfigurablePlotter()
         with self.assertRaises(ValueError):
@@ -62,7 +70,7 @@ class TestPlotFromNumpy(unittest.TestCase):
     def test_add_data_assertions(self):
         figure = se.plots.ConfigurablePlotter()
         figure.begin(2, 2)
-        times = np.array(0, 1, 2, 3, 4)
+        times = np.array([0, 1, 2, 3, 4])
         data_array = np.arange(20).reshape(5, 4)
         with self.assertRaises(AssertionError):
             figure.add_data_to_plot(times[1:], data_array)
@@ -72,7 +80,7 @@ class TestPlotFromNumpy(unittest.TestCase):
     def test_add_data_function(self):
         figure = se.plots.ConfigurablePlotter()
         figure.begin(2, 2)
-        times = np.array(0, 1, 2, 3, 4)
+        times = np.array([0, 1, 2, 3, 4])
         data_array = np.arange(20).reshape(5, 4)
         figure.add_data_to_plot(times, data_array)
 
