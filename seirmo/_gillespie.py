@@ -68,6 +68,9 @@ def solve_gillespie(propensities: typing.Callable[[np.ndarray], np.ndarray],
 
     while state[0] < t_span[1]:
         propensity_values = propensities(state)
+        if np.any(propensity_values < 0):
+            raise ValueError('Propensity function should not \
+                              return neagtive values')
         total_rate = np.sum(propensity_values)
         if total_rate == 0:
             total_rate = 1 / ((t_span[1] - t_span[0]) * max_t_step)
@@ -81,9 +84,8 @@ def solve_gillespie(propensities: typing.Callable[[np.ndarray], np.ndarray],
             running_tot += value
             if value != 0 and running_tot > random_proc:
                 loss, gain = index
-                if state[loss + 1] > 0:  # Can't remove counts from empty state
-                    state[loss + 1] -= 1  # +1 to skip past time index
-                    state[gain + 1] += 1
+                state[loss + 1] -= 1  # +1 to skip past time index
+                state[gain + 1] += 1
                 break
 
         yield state

@@ -1,9 +1,12 @@
-
-
+#
+# This file is part of seirmo (https://github.com/SABS-R3-Epidemiology/seirmo/)
+# which is released under the BSD 3-clause license. See accompanying LICENSE.md
+# for copyright notice and full license details.
+#
 
 import numpy as np
 import seirmo as se
-import typing
+# import typing
 
 
 class StochasticOutputCollector(se.SEIROutputCollector):
@@ -14,10 +17,10 @@ class StochasticOutputCollector(se.SEIROutputCollector):
         self._output_indices = np.arange(self._n_outputs)
     '''
     def begin(self, times):
-        self._data = np.zeros((len(times), len(self._output_names) + 1))
-        self._data[:, 0] = times
+        self._data = np.full((len(times), len(self._output_names) + 1), np.nan)
+        self._data[:, 0] = np.transpose(times)
         self._index = 0
-        self._output_indices = np.arange(len(self._output_names) +1)
+        self._output_indices = np.arange(len(self._output_names) + 1)
 
     '''def set_outputs(self, outputs):
         """Sets the Output Parameters to Keep"""
@@ -45,7 +48,6 @@ class StochasticOutputCollector(se.SEIROutputCollector):
         if self._index >= self._data.shape[0]:
             return
         assert data.shape == (self._data.shape[1],), 'Invalid Data Shape'
-        
         gill_time = data[0]
         if gill_time >= self._data[self._index, 0]:
             self._data[self._index, 1:] = np.transpose(data[1:])
@@ -57,7 +59,7 @@ class StochasticOutputCollector(se.SEIROutputCollector):
         # self._data[:,0] == data[:, 0]
         self._data = data
 '''
-    def retrieve_time(self, index:int) -> np.ndarray:
+    def retrieve_time(self, index: int) -> np.ndarray:
         """Return data as a column vector at a time point requested. Asserts
         timepoint is within the 'past' of the model.
 

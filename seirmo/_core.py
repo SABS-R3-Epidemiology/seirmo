@@ -37,25 +37,23 @@ class SEIRParameters():
 
 
 class SEIROutputCollector():
-    """
-    Base Class for Accumulating the Output Data from SEIR
-    and Related Forward Models
-    """
+    """Base Class for Accumulating the Output Data from SEIR
+        and Related Forward Models"""
     def __init__(self, outputNames: typing.List[str]):
         self._output_names = outputNames
         self._n_outputs = len(outputNames)
         self._output_indices = np.arange(self._n_outputs)
 
     def n_outputs(self):
-        """Returns the Number of Output Parameters"""
+        """Returns the Number of Outputs"""
         return self._n_outputs
 
     def output_names(self):
-        """Returns the Names of the Output Parameters"""
+        """Returns the Names of the Outputs"""
         return [self._output_names[x] for x in self._output_indices]
 
     def set_outputs(self, outputs):
-        """Sets the Output Parameters to Keep"""
+        """Sets the Outputs to Keep"""
         # Check existence of outputs
         for output in outputs:
             if output not in self._output_names:
@@ -86,10 +84,10 @@ class SEIROutputCollector():
         Abstract Method which is for reporting observations from
         each iteration of a simulation.
 
-        This allows for subclasses to perform extra operations on the data
+        This allows for subclasses to perform extra operations on the data.
 
         Also allows for subclasses to filter / decide which
-        observations should be stored
+        observations should be stored.
         """
         raise NotImplementedError
 
@@ -97,7 +95,7 @@ class SEIROutputCollector():
         """
         Save all Datapoints to the OutputCollector.
 
-        Overwrites any existing data with this
+        Overwrites any existing data with this.
 
         : param: data np.ndarray: Data to save.
         """
@@ -108,7 +106,7 @@ class SEIROutputCollector():
         Returns the Data stored in the Collector.
 
         If the collector is configured to only output specific columns,
-        these are filtered here
+        these are filtered here.
         """
         return self._data[:, self._output_indices]
 
