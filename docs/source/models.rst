@@ -12,6 +12,7 @@ Overview:
 - :class:`ReducedModel`
 - :class:`SEIRModel`
 - :class:`DeterministicSEIRModel`
+- :class:`StochasticSEIRModel`
 
 SEIR Model
 **********
@@ -26,4 +27,7 @@ SEIR Model
     :members:
 
 .. autoclass:: DeterministicSEIRModel
+    :members:
+
+.. autoclass:: StochasticSEIRModel
     :members:
