@@ -14,10 +14,19 @@ class ConfigurablePlotter():
 
     def begin(self, subplots_rows: int = 1, subplots_columns: int = 1):
         '''
-        Begins creating a figure, with given number of subfigures'''
+        Begins creating a figure, with given number of subfigures
+        Replaces init class so object can be reused'''
+        if type(subplots_rows) != int:
+            raise TypeError("Number of rows of subplots must be an integer")
+        if type(subplots_columns) != int:
+            raise TypeError("Number of columns of subplots must be an integer")
+        if subplots_rows <= 0:
+            raise ValueError("Number of rows of subplots must be positive")
+        if subplots_columns <= 0:
+            raise ValueError("Number of columns of subplots must be positive")
+
         self._fig, self._axes = plt.subplots(subplots_rows, subplots_columns)
         self._size = subplots_columns * subplots_rows
-        # total number of subfigures, default to 1
         self._nrows = subplots_rows
         self._ncolumns = subplots_columns
         # we store a figure object and multiple axes objects
@@ -26,12 +35,12 @@ class ConfigurablePlotter():
         ''' If figure = ConfigurablePlotter(), then figure.begin().
         Figure[0] will return the matplot figure, and figure[1] will
         return the subplot axis objects'''
-        assert index in [0, 1]
         if index == 0:
-            item = self._fig
+            return self._fig
+        elif index == 1:
+            return self._axes
         else:
-            item = self._axes
-        return item
+            raise ValueError("Index must be 0 (for figure) or 1 (for axes)")
 
     def add_data_to_plot(self, times: np.ndarray, data_array: np.ndarray,
                          position: list = [0, 0],
@@ -47,7 +56,9 @@ class ConfigurablePlotter():
 
         assert len(times) == data_array.shape[0], \
             'data and times are not the same length'
+        print(data_array.shape)
         data_width = data_array.shape[1]  # saves the number of y-var
+        
 
         # if-loop defines which subplot to use,
         # and whether a second axis if needed

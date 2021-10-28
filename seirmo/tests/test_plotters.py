@@ -1,0 +1,81 @@
+#
+# This file is part of seirmo (https://github.com/SABS-R3-Epidemiology/seirmo/)
+# which is released under the BSD 3-clause license. See accompanying LICENSE.md
+# for copyright notice and full license details.
+#
+
+import unittest
+import numpy as np
+import matplotlib
+from parameterized import parameterized
+from unittest.mock import MagicMock
+
+import seirmo as se
+
+numReps = 10
+
+
+class TestPlotFromNumpy(unittest.TestCase):
+    """
+    Test the 'ForwardModel' class.
+    """
+    @classmethod
+    def setUpClass(cls):
+        cls.figure = se.plots.ConfigurablePlotter()
+
+    @parameterized.expand([(np.random.randint(1, 5, (2,)),)
+                           for _ in range(numReps)])
+    def test_begin(self, plot_num):
+        row_num, col_num = plot_num
+        figure = se.plots.ConfigurablePlotter()
+        figure.begin(int(row_num), int(col_num))
+        self.assertEqual(figure._nrows, row_num,
+                         'Unexpected number of subplot rows')
+        self.assertEqual(figure._ncolumns, col_num,
+                         'Unexpected number of subplot columns')
+        self.assertEqual(figure._size, int(row_num * col_num),
+                         'Unexpected number of subplots')
+        self.assertEqual(np.product(np.shape(figure._axes)),
+                         int(row_num * col_num),
+                         'Unexpected number of axes objects')
+
+    def test_begin_bad_input(self):
+        figure = se.plots.ConfigurablePlotter()
+        with self.assertRaises(ValueError):
+            figure.begin(0, 1)
+        with self.assertRaises(ValueError):
+            figure.begin(1, -1)
+        with self.assertRaises(TypeError):
+            figure.begin(1.5, 2)
+        with self.assertRaises(TypeError):
+            figure.begin(1, 'five')
+
+    def test_indexing(self):
+        figure = se.plots.ConfigurablePlotter()
+        figure.begin(2, 2)
+        self.assertEqual(type(figure[0]), matplotlib.figure.Figure,
+                         "Unable to retrieve figure object via indexing")
+        self.assertTrue(isinstance(figure[1][0, 0], matplotlib.axes.Axes))
+        with self.assertRaises(ValueError):
+            figure[2]  # Should be out of indexing range - handled in file
+
+    def test_add_data_assertions(self):
+        figure = se.plots.ConfigurablePlotter()
+        figure.begin(2, 2)
+        times = np.array(0, 1, 2, 3, 4)
+        data_array = np.arange(20).reshape(5, 4)
+        with self.assertRaises(AssertionError):
+            figure.add_data_to_plot(times[1:], data_array)
+        with self.assertRaises(AssertionError):
+            figure.add_data_to_plot(times, data_array, position=[3, 1])
+
+    def test_add_data_function(self):
+        figure = se.plots.ConfigurablePlotter()
+        figure.begin(2, 2)
+        times = np.array(0, 1, 2, 3, 4)
+        data_array = np.arange(20).reshape(5, 4)
+        figure.add_data_to_plot(times, data_array)
+
+
+if __name__ == '__main__':
+    unittest.main()
