@@ -18,16 +18,16 @@ Two submodels are defined in the program: a deterministic SEIR model and a stoch
 ## Deterministic SEIR
 The deterministic model supposes that the population is large and well-mixed, and that small fluctuations in compartments do not impact the general solution. The conceptualisation of the model is illustrated below, and the parameters are described in a table below.
 
-![SEIR model conceptualisation](./images/seir_conceptualisation.png)
+![SEIR model conceptualisation](./images/SEIR_model.png)
 
 
 | Parameter     | Description                                                                             | Unit |
 | ------------- | --------------------------------------------------------------------------------------- | ---- |
-| β             | Percentage of infected and susceptible encounters per day that lead to transmission     | 1/t  |
+| β             | Percentage of infectious and susceptible encounters per day that lead to transmission   | 1/t  |
 | κ             | Inverse of the average latent period                                                    | 1/t  |
 | γ             | Inverse of the average duration of infectiousness                                       | 1/t  |
 
-β > 0 controls the rate of tranmission, κ > 0 the rate at which exposed individuals become infectious, and γ > 0 the rate at which individuals recover. 
+β > 0 controls the rate of tranmission, κ > 0 the rate at which exposed individuals become infectious, and γ > 0 the rate at which individuals recover. The model also requires initial conditions for each compartment: S(0), E(0), I(0), and R(0), which represent the initial number of people in each category.
 
 
 The deterministic model solves this set of ODEs: 
@@ -60,13 +60,20 @@ where _(t+1)_ is the next timestep.
 &nbsp;
 
 
+## Installation procedure
+One way to install the module is to download the repositiory to your machine of choice and type the following commands in the terminal.
+```bash
+git clone https://github.com/SABS-R3-Epidemiology/seirmo.git
+cd ../path/to/the/file
+```
 
-## Set up
+A different method to install this is using `pip`:
 
-Add text on how to install and use module. 
+```bash
+pip install -e .
+```
 
 &nbsp;
-
 
 ## Documentation 
 Some documentation on the program's classes and methods can be found here: https://seirmo.readthedocs.io/en/latest/
