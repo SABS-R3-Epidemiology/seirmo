@@ -15,7 +15,7 @@ model._parameters.configure_parameters(parameter_values)
 model.set_outputs(seir)
 
 output = model.simulate(np.array(parameter_values), times)
-problem = p.MultiOutputProblem(model, times, output[:, 1:])
+problem = p.MultiOutputProblem(model, times, output)
 
 figure = se.plots.StochasticPlotter(output)
 figure.plot(seir)

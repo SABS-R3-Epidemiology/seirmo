@@ -18,8 +18,9 @@ class TestStochasticOutputCollector(unittest.TestCase):
     def test_begin(self):
         output = se.StochasticOutputCollector(['S', 'I', 'R'])
         output.begin(np.array([0]))
-        npt.assert_array_equal(output._data, np.zeros((1,4)))
-        self.assertEqual(output._data[:, 0], [0])
+        npt.assert_array_equal(
+            output._data, np.full((1, 3), np.nan))
+        self.assertEqual(output._times[0], 0)
         self.assertEqual(output._index, 0)
 
     def test_report_and_retrieve_time(self):
@@ -29,14 +30,16 @@ class TestStochasticOutputCollector(unittest.TestCase):
         #Checks that the input data is the right shape
         self.assertRaises(AssertionError, output.report, np.array([1, 2]))
 
-        #Checks that report is storing the solution correctly 
+        #Checks that report is storing the solution correctly
         #and that retrieve is returning the correct part of the solution
-        output.report(np.array([1, 2, 3, 4, 5]))
+        output.report(np.array([1, 1, 3, 4, 5]))
         output.report(np.array([2, 2, 3, 4, 5]))
-        output.report(np.array([3, 2, 3, 4, 5]))
-        output.report(np.array([4, 2, 3, 4, 5]))
+        output.report(np.array([3, 3, 3, 4, 5]))
+        output.report(np.array([4, 4, 3, 4, 5]))
         self.assertRaises(AssertionError, output.retrieve_time, 6)
-        npt.assert_array_equal(output.retrieve_time(1), np.transpose([2, 2, 3, 4, 5]))
+        npt.assert_array_equal(output.retrieve_time(1),
+                               np.transpose([2, 3, 4, 5]))
+
 
 if __name__ == '__main__':
     unittest.main()

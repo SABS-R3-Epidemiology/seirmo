@@ -102,7 +102,7 @@ class TestStochModel(unittest.TestCase):
             'S0', 'E0', 'I0', 'R0', 'beta', 'kappa', 'gamma'
         ])
 
-        initial_values = [0.9, 0, 0.1, 0]
+        initial_values = [9, 0, 1, 0]
         constants = [1, 1, 1]
         test_parameters = initial_values + constants
 
@@ -114,8 +114,8 @@ class TestStochModel(unittest.TestCase):
         model.set_outputs(['S', 'I'])
 
         def inner(*args, **kwargs):
-            for i in range(n_times):
-                yield np.zeros((5,))
+            for i in range(n_times + 5):
+                yield np.zeros((5,)) + i
         with patch('seirmo._stoch_model.solve_gillespie',
                    side_effect=inner):
             output = model.simulate(np.array(test_parameters), test_times)
@@ -125,7 +125,7 @@ class TestStochModel(unittest.TestCase):
 
         # Check positivity
         pos_matrix = (output >= 0)
-        assert np.all(pos_matrix)
+        assert np.all(pos_matrix), 'One of the compartments has negative pop'
 
 
 if __name__ == '__main__':

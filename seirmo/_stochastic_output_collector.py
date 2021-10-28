@@ -12,7 +12,6 @@ import seirmo as se
 class StochasticOutputCollector(se.SEIROutputCollector):
     def begin(self, times):
         self._data = np.full((len(times), len(self._output_names)), np.nan)
-        self._data[:, 0] = np.transpose(times)
         self._index = 0
         self._times = np.array(times)
 
