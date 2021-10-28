@@ -60,15 +60,17 @@ class ConfigurablePlotter():
         :params:: position: list of integers, gives index of subplot to use
         :params:: xlabel: str
         :params:: new_axis: boolean, set to true if data should
-                            be plotted on a second axis'''
+                            be plotted on a second x axis'''
 
         if len(data_array.shape) == 1:  # Turn any 1D input into 2D
-            if len(times) == 1:
+            if type(times) != np.ndarray or np.sum(np.shape(times)) == 1:  
+                # I.e. if only one np.int, or one element array
+                times = np.array(times, ndmin=2)
                 data_array = data_array[np.newaxis, :]
             else:
                 data_array = data_array[:, np.newaxis]
 
-        assert len(times) == data_array.shape[0], \
+        assert times.shape[0] == data_array.shape[0], \
             'data and times are not the same length'
         data_width = data_array.shape[1]  # saves the number of y-var
 
@@ -98,10 +100,10 @@ class ConfigurablePlotter():
         return self._fig, self._axes
 
     def add_fill(self, times: np.ndarray, ymin: np.ndarray,
-                         ymax: np.ndarray, position: list = [0, 0],
-                         xlabel: str = 'time', ylabel: str = 'number of people',
-                         colours: str = ['b'], alpha: float = 0.2):
-    
+                 ymax: np.ndarray, position: list = [0, 0],
+                 xlabel: str = 'time', ylabel: str = 'number of people',
+                 colours: str = ['b'], alpha: float = 0.2):
+
         assert position[0] < self._nrows \
             and position[1] < self._ncolumns, \
             'position and shape are not compatible'
@@ -113,9 +115,10 @@ class ConfigurablePlotter():
 
         # plots the data
         if len(ylabel):
-            axis.fill_between(times, ymin, ymax, color=colours[0], alpha = alpha, label=ylabel)
+            axis.fill_between(times, ymin, ymax, color=colours[0], 
+                              alpha=alpha, label=ylabel)
         else:
-            axis.fill_between(times, ymin, ymax, color=colours[0], alpha = alpha)
+            axis.fill_between(times, ymin, ymax, color=colours[0], alpha=alpha)
         axis.legend()
         plt.xlabel(xlabel)
         self._fig.tight_layout()
