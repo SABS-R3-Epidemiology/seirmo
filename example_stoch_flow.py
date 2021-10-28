@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 
 model = se.StochasticSEIRModel(['S0', 'E0', 'I0', 'R0', 'beta', 'kappa', 'gamma'])
 seir = ['S', 'E', 'I', 'R']
-parameter_values = np.array([90, 10, 0, 0, 1, 2, 1])
+parameter_values = np.array([98, 0, 2, 0, 1, 2, 1])
 timeEnd = 10
 n_times = 10*timeEnd + 1
 times = np.linspace(0, timeEnd, num=n_times)

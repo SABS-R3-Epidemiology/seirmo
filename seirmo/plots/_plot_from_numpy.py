@@ -23,9 +23,9 @@ class StochasticPlotter():
         plt.show()
 
     def remove_zero_row(self):
-        for i in range(len(self._data.shape[0])):
-            if self._data[i, 1:] != np.zeros(4):
-                i += 1
+        i=0
+        if self._data[i, 1:] != np.zeros(4):
+            i += 1
         self._reduced_data = self._data[:i+1, :]
         return self._reduced_data
 
