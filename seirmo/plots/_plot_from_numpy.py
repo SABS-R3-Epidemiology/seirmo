@@ -56,9 +56,16 @@ class ConfigurablePlotter():
 
         assert len(times) == data_array.shape[0], \
             'data and times are not the same length'
+
+        if len(data_array.shape) == 1:  # Turn any 1D input into 2D
+            if len(times) == 1:
+                data_array = data_array[np.newaxis, :]
+            else:
+                data_array = data_array[:, np.newaxis]
+
         print(data_array.shape)
         data_width = data_array.shape[1]  # saves the number of y-var
-        
+
 
         # if-loop defines which subplot to use,
         # and whether a second axis if needed
