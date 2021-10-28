@@ -79,10 +79,19 @@ class TestPlotFromNumpy(unittest.TestCase):
 
     def test_add_data_function(self):
         figure = se.plots.ConfigurablePlotter()
-        figure.begin(2, 2)
+        figure.begin(1, 2)
         times = np.array([0, 1, 2, 3, 4])
-        data_array = np.arange(20).reshape(5, 4)
-        figure.add_data_to_plot(times, data_array)
+        data_array = np.arange(5).reshape(5, 1)
+        figure.add_data_to_plot(times, data_array, position=[0, 0])
+        self.assertAlmostEqual(figure[1][0, 0].lines[0].get_color().tolist(),
+                               [0.267004, 0.004874, 0.329415, 1.],
+                               'Unexpected colour in axes object')
+        #  The test above is based on the viridis default
+        figure.add_data_to_plot(times, data_array + 1, position=[0, 1],
+                                colours=['#a3c1ad'])
+        self.assertEqual(figure[1][0, 1].lines[0].get_color(), '#a3c1ad',
+                         'Unexpected colour in axes object')
+
         figure.add_data_to_plot(times[0], data_array[0, :])
         figure.add_data_to_plot(times, data_array[:, 0])
 
@@ -107,7 +116,7 @@ class TestPlotFromNumpy(unittest.TestCase):
 
         self.assertTrue(has_twinx(figure._axes[0, 1]))
         self.assertFalse(has_twinx(figure._axes[0, 2]))
-  
+
     def test_add_fill_assertions(self):
         figure = se.plots.ConfigurablePlotter()
         figure.begin(2, 2)

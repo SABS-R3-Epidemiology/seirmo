@@ -63,7 +63,7 @@ class ConfigurablePlotter():
                             be plotted on a second x axis'''
 
         if len(data_array.shape) == 1:  # Turn any 1D input into 2D
-            if type(times) != np.ndarray or np.sum(np.shape(times)) == 1:  
+            if type(times) != np.ndarray or np.sum(np.shape(times)) == 1:
                 # I.e. if only one np.int, or one element array
                 times = np.array(times, ndmin=2)
                 data_array = data_array[np.newaxis, :]
@@ -84,6 +84,7 @@ class ConfigurablePlotter():
             axis = self._axes[position[0], position[1]]
 
         # formats colour choice if none set - I want to change this
+        # If you change this you are redoing the tests
         if not colours:
             colours = plt.cm.viridis(np.linspace(0, 1, data_width))
 
@@ -115,7 +116,7 @@ class ConfigurablePlotter():
 
         # plots the data
         if len(ylabel):
-            axis.fill_between(times, ymin, ymax, color=colours[0], 
+            axis.fill_between(times, ymin, ymax, color=colours[0],
                               alpha=alpha, label=ylabel)
         else:
             axis.fill_between(times, ymin, ymax, color=colours[0], alpha=alpha)
