@@ -11,6 +11,7 @@ Overview:
 - :class:`SEIRForwardModel`
 - :class:`SEIRParameters`
 - :class:`SEIROutputCollector`
+- :class:`StochasticOutputCollector`
 
 SEIR Core
 *********
@@ -22,4 +23,7 @@ SEIR Core
     :members:
 
 .. autoclass:: SEIROutputCollector
+    :members:
+
+.. autoclass:: StochasticOutputCollector
     :members:
