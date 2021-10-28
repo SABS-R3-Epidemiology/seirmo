@@ -60,13 +60,20 @@ where _(t+1)_ is the next timestep.
 &nbsp;
 
 
+## Installation procedure
+One way to install the module is to download the repositiory to your machine of choice and type the following commands in the terminal.
+```bash
+git clone https://github.com/SABS-R3-Epidemiology/seirmo.git
+cd ../path/to/the/file
+```
 
-## Set up
+A different method to install this is using `pip`:
 
-Add text on how to install and use module. 
+```bash
+pip install -e .
+```
 
 &nbsp;
-
 
 ## Documentation 
 Some documentation on the program's classes and methods can be found here: https://seirmo.readthedocs.io/en/latest/
