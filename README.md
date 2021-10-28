@@ -18,7 +18,7 @@ Two submodels are defined in the program: a deterministic SEIR model and a stoch
 ## Deterministic SEIR
 The deterministic model supposes that the population is large and well-mixed, and that small fluctuations in compartments do not impact the general solution. The conceptualisation of the model is illustrated below, and the parameters are described in a table below.
 
-![SEIR model conceptualisation](./images/seir_conceptualisation.png)
+![SEIR model conceptualisation](./images/SEIR_model.png)
 
 
 | Parameter     | Description                                                                             | Unit |
