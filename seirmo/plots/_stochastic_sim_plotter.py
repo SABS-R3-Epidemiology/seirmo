@@ -15,8 +15,9 @@ class StochasticPlotter():
         first column
     :returns:: plot saved to file
     '''
-    def __init__(self, data_array: np.array):
+    def __init__(self, times, data_array: np.array):
         self._data = data_array
+        self._times = times
 
     def plot(self, labels: list,
              filename: str = 'SEIR_stochastic_simulation.png'):
