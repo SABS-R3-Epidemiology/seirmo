@@ -11,7 +11,7 @@ import matplotlib.pyplot as plt
 class ConfigurablePlotter():
     def __init__(self):
         pass
-        
+
     def begin(self, subplots_rows: int = 1, subplots_columns: int = 1):
         '''
         Begins creating a figure, with given number of subfigures'''
@@ -40,42 +40,51 @@ class ConfigurablePlotter():
         ''' Main code to add new data into the plot
         :params:: times: np.ndarray, independant x- variable
         :params:: data_array: np.ndarray, dependent y- variables
-        :params:: position: list of integers, gives the index of the subplot to use
+        :params:: position: list of integers, gives index of subplot to use
         :params:: xlabel: str
-        :params:: new_axis: boolean, set to true if data should be plotted on a second axis'''
-        
-        assert len(times) == data_array.shape[0], 'data and times are not the same length'
-        data_width = data_array.shape[1] # saves the number of y-variables
+        :params:: new_axis: boolean, set to true if data should
+                            be plotted on a second axis'''
 
-        # if-loop defines which subplot to use, and whether a second axis if needed
+        assert len(times) == data_array.shape[0], \
+            'data and times are not the same length'
+        data_width = data_array.shape[1]  # saves the number of y-var
+
+        # if-loop defines which subplot to use,
+        # and whether a second axis if needed
         if self._nrows == 0 and self._ncolumns == 0:
-            assert position[0] == 0 and position[1] == 0, 'position and shape are not compatible'
+            assert position[0] == 0 and position[1] == 0, \
+                'position and shape are not compatible'
             if new_axis:
                 axis = self._axes.twinx()
             else:
                 axis = self._axes
 
         elif self._ncolumns > 1 and self._nrows == 1:
-            assert position[0] < self._nrows and position[1] < self._ncolumns, 'position and shape are not compatible'
+            assert position[0] < self._nrows \
+                and position[1] < self._ncolumns, \
+                'position and shape are not compatible'
             if new_axis:
                 axis = self._axes[position[1]].twinx()
             else:
                 axis = self._axes[position[1]]
 
         elif self._ncolumns == 1 and self._nrows > 1:
-            assert position[0] < self._nrows and position[1] < self._ncolumns, 'position and shape are not compatible'
+            assert position[0] < self._nrows \
+                and position[1] < self._ncolumns, \
+                'position and shape are not compatible'
             if new_axis:
                 axis = self._axes[position[0]].twinx()
             else:
                 axis = self._axes[position[0]]
 
         else:
-            assert position[0] < self._nrows and position[1] < self._ncolumns, 'position and shape are not compatible'
+            assert position[0] < self._nrows \
+                and position[1] < self._ncolumns, \
+                'position and shape are not compatible'
             if new_axis:
                 axis = self._axes[position[0], position[1]].twinx()
             else:
                 axis = self._axes[position[0], position[1]]
-                      
 
         # formats colour choice if none set - I want to change this
         if not colours:
@@ -83,8 +92,9 @@ class ConfigurablePlotter():
 
         # plots the data
         for i in range(data_width):
-            if i < len(ylabels) :
-                axis.plot(times, data_array[:, i], color=colours[i], label=ylabels[i])
+            if i < len(ylabels):
+                axis.plot(times, data_array[:, i],
+                          color=colours[i], label=ylabels[i])
             else:
                 axis.plot(times, data_array[:, i], color=colours[i])
         axis.legend()
