@@ -87,18 +87,27 @@ class TestPlotFromNumpy(unittest.TestCase):
         figure.add_data_to_plot(times, data_array[:, 0])
 
     def test_add_data_new_axis(self):
+        def has_twinx(ax):
+            s = ax.get_shared_x_axes().get_siblings(ax)
+            if len(s) > 1:
+                for ax1 in [ax1 for ax1 in s if ax1 is not ax]:
+                    if ax1.bbox.bounds == ax.bbox.bounds:
+                        return True
+            return False
+
         figure = se.plots.ConfigurablePlotter()
         figure.begin(1, 3)
         times = np.array([0, 1, 2, 3, 4])
         data_array = np.arange(20).reshape(5, 4)
         figure.add_data_to_plot(times, data_array, position=[0, 0])
         figure.add_data_to_plot(times, data_array + 2,
-                                position=[0, 1], new_axis=True)
-        print(figure._axes)
+                                position=[0, 1], new_axis=False)
         figure.add_data_to_plot(times, data_array + 4,
-                                position=[0, 2], new_axis=False)
-        print(figure._axes)
+                                position=[0, 1], new_axis=True)
 
+        self.assertTrue(has_twinx(figure._axes[0, 1]))
+        self.assertFalse(has_twinx(figure._axes[0, 2]))
+  
     def test_add_fill_assertions(self):
         figure = se.plots.ConfigurablePlotter()
         figure.begin(2, 2)
