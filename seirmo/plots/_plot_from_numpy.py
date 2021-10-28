@@ -102,6 +102,51 @@ class ConfigurablePlotter():
         self._fig.tight_layout()
         return self._fig, self._axes
 
+    def add_fill(self, times: np.ndarray, ymin: np.ndarray,
+                         ymax: np.ndarray, position: list = [0, 0],
+                         xlabel: str = 'time', ylabel: str = 'number of people',
+                         colours: str = ['b'], alpha: float = 0.2):
+    
+        # if-loop defines which subplot to use,
+        # and whether a second axis if needed
+        if self._nrows == 1 and self._ncolumns == 1:
+            assert position[0] == 0 and position[1] == 0, \
+                'position and shape are not compatible'
+            axis = self._axes
+
+        elif self._ncolumns > 1 and self._nrows == 1:
+            assert position[0] < self._nrows \
+                and position[1] < self._ncolumns, \
+                'position and shape are not compatible'
+            axis = self._axes[position[1]]
+
+        elif self._ncolumns == 1 and self._nrows > 1:
+            assert position[0] < self._nrows \
+                and position[1] < self._ncolumns, \
+                'position and shape are not compatible'
+            axis = self._axes[position[0]]
+
+        else:
+            assert position[0] < self._nrows \
+                and position[1] < self._ncolumns, \
+                'position and shape are not compatible'
+            axis = self._axes[position[0], position[1]]
+
+        # formats colour choice if none set - I want to change this
+        if not colours:
+            colours = plt.cm.viridis(np.linspace(0, 1, 5))
+
+        # plots the data
+        if len(ylabel):
+            axis.fill_between(times, ymin, ymax, color=colours[0], alpha = alpha, label=ylabel)
+        else:
+            axis.fill_between(times, ymin, ymax, color=colours[0], alpha = alpha)
+        axis.legend()
+        plt.xlabel(xlabel)
+        self._fig.tight_layout()
+        return self._fig, self._axes
+        
+
     def show(self):
         plt.show()
 
