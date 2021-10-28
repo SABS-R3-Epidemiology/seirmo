@@ -9,5 +9,5 @@ from ._figures import (  # noqa
     CompartmentPlot,
     SubplotFigure)
 
-from ._plot_from_numpy import ConfigurablePlotter
-from ._stochastic_sim_plotter import StochasticPlotter
+from ._plot_from_numpy import ConfigurablePlotter  # noqa
+from ._stochastic_sim_plotter import StochasticPlotter  # noqa
