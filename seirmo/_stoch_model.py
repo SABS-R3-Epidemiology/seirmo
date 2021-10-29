@@ -38,8 +38,8 @@ class StochasticSEIRModel(se.SEIRForwardModel):
 
         return propens_matrix
 
-    def simulate(self, parameters: np.ndarray,
-                 times: list, max_t_step: float = 0.01):
+    def simulate(self, parameters: np.ndarray, times: list,
+                 max_t_step: float = 0.01):
         self._parameters.configure_parameters(parameters)  # array of length 7
         # with values of beta
         # gamma kappa and initial

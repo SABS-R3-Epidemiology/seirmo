@@ -9,4 +9,4 @@ from ._figures import (  # noqa
     CompartmentPlot,
     SubplotFigure)
 
-from ._plot_from_numpy import StochasticPlotter
+from ._plot_from_numpy import ConfigurablePlotter  # noqa
