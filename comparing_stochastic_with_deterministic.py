@@ -6,7 +6,6 @@
 
 import seirmo as se
 import numpy as np
-import pints as p
 
 model_stoch = se.StochasticSEIRModel(['S0', 'E0', 'I0', 'R0', 'beta', 'kappa',
                                       'gamma'])
@@ -28,9 +27,8 @@ n_times = 10 * timeEnd + 1
 times = np.linspace(0, timeEnd, num=n_times)
 i = 0
 
-for beta in BETA:
-    
-    # set up the deterministic model
+for i, beta in enumerate(BETA):
+    # Set up the deterministic model
     parameter_values = np.array([1000, 0, 20, 0, beta, .1, .1])
     model_determ._parameters.configure_parameters(parameter_values)
     model_determ.set_outputs(seir)
@@ -44,14 +42,14 @@ for beta in BETA:
         output = model_stoch.simulate(np.array(parameter_values), times)
         # problem = p.MultiOutputProblem(model_stoch, times, output)
         infection = output[:, 2]
-        max_infected_stoch[i,j] = np.nanmax(infection)
-    # print(max_infected_stoch[i,:])
-    max_infected_stoch_mean[i] = np.nanmean(max_infected_stoch[i, :])  
-    max_infected_stoch_max[i] = np.nanmax(max_infected_stoch[i, :])   
-    max_infected_stoch_min[i] = np.nanmin(max_infected_stoch[i, :])  
-    max_infected_stoch_25th_quartile[i] = np.percentile(max_infected_stoch[i, :], 25)  
-    max_infected_stoch_75th_quartile[i] = np.percentile(max_infected_stoch[i, :], 75)  
-    i+=1
+        max_infected_stoch[i, j] = np.nanmax(infection)
+    max_infected_stoch_mean[i] = np.nanmean(max_infected_stoch[i, :])
+    max_infected_stoch_max[i] = np.nanmax(max_infected_stoch[i, :])
+    max_infected_stoch_min[i] = np.nanmin(max_infected_stoch[i, :])
+    max_infected_stoch_25th_quartile[i] = \
+        np.percentile(max_infected_stoch[i, :], 25)
+    max_infected_stoch_75th_quartile[i] = \
+        np.percentile(max_infected_stoch[i, :], 75)
 
 
 figure = se.plots.ConfigurablePlotter()

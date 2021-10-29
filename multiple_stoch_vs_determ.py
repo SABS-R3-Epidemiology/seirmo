@@ -6,7 +6,6 @@
 
 import seirmo as se
 import numpy as np
-import pints as p
 
 model_stoch = se.StochasticSEIRModel(['S0', 'E0', 'I0', 'R0', 'beta', 'kappa',
                                       'gamma'])
@@ -21,29 +20,28 @@ times = np.linspace(0, timeEnd, num=n_times)
 
 
 stoch_infections = np.zeros((n_times, iteration_number))
-infection = np.ndarray((n_times,1))
+infection = np.ndarray((n_times, 1))
 
 figure = se.plots.ConfigurablePlotter()
 figure.begin()
-i =0
-for iter in iterations:
-    
+for index, iter in enumerate(iterations):
+
     model_stoch._parameters.configure_parameters(parameter_values)
     model_stoch.set_outputs(seir)
-    
+
     output = model_stoch.simulate(np.array(parameter_values), times)
-    stoch_infections[:, i] = output[:, 2]
-    figure.add_data_to_plot(times, stoch_infections[:, [i]], xlabel='time', ylabels='number of infected')
-    i+=1
+    stoch_infections[:, index] = output[:, 2]
+    figure.add_data_to_plot(times, stoch_infections[:, [index]], xlabel='time',
+                            ylabels='number of infected')
 
- # set up the deterministic model
 
+# Set up the deterministic model
 model_determ._parameters.configure_parameters(parameter_values)
 model_determ.set_outputs(seir)
 output = model_determ.simulate(np.array(parameter_values), times)
-infection[:,0] = output[:, 2]
+infection[:, 0] = output[:, 2]
 print(infection.shape)
-figure.add_data_to_plot(times, infection, xlabel='time', ylabels='number of infected')
-
+figure.add_data_to_plot(times, infection, xlabel='time',
+                        ylabels='number of infected')
 
 figure.show()
