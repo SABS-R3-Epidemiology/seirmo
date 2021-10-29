@@ -10,4 +10,3 @@ from ._figures import (  # noqa
     SubplotFigure)
 
 from ._plot_from_numpy import ConfigurablePlotter  # noqa
-from ._stochastic_sim_plotter import StochasticPlotter  # noqa

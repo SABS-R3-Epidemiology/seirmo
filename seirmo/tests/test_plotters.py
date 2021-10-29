@@ -166,30 +166,6 @@ class TestPlotFromNumpy(unittest.TestCase):
         mock_pyplot.assert_called_once()
 
 
-class TestStochasticSimPlotter(unittest.TestCase):
-    """
-    Test the 'StochasticPlotter' class.
-    """
-
-    def test_init_method(self):
-        times = np.array([0, 1, 2, 3, 4])
-        data = np.arange(5).reshape(5, 1) + 1
-        figure = se.plots.StochasticPlotter(times, data)
-        self.assertEqual(np.squeeze(figure._data).tolist(),
-                         [1, 2, 3, 4, 5, ],
-                         'Stored data not equal to input data')
-        self.assertEqual(figure._times.tolist(), [0, 1, 2, 3, 4],
-                         'Stored times not equal to input times')
-
-    @mock.patch("seirmo.plots._stochastic_sim_plotter.plt.show")
-    def test_plot_method(self, mock_show):
-        times = np.array([0, 1, 2, 3, 4])
-        data = np.arange(25).reshape(5, 5)
-        figure = se.plots.StochasticPlotter(times, data)
-        figure.plot(labels=['a', 'b', 'c', 'd'])
-        mock_show.assert_called_once()
-
-
 if __name__ == '__main__':
     unittest.main()
     matplotlib.pyplot.close('all')  # Is this also useful here?
