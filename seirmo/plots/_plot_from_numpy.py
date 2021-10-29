@@ -16,6 +16,7 @@ class ConfigurablePlotter:
         """
         Begins creating a figure, with given number of subfigures
         Replaces init class so object can be reused"""
+        plt.close('all')  # Close any previous figures left open
         if type(subplots_rows) != int:
             raise TypeError("Number of rows of subplots must be an integer")
         if type(subplots_columns) != int:
