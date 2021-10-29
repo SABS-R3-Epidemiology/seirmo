@@ -168,4 +168,3 @@ class TestPlotFromNumpy(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
-    matplotlib.pyplot.close('all')  # Is this also useful here?
