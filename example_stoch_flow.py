@@ -5,7 +5,6 @@ model = se.StochasticSEIRModel(['S0', 'E0', 'I0', 'R0', 'beta', 'kappa',
                                'gamma'])
 seir = ['S', 'E', 'I', 'R']
 parameter_values = np.array([100, 0, 2, 0, 0.1, 1, 1])
-# parameter_values = np.array([48719236, 21325, 387719, 7158685, 0.055, 0.1613, 0.2])
 timeEnd = 10
 n_times = 1000 * timeEnd + 1
 times = np.linspace(0, timeEnd, num=n_times)
