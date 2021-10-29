@@ -12,8 +12,7 @@ from unittest import mock
 
 import seirmo as se
 
-
-numReps = 10
+numReps = 20
 
 
 class TestPlotFromNumpy(unittest.TestCase):
@@ -145,18 +144,26 @@ class TestPlotFromNumpy(unittest.TestCase):
         self.assertAlmostEqual(colour_red.tolist(), [1, 0, 0, 0.2],
                                'Unexpected colour in axes object')
 
+    def test_deletion_function(self):
+        figure = se.plots.ConfigurablePlotter()
+        figure.begin(1, 1)
+        fig_num = figure[0].number
+        self.assertTrue(matplotlib.pyplot.fignum_exists(fig_num))
+        del(figure)
+        self.assertFalse(matplotlib.pyplot.fignum_exists(fig_num))
+
     @mock.patch("seirmo.plots._plot_from_numpy.plt")
     def test_plot_data(self, mock_pyplot):
         figure = se.plots.ConfigurablePlotter()
         figure.show()
         mock_pyplot.show.assert_called_once()
 
-    # @mock.patch("seirmo.plots.ConfigurablePlotter")
-    # def test_save_data2(self, mock_class):
-    #     figure = mock_class()
-    #     figure.writeToFile()
-    #     mock_class._fig.savefig.assert_called_once()
-    #     # THIS IS CURRENTLY FAILING
+    @mock.patch("matplotlib.figure.Figure.savefig")
+    def test_save_data(self, mock_pyplot):
+        figure = se.plots.ConfigurablePlotter()
+        figure.begin(1, 1)
+        figure.writeToFile()
+        mock_pyplot.assert_called_once()
 
 
 class TestStochasticSimPlotter(unittest.TestCase):

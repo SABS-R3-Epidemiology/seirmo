@@ -16,7 +16,6 @@ class ConfigurablePlotter:
         """
         Begins creating a figure, with given number of subfigures
         Replaces init class so object can be reused"""
-        plt.close('all')  # Close any previous figures left open
         if type(subplots_rows) != int:
             raise TypeError("Number of rows of subplots must be an integer")
         if type(subplots_columns) != int:
@@ -63,7 +62,9 @@ class ConfigurablePlotter:
     ):
         """Main code to add new data into the plot
         :params:: times: np.ndarray, independant x- variable
-        :params:: data_array: np.ndarray, dependent y- variables
+        :params:: data_array: np.ndarray, multiple dependent y- variables
+                              Data should has one row per timestep,
+                              and one column for each dependent variable
         :params:: position: list of integers, gives index of subplot to use
         :params:: xlabel: str
         :params:: new_axis: boolean, set to true if data should
@@ -147,3 +148,7 @@ class ConfigurablePlotter:
 
     def writeToFile(self, filename: str = "SEIR_stochastic_simulation.png"):
         self._fig.savefig(filename)
+
+    def __del__(self):
+        if hasattr(self, '_fig'):
+            plt.close(self._fig)  # Close figure upon deletion
