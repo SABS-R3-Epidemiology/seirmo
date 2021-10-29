@@ -25,7 +25,6 @@ max_infected_determ = np.zeros((param_variation_number, 1))
 timeEnd = 1
 n_times = 10 * timeEnd + 1
 times = np.linspace(0, timeEnd, num=n_times)
-i = 0
 
 for i, beta in enumerate(BETA):
     # Set up the deterministic model
