@@ -8,9 +8,10 @@ import unittest
 import numpy as np
 import matplotlib
 from parameterized import parameterized
-from unittest.mock import MagicMock
+from unittest import mock
 
 import seirmo as se
+
 
 numReps = 10
 
@@ -82,7 +83,8 @@ class TestPlotFromNumpy(unittest.TestCase):
         figure.begin(1, 2)
         times = np.array([0, 1, 2, 3, 4])
         data_array = np.arange(5).reshape(5, 1)
-        figure.add_data_to_plot(times, data_array, position=[0, 0])
+        figure.add_data_to_plot(times, data_array,
+                                position=[0, 0], ylabels='label')
         self.assertAlmostEqual(figure[1][0, 0].lines[0].get_color().tolist(),
                                [0.267004, 0.004874, 0.329415, 1.],
                                'Unexpected colour in axes object')
@@ -94,6 +96,7 @@ class TestPlotFromNumpy(unittest.TestCase):
 
         figure.add_data_to_plot(times[0], data_array[0, :])
         figure.add_data_to_plot(times, data_array[:, 0])
+        # These must both pass without error to verify 1D data can be passed
 
     def test_add_data_new_axis(self):
         def has_twinx(ax):
@@ -127,6 +130,36 @@ class TestPlotFromNumpy(unittest.TestCase):
             figure.add_data_to_plot(times[1:], data_array)
         with self.assertRaises(AssertionError):
             figure.add_fill(times, data_array, data_array2, position=[3, 1])
+
+    def test_add_fill_function(self):
+        figure = se.plots.ConfigurablePlotter()
+        figure.begin(1, 2)
+        times = np.array([0, 1, 2, 3, 4])
+        data_array = np.arange(5).reshape(5, 1)
+        figure.add_fill(times, data_array, data_array * 2,
+                        position=[0, 0], ylabel='label')
+        colour = np.squeeze(figure[1][0, 0].collections[0].get_facecolor())
+        self.assertAlmostEqual(colour.tolist(), [0.0, 0.0, 1.0, 0.2],
+                               'Unexpected colour in axes object')
+        #  The test above is based on the blue default in function definition
+        figure.add_fill(times, data_array, data_array * 2,
+                        position=[0, 1], colours='r')
+        colour_red = np.squeeze(figure[1][0, 1].collections[0].get_facecolor())
+        self.assertAlmostEqual(colour_red.tolist(), [1, 0, 0, 0.2],
+                               'Unexpected colour in axes object')
+
+    @mock.patch("seirmo.plots._plot_from_numpy.plt")
+    def test_plot_data(self, mock_pyplot):
+        figure = se.plots.ConfigurablePlotter()
+        figure.show()
+        mock_pyplot.show.assert_called_once()
+
+    @mock.patch("seirmo.plots.ConfigurablePlotter")
+    def test_save_data2(self, mock_class):
+        figure = mock_class()
+        figure.writeToFile()
+        mock_class._fig.savefig.assert_called_once()
+        # THIS IS CURRENTLY FAILING
 
 
 if __name__ == '__main__':
