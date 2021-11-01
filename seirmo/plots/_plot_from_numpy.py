@@ -76,7 +76,7 @@ class ConfigurablePlotter:
                               and one column for each dependent variable
         :params:: position: list of integers, gives index of subplot to use
         :params:: xlabel: str
-        :params:: ylabel: list of strings
+        :params:: ylabel: list of strings (a single string is also accepted)
         :params:: colours: list of single character strings
         :params:: new_axis: boolean, set to true if data should
                             be plotted on a second x axis"""
@@ -103,21 +103,29 @@ class ConfigurablePlotter:
         else:
             axis = self._axes[position[0], position[1]]
 
-        # formats colour choice if none set
-        if not colours:
+        # Format user inputs
+        if type(colours) != list:
+            colours = [colours]  # Place into list
+        if len(colours) == 0:  # Default value, if none specified
             colours = plt.cm.viridis(np.linspace(0, 1, data_width))
+        assert data_width == len(colours), 'Unexpected number of colours'
 
-        # plots the data
-        use_labels = False
-        for i in range(data_width):
-            if i < len(ylabels):
-                use_labels = True
+        if type(ylabels) == str:
+            ylabels = [ylabels]  # Converts string input to list
+        elif type(ylabels) != list:
+            raise TypeError('Unexpected type of ylabels')
+
+        # Plot over data array iteratively
+        if len(ylabels) > 0:  # If ylabels have been specified for inclusion
+            assert data_width == len(ylabels), 'Unexpected number of ylabels'
+            for i in range(data_width):
                 axis.plot(times, data_array[:, i], color=colours[i],
                           label=ylabels[i])
-            else:
-                axis.plot(times, data_array[:, i], color=colours[i])
-        if use_labels:
             axis.legend()
+        else:  # Plot without a figure legend
+            for i in range(data_width):
+                axis.plot(times, data_array[:, i], color=colours[i])
+
         plt.xlabel(xlabel)
         self._fig.tight_layout()
         return self._fig, self._axes
@@ -130,7 +138,7 @@ class ConfigurablePlotter:
         position: list = [0, 0],
         xlabel: str = "time",
         ylabel: str = "number of people",
-        colours: str = ["b"],
+        colour: str = ["b"],
         alpha: float = 0.2,
     ):
         """Code to plot shaded region between two datasets
@@ -158,7 +166,7 @@ class ConfigurablePlotter:
             times,
             np.squeeze(ymin),
             np.squeeze(ymax),
-            color=colours,
+            color=colour,
             alpha=alpha,
             label=ylabel,
         )
