@@ -10,6 +10,24 @@ from ._gillespie import solve_gillespie
 
 
 class StochasticSEIRModel(se.SEIRForwardModel):
+    r"""
+    ODE model: Stochastic SEIR
+    The SEIR Model has four compartments:
+    susceptible individuals (:math:`S`),
+    exposed but not yet infectious (:math:`E`),
+    infectious (:math:`I`) and recovered (:math:`R`):
+
+    Possible processes between compartments:
+
+    Exposure: S -> E, at rate :math:\beta S(t)I(t)``
+    Infection: E -> I, at rate :math:\kappa E(t)``
+    Recovery: I -> R, at rate :math:\gamma I(t)``
+
+    Can be used in conjunction with solve_gillespie(),
+    a stochastic ODE solver implemented in this package.
+
+    Extends :class:`SEIRForwardModel`.
+    """
     def __init__(self, params_names: list):
         super(StochasticSEIRModel, self).__init__()
         self._parameters = se.SEIRParameters(params_names)
