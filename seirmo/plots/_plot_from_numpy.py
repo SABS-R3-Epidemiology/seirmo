@@ -68,6 +68,7 @@ class ConfigurablePlotter:
         new_axis=False,
     ):
         """Main code to add new data into the plot
+
         :params:: times: np.ndarray, independant x- variable
         :params:: data_array: np.ndarray, multiple dependent y- variables
                               Data should has one row per timestep,
@@ -132,6 +133,7 @@ class ConfigurablePlotter:
         alpha: float = 0.2,
     ):
         """Code to plot shaded region between two datasets
+
         :params:: times: np.ndarray, independant x- variable
         :params:: ymin: np.ndarray, dependent y- variables
         :params:: ymin: np.ndarray, comparison y- variables
