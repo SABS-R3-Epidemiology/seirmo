@@ -16,6 +16,7 @@ class ConfigurablePlotter:
     Implements addfill() method to plot a shaded region between two datasets
     (I.e. when plotting confidence intervals)
     """
+
     def __init__(self):
         pass
 
@@ -111,8 +112,8 @@ class ConfigurablePlotter:
         for i in range(data_width):
             if i < len(ylabels):
                 use_labels = True
-                axis.plot(times, data_array[:, i],
-                          color=colours[i], label=ylabels[i])
+                axis.plot(times, data_array[:, i], color=colours[i],
+                          label=ylabels[i])
             else:
                 axis.plot(times, data_array[:, i], color=colours[i])
         if use_labels:
@@ -169,9 +170,9 @@ class ConfigurablePlotter:
     def show(self):
         plt.show()
 
-    def write_to_file(self, filename: str = "SEIR_stochastic_simulation.png"):
+    def write_to_file(self, filename: str = "SEIR_stochastic_simulation.pdf"):
         self._fig.savefig(filename)
 
     def __del__(self):
-        if hasattr(self, '_fig'):
+        if hasattr(self, "_fig"):
             plt.close(self._fig)  # Close figure upon deletion
