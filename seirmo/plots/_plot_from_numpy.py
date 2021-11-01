@@ -74,6 +74,8 @@ class ConfigurablePlotter:
                               and one column for each dependent variable
         :params:: position: list of integers, gives index of subplot to use
         :params:: xlabel: str
+        :params:: ylabel: list of strings
+        :params:: colours: list of single character strings
         :params:: new_axis: boolean, set to true if data should
                             be plotted on a second x axis"""
 
@@ -129,6 +131,19 @@ class ConfigurablePlotter:
         colours: str = ["b"],
         alpha: float = 0.2,
     ):
+        """Code to plot shaded region between two datasets
+        :params:: times: np.ndarray, independant x- variable
+        :params:: ymin: np.ndarray, dependent y- variables
+        :params:: ymin: np.ndarray, comparison y- variables
+        :params:: position: list of integers, gives index of subplot to use
+        :params:: xlabel: str
+        :params:: ylabel: list of strings
+        :params:: colour: any valid colour specifier
+        :params:: alpha: float, indicate transparency of filled region
+
+        N.B While it is recommended that y_min should be the (generally)
+        smaller dataset for readability, this is not required, and the
+        datasets may cross (i.e. y_min may be larger in sections)"""
 
         assert (
             position[0] < self._nrows and position[1] < self._ncolumns
@@ -152,7 +167,7 @@ class ConfigurablePlotter:
     def show(self):
         plt.show()
 
-    def writeToFile(self, filename: str = "SEIR_stochastic_simulation.png"):
+    def write_to_file(self, filename: str = "SEIR_stochastic_simulation.png"):
         self._fig.savefig(filename)
 
     def __del__(self):

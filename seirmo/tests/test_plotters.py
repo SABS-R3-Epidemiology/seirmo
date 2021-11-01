@@ -162,7 +162,7 @@ class TestPlotFromNumpy(unittest.TestCase):
     def test_save_data(self, mock_pyplot):
         figure = se.plots.ConfigurablePlotter()
         figure.begin(1, 1)
-        figure.writeToFile()
+        figure.write_to_file()
         mock_pyplot.assert_called_once()
 
 
