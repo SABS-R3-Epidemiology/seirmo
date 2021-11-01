@@ -12,6 +12,7 @@ Overview:
 - :class:`IncidenceNumberPlot`
 - :class:`CompartmentPlot`
 - :class:`SubplotFigure`
+- :class:`StochasticSEIRModel`
 
 
 .. autoclass:: IncidenceNumberPlot
@@ -21,4 +22,7 @@ Overview:
     :members:
 
 .. autoclass:: SubplotFigure
+    :members:
+
+.. autoclass:: StochasticSEIRModel
     :members:

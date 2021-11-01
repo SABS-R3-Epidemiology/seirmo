@@ -9,6 +9,13 @@ import matplotlib.pyplot as plt
 
 
 class ConfigurablePlotter:
+    """
+    A figure class that visualises the population of each compartment over time
+    Configurable to plot multiple subplots in one figure, with customised
+    labels or colours
+    Implements addfill() method to plot a shaded region between two datasets
+    (I.e. when plotting confidence intervals)
+    """
     def __init__(self):
         pass
 
@@ -92,8 +99,7 @@ class ConfigurablePlotter:
         else:
             axis = self._axes[position[0], position[1]]
 
-        # formats colour choice if none set - I want to change this
-        # If you change this you are redoing the tests
+        # formats colour choice if none set
         if not colours:
             colours = plt.cm.viridis(np.linspace(0, 1, data_width))
 
