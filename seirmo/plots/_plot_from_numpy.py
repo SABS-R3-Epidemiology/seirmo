@@ -112,7 +112,9 @@ class ConfigurablePlotter:
 
         if isinstance(ylabels, str):
             ylabels = [ylabels]  # Converts string input to list
-        elif type(ylabels) != list:
+        try:
+            iter(ylabels)
+        except TypeError:
             raise TypeError('Unexpected type of ylabels')
 
         # Plot over data array iteratively
