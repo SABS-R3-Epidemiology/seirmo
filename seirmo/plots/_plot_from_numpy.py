@@ -110,7 +110,7 @@ class ConfigurablePlotter:
             colours = plt.cm.viridis(np.linspace(0, 1, data_width))
         assert data_width == len(colours), 'Unexpected number of colours'
 
-        if type(ylabels) == str:
+        if isinstance(ylabels, str):
             ylabels = [ylabels]  # Converts string input to list
         elif type(ylabels) != list:
             raise TypeError('Unexpected type of ylabels')
