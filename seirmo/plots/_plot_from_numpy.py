@@ -77,7 +77,8 @@ class ConfigurablePlotter:
         :params:: position: list of integers, gives index of subplot to use
         :params:: xlabel: str
         :params:: ylabel: list of strings (a single string is also accepted)
-        :params:: colours: list of single character strings
+        :params:: colours: list of valid colour specifiers (ie strings or
+                           rgb tuples)
         :params:: new_axis: boolean, set to true if data should
                             be plotted on a second x axis"""
 
@@ -104,7 +105,7 @@ class ConfigurablePlotter:
             axis = self._axes[position[0], position[1]]
 
         # Format user inputs
-        if type(colours) != list:
+        if not isinstance(colours, list):
             colours = [colours]  # Place into list
         if len(colours) == 0:  # Default value, if none specified
             colours = plt.cm.viridis(np.linspace(0, 1, data_width))
