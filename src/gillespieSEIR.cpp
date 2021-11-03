@@ -74,8 +74,8 @@ namespace seir
         double kappa = *(parameters_ptr + 5);
         double gamma = *(parameters_ptr + 6);
 
-        for (int i = 0; i < 7; i++) std::cout << *(parameters_ptr + i) << " ";
-        std::cout << std::endl;
+        //for (int i = 0; i < 7; i++) std::cout << *(parameters_ptr + i) << " ";
+        //std::cout << std::endl;
 
         std::function<std::array<double, 16>(double, std::array<dtypeint, 4>&)> propensitiesFn =
         [&beta, &kappa, &gamma](double t, std::array<dtypeint, 4>& state)
