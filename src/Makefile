@@ -1,5 +1,11 @@
 # -*- MakeFile -*-
 
+# sudo apt-get install libboost-dev
+# sudo apt-get install libboost-python-dev
+# sudo apt-get install libboost-numpy-dev
+# 			OR
+# sudo apt-get install libboost-all-dev
+
 CC = g++
 
 CFLAGS = -std=c++11 -fPIC -shared -w -Wall -Wextra
