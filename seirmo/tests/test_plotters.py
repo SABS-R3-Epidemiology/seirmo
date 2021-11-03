@@ -74,9 +74,27 @@ class TestPlotFromNumpy(unittest.TestCase):
         with self.assertRaises(AssertionError):
             figure.add_data_to_plot(times, data_array, position=[3, 1])
 
+    def test_add_data_inputs(self):
+        figure = se.plots.ConfigurablePlotter()
+        figure.begin(2, 2)
+        times = np.array([0, 1, 2, 3, 4])
+        data_array = np.arange(10).reshape(5, 2)
+        with self.assertRaises(AssertionError):
+            figure.add_data_to_plot(times, data_array, position=[0, 0],
+                                    colours=['r', 'b', 'g'])
+        with self.assertRaises(AssertionError):
+            figure.add_data_to_plot(times, data_array, position=[0, 1],
+                                    ylabels=['a', 'b', 'c'])
+        with self.assertRaises(TypeError):
+            figure.add_data_to_plot(times, data_array, position=[1, 0],
+                                    ylabels=3.2)
+        with self.assertRaises(TypeError):
+            figure.add_data_to_plot(times, data_array, position=[1, 1],
+                                    ylabels=None)
+
     def test_add_data_function(self):
         figure = se.plots.ConfigurablePlotter()
-        figure.begin(1, 2)
+        figure.begin(3, 2)
         times = np.array([0, 1, 2, 3, 4])
         data_array = np.arange(5).reshape(5, 1)
         figure.add_data_to_plot(times, data_array,
@@ -86,12 +104,20 @@ class TestPlotFromNumpy(unittest.TestCase):
                                'Unexpected colour in axes object')
         #  The test above is based on the viridis default
         figure.add_data_to_plot(times, data_array + 1, position=[0, 1],
-                                colours=['#a3c1ad'])
+                                colours='#a3c1ad')
         self.assertEqual(figure[1][0, 1].lines[0].get_color(), '#a3c1ad',
                          'Unexpected colour in axes object')
 
-        figure.add_data_to_plot(times[0], data_array[0, :])
-        figure.add_data_to_plot(times, data_array[:, 0])
+        data_double_array = np.arange(10).reshape(5, 2)
+        figure.add_data_to_plot(times, data_double_array, position=[1, 0],
+                                colours=['#0e6623', (0, 0, 0, 0)])
+        self.assertEqual(figure[1][1, 0].lines[0].get_color(), '#0e6623',
+                         'Unexpected colour in axes object')
+        self.assertEqual(list(figure[1][1, 0].lines[1].get_color()),
+                         [0, 0, 0, 0], 'Unexpected colour in axes object')
+
+        figure.add_data_to_plot(times[0], data_array[0, :], position=[2, 0])
+        figure.add_data_to_plot(times, data_array[:, 0], position=[2, 1])
         # These must both pass without error to verify 1D data can be passed
 
     def test_add_data_new_axis(self):
@@ -139,7 +165,7 @@ class TestPlotFromNumpy(unittest.TestCase):
                                'Unexpected colour in axes object')
         #  The test above is based on the blue default in function definition
         figure.add_fill(times, data_array, data_array * 2,
-                        position=[0, 1], colours='r')
+                        position=[0, 1], colour='r')
         colour_red = np.squeeze(figure[1][0, 1].collections[0].get_facecolor())
         self.assertAlmostEqual(colour_red.tolist(), [1, 0, 0, 0.2],
                                'Unexpected colour in axes object')
@@ -162,7 +188,7 @@ class TestPlotFromNumpy(unittest.TestCase):
     def test_save_data(self, mock_pyplot):
         figure = se.plots.ConfigurablePlotter()
         figure.begin(1, 1)
-        figure.writeToFile()
+        figure.write_to_file()
         mock_pyplot.assert_called_once()
 
 

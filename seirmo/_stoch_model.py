@@ -10,19 +10,47 @@ from ._gillespie import solve_gillespie
 
 
 class StochasticSEIRModel(se.SEIRForwardModel):
+    r"""
+    ODE model: Stochastic SEIR
+    The SEIR Model has four compartments:
+    susceptible individuals (:math:`S`),
+    exposed but not yet infectious (:math:`E`),
+    infectious (:math:`I`) and recovered (:math:`R`):
+
+    Possible processes between compartments:
+
+    Exposure: S -> E, at rate :math:\beta S(t)I(t)``
+    Infection: E -> I, at rate :math:\kappa E(t)``
+    Recovery: I -> R, at rate :math:\gamma I(t)``
+
+    Can be used in conjunction with solve_gillespie(),
+    a stochastic ODE solver implemented in this package.
+
+    Extends :class:`SEIRForwardModel`.
+    """
     def __init__(self, params_names: list):
         super(StochasticSEIRModel, self).__init__()
         self._parameters = se.SEIRParameters(params_names)
-        # sets up n compart and param names output are the variables
-        # we want to look at like S, E etc, compartment pops
+        # sets up n compartments, returns names of output variables
+        # Define the names of the compartments to record - default all
         self._output_collector = se.StochasticOutputCollector(
             ['S', 'E', 'I', 'R'])
 
     def update_propensity(self, current_states: np.ndarray) -> np.ndarray:
-
         ''' This function takes the current populations in each
         of the N compartments and returns a NxN array where the entry (i,j)
-        gives the probabilities that '''
+        gives the rate of transfer of the population of compartment i
+        to compartment j.
+
+        Each non-zero element here corresponds to one equation in the
+        SEIR model.
+        Non-zero diagonal elements would correspond to no change in the
+        overall population.
+
+        Warning - negative elements should be avoided - a negative value at
+        (i,j) corresponds to a positive element at (j,i) and should be
+        implemented as such if required.
+        '''
 
         params_names = self._parameters.parameter_names()
         beta = self._parameters[params_names.index('beta')]

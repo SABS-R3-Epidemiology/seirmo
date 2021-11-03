@@ -6,7 +6,6 @@
 
 import numpy as np
 import seirmo as se
-# import typing
 
 
 class StochasticOutputCollector(se.SEIROutputCollector):

@@ -9,6 +9,14 @@ import matplotlib.pyplot as plt
 
 
 class ConfigurablePlotter:
+    """
+    A figure class that visualises the population of each compartment over time
+    Configurable to plot multiple subplots in one figure, with customised
+    labels or colours
+    Implements addfill() method to plot a shaded region between two datasets
+    (I.e. when plotting confidence intervals)
+    """
+
     def __init__(self):
         pass
 
@@ -61,12 +69,16 @@ class ConfigurablePlotter:
         new_axis=False,
     ):
         """Main code to add new data into the plot
+
         :params:: times: np.ndarray, independant x- variable
         :params:: data_array: np.ndarray, multiple dependent y- variables
                               Data should has one row per timestep,
                               and one column for each dependent variable
         :params:: position: list of integers, gives index of subplot to use
         :params:: xlabel: str
+        :params:: ylabel: list of strings (a single string is also accepted)
+        :params:: colours: list of valid colour specifiers (ie strings or
+                           rgb tuples)
         :params:: new_axis: boolean, set to true if data should
                             be plotted on a second x axis"""
 
@@ -92,22 +104,31 @@ class ConfigurablePlotter:
         else:
             axis = self._axes[position[0], position[1]]
 
-        # formats colour choice if none set - I want to change this
-        # If you change this you are redoing the tests
-        if not colours:
+        # Format user inputs
+        if not isinstance(colours, list):
+            colours = [colours]  # Place into list
+        if len(colours) == 0:  # Default value, if none specified
             colours = plt.cm.viridis(np.linspace(0, 1, data_width))
+        assert data_width == len(colours), 'Unexpected number of colours'
 
-        # plots the data
-        use_labels = False
-        for i in range(data_width):
-            if i < len(ylabels):
-                use_labels = True
-                axis.plot(times, data_array[:, i],
-                          color=colours[i], label=ylabels[i])
-            else:
-                axis.plot(times, data_array[:, i], color=colours[i])
-        if use_labels:
+        if isinstance(ylabels, str):
+            ylabels = [ylabels]  # Converts string input to list
+        try:
+            iter(ylabels)
+        except TypeError:
+            raise TypeError('Unexpected type of ylabels')
+
+        # Plot over data array iteratively
+        if len(ylabels) > 0:  # If ylabels have been specified for inclusion
+            assert data_width == len(ylabels), 'Unexpected number of ylabels'
+            for i in range(data_width):
+                axis.plot(times, data_array[:, i], color=colours[i],
+                          label=ylabels[i])
             axis.legend()
+        else:  # Plot without a figure legend
+            for i in range(data_width):
+                axis.plot(times, data_array[:, i], color=colours[i])
+
         plt.xlabel(xlabel)
         self._fig.tight_layout()
         return self._fig, self._axes
@@ -120,9 +141,23 @@ class ConfigurablePlotter:
         position: list = [0, 0],
         xlabel: str = "time",
         ylabel: str = "number of people",
-        colours: str = ["b"],
+        colour: str = ["b"],
         alpha: float = 0.2,
     ):
+        """Code to plot shaded region between two datasets
+
+        :params:: times: np.ndarray, independant x- variable
+        :params:: ymin: np.ndarray, dependent y- variables
+        :params:: ymin: np.ndarray, comparison y- variables
+        :params:: position: list of integers, gives index of subplot to use
+        :params:: xlabel: str
+        :params:: ylabel: list of strings
+        :params:: colour: any valid colour specifier
+        :params:: alpha: float, indicate transparency of filled region
+
+        N.B While it is recommended that y_min should be the (generally)
+        smaller dataset for readability, this is not required, and the
+        datasets may cross (i.e. y_min may be larger in sections)"""
 
         assert (
             position[0] < self._nrows and position[1] < self._ncolumns
@@ -134,7 +169,7 @@ class ConfigurablePlotter:
             times,
             np.squeeze(ymin),
             np.squeeze(ymax),
-            color=colours,
+            color=colour,
             alpha=alpha,
             label=ylabel,
         )
@@ -146,9 +181,9 @@ class ConfigurablePlotter:
     def show(self):
         plt.show()
 
-    def writeToFile(self, filename: str = "SEIR_stochastic_simulation.png"):
+    def write_to_file(self, filename: str = "SEIR_stochastic_simulation.pdf"):
         self._fig.savefig(filename)
 
     def __del__(self):
-        if hasattr(self, '_fig'):
+        if hasattr(self, "_fig"):
             plt.close(self._fig)  # Close figure upon deletion
