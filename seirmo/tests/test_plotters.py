@@ -99,21 +99,30 @@ class TestPlotFromNumpy(unittest.TestCase):
         data_array = np.arange(5).reshape(5, 1)
         figure.add_data_to_plot(times, data_array,
                                 position=[0, 0], ylabels='label')
-        self.assertAlmostEqual(figure[1][0, 0].lines[0].get_color().tolist(),
-                               [0.267004, 0.004874, 0.329415, 1.],
-                               'Unexpected colour in axes object')
+        np.testing.assert_allclose(figure[1][0, 0].lines[0].get_color(),
+                                   np.array([0.267004, 0.004874, 0.329415, 1]),
+                                   rtol=1e-05,
+                                   err_msg='Unexpected colour in axes object')
         #  The test above is based on the viridis default
         figure.add_data_to_plot(times, data_array + 1, position=[0, 1],
                                 colours='#a3c1ad')
-        self.assertEqual(figure[1][0, 1].lines[0].get_color(), '#a3c1ad',
-                         'Unexpected colour in axes object')
+        np.testing.assert_allclose(figure[1][0, 1].lines[0].get_color(),
+                                   np.array([0.639216, 0.756863, 0.678431, 1]),
+                                   rtol=1e-05,
+                                   err_msg='Unexpected colour in axes object')
 
+        figure.add_data_to_plot(times, data_array + 1, position=[1, 0],
+                                colours=(0, 0, 0, 0))
+        self.assertEqual(figure[1][1, 0].lines[0].get_color().tolist(),
+                         [0, 0, 0, 0], 'Unexpected colour in axes object')
         data_double_array = np.arange(10).reshape(5, 2)
-        figure.add_data_to_plot(times, data_double_array, position=[1, 0],
+        figure.add_data_to_plot(times, data_double_array, position=[1, 1],
                                 colours=['#0e6623', (0, 0, 0, 0)])
-        self.assertEqual(figure[1][1, 0].lines[0].get_color(), '#0e6623',
-                         'Unexpected colour in axes object')
-        self.assertEqual(list(figure[1][1, 0].lines[1].get_color()),
+        np.testing.assert_allclose(figure[1][1, 1].lines[0].get_color(),
+                                   np.array([0.05490196, 0.4, 0.1372549, 1]),
+                                   rtol=1e-05,
+                                   err_msg='Unexpected colour in axes object')
+        self.assertEqual(list(figure[1][1, 1].lines[1].get_color()),
                          [0, 0, 0, 0], 'Unexpected colour in axes object')
 
         figure.add_data_to_plot(times[0], data_array[0, :], position=[2, 0])

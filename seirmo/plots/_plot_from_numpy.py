@@ -6,6 +6,7 @@
 
 import numpy as np
 import matplotlib.pyplot as plt
+import matplotlib.colors
 
 
 class ConfigurablePlotter:
@@ -105,11 +106,12 @@ class ConfigurablePlotter:
             axis = self._axes[position[0], position[1]]
 
         # Format user inputs
-        if not isinstance(colours, list):
-            colours = [colours]  # Place into list
-        if len(colours) == 0:  # Default value, if none specified
+        if len(colours) == 0:  # Default value, if no colous specified
             colours = plt.cm.viridis(np.linspace(0, 1, data_width))
-        assert data_width == len(colours), 'Unexpected number of colours'
+        else:
+            colours = matplotlib.colors.to_rgba_array(colours)
+        assert data_width == np.shape(colours)[0],\
+            'Unexpected number of colours'
 
         if isinstance(ylabels, str):
             ylabels = [ylabels]  # Converts string input to list
