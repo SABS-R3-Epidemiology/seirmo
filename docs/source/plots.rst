@@ -12,6 +12,7 @@ Overview:
 - :class:`IncidenceNumberPlot`
 - :class:`CompartmentPlot`
 - :class:`SubplotFigure`
+- :class:`ConfigurablePlotter`
 
 
 .. autoclass:: IncidenceNumberPlot
@@ -21,4 +22,7 @@ Overview:
     :members:
 
 .. autoclass:: SubplotFigure
+    :members:
+
+.. autoclass:: ConfigurablePlotter
     :members:

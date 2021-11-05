@@ -8,3 +8,5 @@ from ._figures import (  # noqa
     IncidenceNumberPlot,
     CompartmentPlot,
     SubplotFigure)
+
+from ._plot_from_numpy import ConfigurablePlotter  # noqa
