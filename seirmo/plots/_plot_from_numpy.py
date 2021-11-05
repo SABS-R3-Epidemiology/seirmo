@@ -71,7 +71,7 @@ class ConfigurablePlotter:
     ):
         """Main code to add new data into the plot
 
-        :params:: times: np.ndarray, independant x- variable
+        :params:: times: np.ndarray, independent x- variable
         :params:: data_array: np.ndarray, multiple dependent y- variables
                               Data should has one row per timestep,
                               and one column for each dependent variable
@@ -148,7 +148,7 @@ class ConfigurablePlotter:
     ):
         """Code to plot shaded region between two datasets
 
-        :params:: times: np.ndarray, independant x- variable
+        :params:: times: np.ndarray, independent x- variable
         :params:: ymin: np.ndarray, dependent y- variables
         :params:: ymin: np.ndarray, comparison y- variables
         :params:: position: list of integers, gives index of subplot to use
