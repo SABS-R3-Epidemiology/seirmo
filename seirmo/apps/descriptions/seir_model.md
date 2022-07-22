@@ -2,6 +2,6 @@ The SEIR model is a model of Ordinary Differential Equations (ODEs). It assigns 
   
 The model is characterised by few constants, which include the *reproduction number*, the *incubation period* and the *infection period*. The *reproduction number* measures the number of infected cases originating from primary infections, the *incubation period* defines the average period of time for exposed individuals to become infectious, and the *infection period* is the average period of time for infected patients to recover from the disease.  
   
-The system of ODEs is solved to retrieve the number of inviduals in each S, E, I and R group. The incidence number is then inferred from the solution. To solve the system of ODEs, the initial value of each group is required. Different initial values will give different solutions.  
+The system of ODEs is solved to retrieve the number of individuals in each S, E, I and R group. The incidence number is then inferred from the solution. To solve the system of ODEs, the initial value of each group is required. Different initial values will give different solutions.  
   
-You are welcome to explore the effect of initial sizes of the S, E, I and R groups, as well as the different transition periods with the paramter sliders below.  
+You are welcome to explore the effect of initial sizes of the S, E, I and R groups, as well as the different transition periods with the parameter sliders below.  

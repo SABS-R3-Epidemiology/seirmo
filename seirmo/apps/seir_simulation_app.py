@@ -102,7 +102,7 @@ it will require an initial amount of cases, that is the initial amount of expose
 individuals, to be nonzero.
 
 You are welcome to explore the effect of initial sizes of the S, E, I and R groups, as well as
-the different transition periods with the paramter sliders below.
+the different transition periods with the parameter sliders below.
 """
 
 reference = """
