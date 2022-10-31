@@ -48,7 +48,7 @@ class IncidenceNumberPlot(object):
             go.Bar(
                 x=data[time_key],
                 y=data[inc_key],
-                name='cases'
+                name='cases',
             )
         )
 
@@ -110,8 +110,8 @@ class IncidenceNumberPlot(object):
         # does not match the old one if it already exist;
         if (old_y_label is not None) and (old_y_label != y_label):
             warnings.warn(
-                '''The incidence key does not match the previous incidence label.
-                   The y label was set to the new incidence key,
+                '''The incidence key does not match the previous incidence
+                   label. The y label was set to the new incidence key,
                    but may no longer be appropriate for
                    the previously set data.''')
 
@@ -199,8 +199,8 @@ class CompartmentPlot(object):
         # does not match the old one if it already exist;
         if (old_y_label is not None) and (old_y_label != y_label):
             warnings.warn(
-                '''The incidence key does not match the previous incidence label.
-                   The y label was set to the new incidence key,
+                '''The incidence key does not match the previous incidence
+                   label. The y label was set to the new incidence key,
                    but may no longer be appropriate for
                    the previously set data.''')
 
