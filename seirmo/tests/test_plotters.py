@@ -184,7 +184,7 @@ class TestPlotFromNumpy(unittest.TestCase):
         figure.begin(1, 1)
         fig_num = figure[0].number
         self.assertTrue(matplotlib.pyplot.fignum_exists(fig_num))
-        del(figure)
+        del figure
         self.assertFalse(matplotlib.pyplot.fignum_exists(fig_num))
 
     @mock.patch("seirmo.plots._plot_from_numpy.plt")
