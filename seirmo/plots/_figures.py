@@ -40,7 +40,7 @@ class IncidenceNumberPlot(object):
             Defaults to 'Time'.
         inc_key
             Key label of the DataFrame which specifies the
-            incididence number. Defaults to 'Incidence Number'.
+            incidence number. Defaults to 'Incidence Number'.
 
         """
         # Plot a bar chart for the data
@@ -74,7 +74,7 @@ class IncidenceNumberPlot(object):
             Defaults to 'Time'.
         inc_key
             Key label of the DataFrame which specifies
-            the incididence number. Defaults to 'Incidence Number'.
+            the incidence number. Defaults to 'Incidence Number'.
 
         """
 
@@ -309,7 +309,7 @@ class SubplotFigure(object):
             Defaults to 'Time'.
         inc_key
             Key label of the DataFrame which specifies
-            the incididence number. Defaults to 'Incidence Number'.
+            the incidence number. Defaults to 'Incidence Number'.
 
         """
 
@@ -338,7 +338,7 @@ class SubplotFigure(object):
             Defaults to 'Time'.
         inc_key
             Key label of the DataFrame which specifies
-            the incididence number. Defaults to 'Incidence Number'.
+            the incidence number. Defaults to 'Incidence Number'.
         compartment_keys
             The list of key labels of the DataFrame
             which specify the compartments.
