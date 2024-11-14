@@ -18,7 +18,7 @@ class SEIRParameters():
 
     def configure_parameters(self, parameters: np.ndarray):
         """Set the current parameters"""
-        assert parameters.shape == (self._n_parameters,),\
+        assert parameters.shape == (self._n_parameters,), \
             f"Expected Parameter Shape {(self._n_parameters,)},\
                 but got {parameters.shape}"
         self._parameters = parameters
