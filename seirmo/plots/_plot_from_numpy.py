@@ -84,8 +84,8 @@ class ConfigurablePlotter:
                             be plotted on a second x axis"""
 
         if len(data_array.shape) == 1:  # Turn any 1D input into 2D
-            if (not isinstance(times, np.ndarray) 
-                or np.sum(np.shape(times)) == 1):
+            if (not isinstance(times, np.ndarray) or
+                    np.sum(np.shape(times)) == 1):
                 # I.e. if only one np.int, or one element array
                 times = np.array(times, ndmin=2)
                 data_array = data_array[np.newaxis, :]
