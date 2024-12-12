@@ -32,7 +32,7 @@ class TestPlotFromNumpy(unittest.TestCase):
                          'Unexpected number of subplot columns')
         self.assertEqual(figure._size, int(row_num * col_num),
                          'Unexpected number of subplots')
-        self.assertEqual(np.product(np.shape(figure._axes)),
+        self.assertEqual(np.prod(np.shape(figure._axes)),
                          int(row_num * col_num),
                          'Unexpected number of axes objects')
 
