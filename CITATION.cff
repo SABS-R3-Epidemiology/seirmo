@@ -1,0 +1,37 @@
+cff-version: 1.2.0
+title: Seirmo
+message: >-
+  If you use this software, please cite it using the
+  metadata from this file.
+type: software
+authors:
+
+  - given-names: Hui Jia
+    family-names: Farm
+  - given-names: Siting
+    family-names: Miao
+  - given-names: David
+    family-names: Augustin
+  - given-names: Kit
+    family-names: Gallagher
+  - given-names: Matthew
+    family-names: Ghosh
+  - given-names: Nicholas
+    family-names: Fan
+  - given-names: Patricia
+    family-names: Lamirande
+  - given-names: Elizabeth
+    family-names: Hayman
+  - given-names: Ioana
+    family-names: Bouros
+  - given-names: Richard
+    family-names: Creswell
+  - given-names: Luke
+    family-names: Heirene
+identifiers:
+  - type: doi
+    value: 10.5281/zenodo.14422644
+    description: The Zenodo Repository
+repository-code: 'https://github.com/SABS-R3-Epidemiology/seirmo'
+license: BSD-3-Clause
+version: 1.0.0
