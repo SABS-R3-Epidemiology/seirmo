@@ -25,9 +25,9 @@ class ConfigurablePlotter:
         """
         Begins creating a figure, with given number of subfigures
         Replaces init class so object can be reused"""
-        if type(subplots_rows) != int:
+        if not isinstance(subplots_rows, int):
             raise TypeError("Number of rows of subplots must be an integer")
-        if type(subplots_columns) != int:
+        if not isinstance(subplots_columns, int):
             raise TypeError("Number of columns of subplots must be an integer")
         if subplots_rows <= 0:
             raise ValueError("Number of rows of subplots must be positive")
@@ -84,7 +84,8 @@ class ConfigurablePlotter:
                             be plotted on a second x axis"""
 
         if len(data_array.shape) == 1:  # Turn any 1D input into 2D
-            if type(times) != np.ndarray or np.sum(np.shape(times)) == 1:
+            if (not isinstance(times, np.ndarray) or
+                    np.sum(np.shape(times)) == 1):
                 # I.e. if only one np.int, or one element array
                 times = np.array(times, ndmin=2)
                 data_array = data_array[np.newaxis, :]
@@ -110,7 +111,7 @@ class ConfigurablePlotter:
             colours = plt.cm.viridis(np.linspace(0, 1, data_width))
         else:
             colours = matplotlib.colors.to_rgba_array(colours)
-        assert data_width == np.shape(colours)[0],\
+        assert data_width == np.shape(colours)[0], \
             'Unexpected number of colours'
 
         if isinstance(ylabels, str):
