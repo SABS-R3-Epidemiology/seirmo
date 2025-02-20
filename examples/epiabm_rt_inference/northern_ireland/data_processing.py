@@ -32,7 +32,7 @@ def process_infection_data(time_data):
                     element_zero.append(i)
             if len(element_zero) > 0:
                 for i in element_zero:
-                    if (time_data.iloc[ind + 1, i] > 2
+                    if (time_data.iloc[ind + 1, i] > 1
                             and time_data.iloc[ind + 1, i] < 9):
                         incidence += 1
             incidences_true.append(incidence)
